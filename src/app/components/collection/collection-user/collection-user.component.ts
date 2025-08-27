@@ -474,6 +474,8 @@ tomorrow:any
           this.ArrTest = data;
           console.log("this.ArrTest:",this.ArrTest);
 
+        }else{
+          this.selectedCollectionIds.clear();
         }
           this.TotalMony = this.ArrTest.reduce((sum, item) => sum + Number(item.amountOfPremium), 0);
       });

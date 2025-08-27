@@ -378,8 +378,9 @@
                             <div class="col-md-3">
                                 <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
                                     <mat-label>Select Secretariat</mat-label>
-                                    <mat-select (selectionChange)="getFinishClientName()" formControlName="secretariatId">
-                                        <mat-option *ngFor="let item of SecretariatsArr" [value]="item.id">{{item.insuredName}} - {{item.amount}}</mat-option>
+                                    <!-- (selectionChange)="getFinishClientName()" -->
+                                    <mat-select  formControlName="secretariatId">
+                                        <mat-option *ngFor="let item of SecretariatsArr" [value]="item.secId">{{item.secretariateName}}</mat-option>
                                     </mat-select>
                                     <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);">
                                         <i class="fa-brands fa-osi"></i>

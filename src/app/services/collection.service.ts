@@ -207,12 +207,21 @@ export class CollectionService {
     }).set("ngrok-skip-browser-warning", "true")
   });
 }
+  GetAllSecrtaries(ids: any) {
+  let params = new HttpParams();
 
-  //   GetAllTransactions(){
-  //   return this._HttpClient.get(this.baseUrl+'Collections/GetAllTransactions',{responseType: 'json',
-  //     headers: new HttpHeaders({
-  //       'Authorization': 'Bearer '+this.t
-  //     }).set("ngrok-skip-browser-warning", "true")
-  //   })
-  // }
+  ids.forEach((id: string | number | boolean) => {
+    params = params.append("CustomerIds", id);
+  });
+
+  return this._HttpClient.get(this.baseUrl + 'Portfolio/GetSecretriateOfCustomers', {
+    responseType: 'json',
+    params,
+    headers: new HttpHeaders({
+      'Authorization': 'Bearer ' + this.t
+    }).set("ngrok-skip-browser-warning", "true")
+  });
+}
+
+ 
 }

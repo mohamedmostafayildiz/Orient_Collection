@@ -116,6 +116,11 @@ export class PaymentWayComponent implements OnInit{
       $("#Check").hide(500)
       $("#BankDeposit").hide(500)
     }else if(value == 7){
+      let AllInsuredsIds: string[] = this.AllInsureds.map(item => item.insuredId);
+      this._CollectionService.GetAllSecrtaries(AllInsuredsIds).subscribe((data:any)=>{
+        console.log(data);
+        this.SecretariatsArr=data
+      })
       $("#FinishHonesty").show(500)
 
       $("#postponedCheck").hide(500)
@@ -211,33 +216,33 @@ export class PaymentWayComponent implements OnInit{
   CheckValues:any[]=[]
   SecretariatsArr:any[]=[]
   CurrentCollection:any
-  toggleSelection(Portfolio: any, index: any, collections: any, CreatedAt: any) {
-    console.log(Portfolio);
-    const isChecked = !this.CheckValues[index]; // Toggle current selection state
-    this.CurrentCollection = collections;
-    this.PortflioDateStablish = new Date(CreatedAt);
-    this.CurrentPostponedDate = new Date(CreatedAt);
-    this.CurrentPostponedDate.setDate(this.CurrentPostponedDate.getDate() + 1);
-    this.CreatedAt = new Date(CreatedAt);
-    // Reset all CheckValues to false, then set the selected one to true
-    this.CheckValues = this.ApprovedPortfolios.map(() => false);
-    this.CheckValues[index] = isChecked;
-    this.portfolioId = isChecked ? Portfolio.portfolioId : null;
-    // Set amounts and secretariats array
-    if (isChecked) {
-      $('#AllMoney').show(500)
-        this.TotalMony = Portfolio.amount;
-        this.RemainedMoney = Portfolio.amount;
-        this.SecretariatsArr = Portfolio.secretariats;
-        this.GetCustomersOfPortfolio(Portfolio.portfolioId);
-    } else {
-      $('#AllMoney').hide(500)
-        this.TotalMony = 0;
-        this.RemainedMoney = 0;
-        this.SecretariatsArr = [];
-    }
-    console.log(this.portfolioId);
-}
+//   toggleSelection(Portfolio: any, index: any, collections: any, CreatedAt: any) {
+//     console.log(Portfolio);
+//     const isChecked = !this.CheckValues[index]; // Toggle current selection state
+//     this.CurrentCollection = collections;
+//     this.PortflioDateStablish = new Date(CreatedAt);
+//     this.CurrentPostponedDate = new Date(CreatedAt);
+//     this.CurrentPostponedDate.setDate(this.CurrentPostponedDate.getDate() + 1);
+//     this.CreatedAt = new Date(CreatedAt);
+//     // Reset all CheckValues to false, then set the selected one to true
+//     this.CheckValues = this.ApprovedPortfolios.map(() => false);
+//     this.CheckValues[index] = isChecked;
+//     this.portfolioId = isChecked ? Portfolio.portfolioId : null;
+//     // Set amounts and secretariats array
+//     if (isChecked) {
+//       $('#AllMoney').show(500)
+//         this.TotalMony = Portfolio.amount;
+//         this.RemainedMoney = Portfolio.amount;
+//         this.SecretariatsArr = Portfolio.secretariats;
+//         this.GetCustomersOfPortfolio(Portfolio.portfolioId);
+//     } else {
+//       $('#AllMoney').hide(500)
+//         this.TotalMony = 0;
+//         this.RemainedMoney = 0;
+//         this.SecretariatsArr = [];
+//     }
+//     console.log(this.portfolioId);
+// }
   // for DropDown icons
   isDropdownOpen = false;
   hoverRow: number | null = null;
@@ -517,19 +522,28 @@ removeDeposit(index:number, Money:any){
   // Finish Honsty///////
   ArrFinishHonsty:any[]=[]
   viewFinishHonesty(){
-    let Exist = this.SecretariatsArr.find(item=>item.id==this.FinishHonestyForm.get('secretariatId')?.value);
+    let Exist = this.SecretariatsArr.find(item=>item.secId==this.FinishHonestyForm.get('secretariatId')?.value);
     console.log(Exist);
-    if((this.PayedMoney+Number(this.FinishHonestyForm.get('amount')?.value))>this.TotalMony){
+   if ((this.PayedMoney + Number(this.FinishHonestyForm.get('amount')?.value)) > Exist.balance) {
+      this._ToastrService.show(
+        `Can Not Pay More Than the value of Secretariat: ${Exist.balance}`
+      );
+    }
+    else if((this.PayedMoney+Number(this.FinishHonestyForm.get('amount')?.value))>this.TotalMony){
       this._ToastrService.show('Can Not Pay More Than Total Money')
     }else{
       let Exist2 = this.ArrFinishHonsty.find(item=>item.secretariatId==this.FinishHonestyForm.get('secretariatId')?.value);
       if(Exist2==undefined){
         $('#PayedMoneyid').show(500)
         let Model={
-          'insuredName':Exist.insuredName,
+          'insuredName':Exist.secretariateName,
+          'customerId':Exist.customerId,
           'secretariatId':this.FinishHonestyForm.get('secretariatId')?.value,
           'paymentDateTime': this._DatePipe.transform(this.FinishHonestyForm.get('paymentDateTime')?.value, 'YYYY-MM-dd'),
-          'amount':this.FinishHonestyForm.get('amount')?.value
+          'amount':this.FinishHonestyForm.get('amount')?.value,
+          'secretariatPaymentTarget':1,
+          'IsPayEGP':this.selectedCollections[0].IsPayByEGP,
+          'ExchangeRate':this.selectedCollections[0].exachangeRate,
         }
         this.ArrFinishHonsty.push(Model)
         this.PayedMoney = this.PayedMoney+=Number(this.FinishHonestyForm.get('amount')?.value)
@@ -885,6 +899,8 @@ TotalMonyTransaction:number=0
 
         }
       });
+      console.log("AllInsureds",this.AllInsureds);
+      
 
       this._SharedService.total$.subscribe(total => {
         if (total) {

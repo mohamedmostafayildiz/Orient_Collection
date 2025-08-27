@@ -1,0 +1,131 @@
+.modal{
+    --bs-modal-width: 75%;
+}
+// .modal_custom{
+//     --bs-modal-width: 85%;
+// }
+#treatyDetails{
+    min-height: 100vh;
+}
+.head_1_color{
+    background-color: #8FABDD;
+}
+.head_1_des{
+    border-radius: 0px;
+    padding-bottom:1.5rem;
+}
+.head_2{
+    border-radius: 0px;
+    padding-bottom:1.5rem;
+    background-color: #FFC000;
+}
+.head_detials_color{
+    background-color: #BDD7EE;
+}
+.head_detials{
+    font-size: 1.1rem;
+    padding-bottom: 1.2rem;
+}
+.m_Top{
+    margin-top: 1px!important;
+}
+.w_40{
+    width: 40%;
+}
+.w_60{
+    width: 60%;
+}
+ul{
+    border-radius: 0!important;
+    border-left:0!important ;
+    margin-bottom: 1.5px;
+}
+ul li:first-child{
+    background-color: #52BCED;
+    width: 40%!important;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+}
+ul li:nth-child(2){
+    background-color: #BDD7EE;
+    width:60%!important;
+    text-align: center;
+    font-size: 1.1rem;
+
+}
+mat-label{
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+input{
+    font-size: 1.1rem!important;
+}
+.outer{
+    position: relative;
+}
+.CustomerMiniLable{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    // transform: translateX(-50%);
+    // transform: translateY(-50%);
+    transform: translate(-50%, -80%);
+    background-color:#fff!important;
+    padding: 0.5rem 1rem;
+    border-radius:20px;
+    margin-bottom:1.5rem!important;
+    // color: #000;
+}
+i{
+    cursor: pointer;
+}
+.bg_White{
+    background-color: #FFF;
+}
+#treatyDetails{
+    background-color: #FFF;
+    border-radius: 0.5rem;
+}
+.Editpartner{
+    color: #01909D;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-decoration: underline;
+}
+.canceledit{
+    background-color: #FFFFFF;
+    padding: 6px 18px;
+    border-radius: 10px;
+    border: 1px solid #01909D;
+    color: #01909D;
+}
+.saveedit{
+    background-color: #01909D;
+    padding: 6px 18px;
+    border-radius: 10px;
+    color: white;
+}#Personal_info {
+    position: relative;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.4); /* Semi-transparent white */
+    z-index: 10; /* Ensure it stays above the content */
+    pointer-events: all; /* Blocks interaction with the underlying content */
+  }
+  
+  #personal_info_overlay {
+    display: block;
+  }
+  
+  .text-end button {
+    z-index: 20; /* Ensure the button stays above the overlay */
+  }

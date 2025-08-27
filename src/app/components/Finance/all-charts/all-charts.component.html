@@ -1,0 +1,312 @@
+<div class="all-charts-account">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3" id="filters" style="display: none;">
+        <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+          <mat-label>{{'Shared.SearchHere'|translate}}</mat-label>
+          <input class="ssss" [(ngModel)]="filterText" type="text" matInput (input)="applyFilter()">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="outerBorder outerItem shadow_5 table-responsive">
+      <div class="pageTile d-flex align-items-center justify-content-between mt-3">
+      <div>
+        <h3 class="font_Coloered3">Chart of accounts</h3>
+      </div>
+      <div class="mt-2 d-flex justify-content-center  align-items-center">
+        <button (click)="getTransactionReports()" class="cus_btn outerBtn mx-2">
+          <span *ngIf="!this.isClicked">Export Report</span>
+          <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+        </button>
+        <div class="dropdown" (mouseenter)="showDropdown()" (mouseleave)="hideDropdown()">
+          <button (click)="toggleDropdown()" class="cus_btn mintBtn">
+            New Account<i style="color: white;" class="fa-solid fa-chevron-down mx-2"></i>
+          </button>
+          <div class="dropdown-menu" [ngClass]="{'show': isDropdownOpen}">
+            <a (click)="AddNew()" class="dropdown-item">Application</a>
+            <a (click)="AddNewaccountfile()" class="dropdown-item">File</a>
+          </div>
+        </div>
+        <!-- <button (click)="AddNew()" class="cus_btn greenBtn cusNewBtn">New</button>
+        <button class="cus_btn greenBtn cusNewArrow"><i class="fa-solid fa-chevron-down"></i></button> -->
+      </div>
+    </div>
+      <!-- <div class="d-flex"> -->
+        <!-- <p class="font_Coloered3 my-3">Chart of Accounts</p> -->
+
+      <!-- </div> -->
+      <div>
+        <dx-tree-list #treeList id="AllAccounts" class="mt-4" id="AllAccounts" [dataSource]="AllAccounts"
+          [rootValue]="-1" keyExpr="id" parentIdExpr="mainId" [showRowLines]="true" [showBorders]="true"
+          [columnAutoWidth]="true" [autoExpandAll]="false" [expandedRowKeys]="[1]" (onRowClick)="handleRowClick($event)"
+          (onEditingStart)="onEditingStart($event)" (onEditingCancel)="onEditingCancel($event)"
+          (onEditingEnd)="onEditingEnd($event)" [editing]="{
+                mode: 'row', 
+                allowUpdating: true,
+              }">
+          <dxi-column dataField="name" caption="Account Name"></dxi-column>
+          <dxi-column dataField="accountType" caption="Account Type"></dxi-column>
+          <dxi-column dataField="code" caption="Code"></dxi-column>
+          <dxi-column [width]="100" dataField="creditBalance" caption="Credit Balance" format="#,##0.00"
+            alignment="left"></dxi-column>
+          <dxi-column [width]="100" dataField="debitBalance" caption="Debit Balance" format="#,##0.00"
+            alignment="left"></dxi-column>
+          <!-- <dxi-column dataField="discription" caption="Description"></dxi-column> -->
+          <dxi-column [width]="100" dataField="transactionDate" caption="Transaction Date" dataType="date"></dxi-column>
+          <dxi-column dataField="typeDetails" caption="Type Details"></dxi-column>
+          <dxi-column type="buttons">
+            <dxi-button icon="fa-solid fa-pencil fs-5" hint="Info" cssClass="custom-icon-style"
+              [onClick]="handleCustomButtonClick.bind(this)">
+            </dxi-button>
+          </dxi-column>
+        </dx-tree-list>
+      </div>
+
+      <div id="loading" *ngIf="isLoading">
+        <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add New account -->
+<div class="overlay" (click)="closeAddNewTap()">
+  <div class="AddNew" (click)="$event.stopPropagation()">
+    <div class="d-flex justify-content-between delet-details">
+        <h2>New Account</h2>
+        <div class="d-flex align-items-center justify-content-center">
+          <i class="fa-solid fa-xmark text-danger text-center" (click)="closeAddNewTap()" style="cursor: pointer;"></i>
+        </div>
+      </div>
+      <hr class="custom-hr w-100">
+    <div id="Application_Form" class="mt-3">
+      <form [formGroup]="AddNewAccountForm">
+        <div class="row">
+          <div class="col-6">
+            <!-- <div>
+              <input formControlName="name" type="text" class="form-control w-100"
+                [class.is-valid]="this.AddNewAccountForm.get('name')?.status=='VALID'"
+                [class.is-invalid]="this.AddNewAccountForm.get('name')?.status=='INVALID'&&this.AddNewAccountForm.get('name')?.touched">
+            </div> -->
+
+            <mat-form-field appearance="outline">
+              <mat-label>Account name</mat-label>
+              <input formControlName="name" type="text" matInput>
+            </mat-form-field>
+
+
+          </div>
+          <div class="col-6">
+            <!-- <div>
+              <label>Balance</label>
+              <br>
+              <input formControlName="openingBalance" type="number" class="form-control w-100"
+                [class.is-valid]="this.AddNewAccountForm.get('openingBalance')?.status=='VALID'"
+                [class.is-invalid]="this.AddNewAccountForm.get('openingBalance')?.status=='INVALID'&&this.AddNewAccountForm.get('openingBalance')?.touched">
+              
+            </div> -->
+            <mat-form-field appearance="outline">
+              <mat-label>Balance</mat-label>
+              <input formControlName="openingBalance" type="number" matInput>
+            </mat-form-field>
+            <div *ngIf="AddNewAccountForm.get('openingBalance')?.hasError('negativeNumber')">
+              <small class="text-danger">Negative numbers are not allowed.</small>
+            </div>
+          </div>
+
+
+          <div class="col-6 mt-2">
+            <!-- <label>Account type</label>
+            <select class="form-select w-100" (change)="getAccountType($event)" formControlName="accountTypeId"
+              [class.is-valid]="this.AddNewAccountForm.get('accountTypeId')?.status=='VALID'"
+              [class.is-invalid]="this.AddNewAccountForm.get('accountTypeId')?.status=='INVALID'&&this.AddNewAccountForm.get('accountTypeId')?.touched">
+              <option selected hidden>Select account type</option>
+              <option *ngFor="let item of AccountType" [value]="item.id" [disabled]="!item.details">{{item.name}}
+              </option>
+            </select> -->
+
+            <mat-form-field appearance="outline">
+              <mat-label>Account type</mat-label>
+              <mat-select (selectionChange)="getAccountType($event)" formControlName="accountTypeId">
+                <mat-option *ngFor="let item of AccountType" [value]="item.id"
+                  [disabled]="!item.details">{{item.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+          <div class="col-6 mt-2">
+            <!-- <label>Detail type</label>
+            <select class="form-select w-100" formControlName="typeDetailsId"
+              [class.is-valid]="this.AddNewAccountForm.get('typeDetailsId')?.status=='VALID'"
+              [class.is-invalid]="this.AddNewAccountForm.get('typeDetailsId')?.status=='INVALID'&&this.AddNewAccountForm.get('typeDetailsId')?.touched">
+              <option selected hidden>Select detail type</option>
+              <option *ngFor="let item of SelectedDetaildTypes" [value]="item.id">{{item.discription}}</option>
+            </select> -->
+
+            <mat-form-field appearance="outline">
+              <mat-label>Detail type</mat-label>
+              <mat-select formControlName="typeDetailsId">
+                <mat-option *ngFor="let item of SelectedDetaildTypes" [value]="item.id"
+                  >{{item.discription}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+          <div class="col-6 mt-2">
+            <!-- <div>
+              <label>Transaction Date</label>
+              <br>
+              <input formControlName="transactionDate" type="date" class="form-control w-100"
+                [class.is-valid]="this.AddNewAccountForm.get('transactionDate')?.status=='VALID'"
+                [class.is-invalid]="this.AddNewAccountForm.get('transactionDate')?.status=='INVALID'&&this.AddNewAccountForm.get('transactionDate')?.touched">
+            </div> -->
+
+            <mat-form-field appearance="outline">
+              <mat-label>Transaction Date</mat-label>
+              <input formControlName="transactionDate" matInput [matDatepicker]="picker">
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+
+          </div>
+          <div class="col-6 mt-2">
+            <!-- <div>
+              <label>Old Code</label>
+              <br>
+              <input formControlName="oldCode" type="text" class="form-control w-100"
+                [class.is-valid]="this.AddNewAccountForm.get('oldCode')?.status=='VALID'"
+                [class.is-invalid]="this.AddNewAccountForm.get('oldCode')?.status=='INVALID'&&this.AddNewAccountForm.get('oldCode')?.touched">
+            </div> -->
+
+            <mat-form-field appearance="outline">
+              <mat-label>Old Code</mat-label>
+              <input formControlName="oldCode" type="text" matInput>
+            </mat-form-field>
+
+          </div>
+          <!-- Make this a subaccount -->
+          <div class="col-12 mt-2">
+            <div class="mt-3">
+              <!-- <label>Description</label>
+              <input formControlName="discription" type="text" class="form-control w-100"
+                [class.is-valid]="this.AddNewAccountForm.get('discription')?.status=='VALID'"
+                [class.is-invalid]="this.AddNewAccountForm.get('discription')?.status=='INVALID'&&this.AddNewAccountForm.get('discription')?.touched">
+             -->
+              <mat-form-field appearance="outline">
+                <mat-label>Description</mat-label>
+                <input formControlName="discription" type="text" matInput>
+              </mat-form-field>
+            </div>
+            <div class="mt-5">
+              <input (change)="getParent($event)" class="form-check-input" [(ngModel)]="isChecked" name="isChecked"
+                [ngModelOptions]="{standalone: true}" name="terms" type="checkbox">
+              <label class="form-check-label mt-1 mx-2">
+                Make this a subaccount
+              </label>
+
+            </div>
+            <div class="mt-3" id="parentAccount" style="display: none;">
+              <label>Parent account</label>
+              <br>
+              <!-- <select class="form-select w-100" formControlName="mainAccountId" (change)="getaccountname($event)"
+                [class.is-valid]="this.AddNewAccountForm.get('mainAccountId')?.status=='VALID'" 
+                [class.is-invalid]="this.AddNewAccountForm.get('mainAccountId')?.status=='INVALID'&&this.AddNewAccountForm.get('mainAccountId')?.touched">
+                  <option selected hidden>Select ...</option>
+                  <option *ngFor="let item of AllAccounts" [value]="item.id">{{item.name}}</option>
+                </select> -->
+               <p-dropdown 
+                
+                  [options]="AllAccounts" 
+                  formControlName="mainAccountId" 
+                  optionLabel="name" 
+                  [filter]="true" 
+                  filterBy="name" 
+                  [showClear]="true" 
+                  placeholder="Select a Parent Account" 
+                  [class.is-valid]="this.AddNewAccountForm.get('mainAccountId')?.valid" 
+                  [class.is-invalid]="this.AddNewAccountForm.get('mainAccountId')?.invalid&&this.AddNewAccountForm.get('mainAccountId')?.touched"
+                  class="w-full md:w-100"
+                  [style]="{ width: '100%', height: '40', borderRadius: '5px',maxWidth: '100%'}"
+                  (onChange)="getaccountname1($event)">
+                  
+                  <ng-template #selectedItem let-selectedOption>
+                      <div class="flex items-center gap-2">
+                          <div>{{ selectedOption.name }}</div>
+                      </div>
+                  </ng-template>
+
+                  <ng-template let-item #item>
+                      <div class="flex items-center gap-2">
+                          <div>{{ item.name }}</div>
+                      </div>
+                  </ng-template>
+              </p-dropdown>
+
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- footer Add New  -->
+      <div id="AddNewfooter" class="px-3 py-4">
+        <div class="row d-flex justify-content-between" style="margin: 0 10px;">
+          <!-- <div class="col-6">
+              <a href=""><i class="fa-solid fa-play"></i> Video tutorials</a>
+            </div>
+            <div class="col-6"> -->
+          <button (click)="closeAddNewTap()" class="w-25 cus_btn outerBtn">Cancel</button>
+          <button
+            [disabled]="this.AddNewAccountForm.status == 'INVALID' || this.isClicked || this.ACCOUNTNAME == this.AddNewAccountForm.get('name')?.value"
+            (click)="SupmitOrEditAccount()" class="w-25 mintBtn">
+            <span *ngIf="!this.isClicked">Save</span>
+            <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+          </button>
+          <!-- <button class="cus_btn greenBtn cusNewArrow"><i class="fa-solid fa-chevron-down"></i></button> -->
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+    <div id="File_Form">
+      <div class="row" style="padding: 75px 5px 0 5px;">
+        <table class="table table-bordered text-center mt-2" style="border-radius: 20px;">
+          <tbody class="align-middle">
+            <tr style="background-color: white !important;">
+              <th style="background-color: white !important;" class="w-30 py-3">Download templete File</th>
+              <td style="background-color: white !important;" class="w-60 py-3">
+                <i (click)="getTempleteFile()" class="fa-solid fa-download fs-3 px-2 py-1 mt-3"
+                  style="border-radius: 7px; cursor: pointer;color:#01BACB !important;"></i>
+              </td>
+            </tr>
+            <tr style="background-color: white !important;">
+              <th style="background-color: white !important;" class="w-30 py-3">Upload Legacy Details File</th>
+              <td style="background-color: white !important;" class="w-60 py-3">
+                <i (click)="fileInput5.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2"
+                  style="color:#01BACB !important;"></i>
+                <input accept=".xlsx" hidden (change)="uploadLegacyDetailsFile($event)" #fileInput5 type="file">
+                <span>{{selectedChartofAccountFile?.name}}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- footer Add New  -->
+      <div id="AddNewfooter" class="px-3 py-4">
+        <div class="row d-flex justify-content-between" style="margin: 0 10px;">
+          <!-- <div class="col-6">
+              <a href=""><i class="fa-solid fa-play"></i> Video tutorials</a>
+            </div>
+            <div class="col-6"> -->
+          <button (click)="closeAddNewTap()" class="w-25 cus_btn outerBtn">Cancel</button>
+          <button [disabled]="this.selectedChartofAccountFile == '' || this.isClickedDocumnet" (click)="Save()"
+            class="w-25 mintBtn">
+            <span *ngIf="!this.isClickedDocumnet">Save</span>
+            <span *ngIf="this.isClickedDocumnet"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+          </button>
+          <!-- <button class="cus_btn greenBtn cusNewArrow"><i class="fa-solid fa-chevron-down"></i></button> -->
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

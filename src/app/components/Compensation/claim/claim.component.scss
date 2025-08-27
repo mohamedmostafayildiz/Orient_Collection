@@ -1,0 +1,143 @@
+.modal{
+    --bs-modal-width: 50%;
+}
+.highlight-yellow{
+    background-color: yellow!important;
+}
+.table {
+    --bs-table-bg: initial; 
+}
+.outerBorder1{
+    border:1px solid transparent;
+    margin:.5rem;
+    padding: .5rem;
+    border-radius: 0.5rem;
+    background-color: #FFF!important;
+}
+.bg-rejected {
+    background-color: #f8d7da; 
+}
+
+.bg-confirmed {
+    background-color: #d4edda; 
+}
+
+th, td {
+    height: 60px;
+    min-height: 60px; 
+    vertical-align: middle;
+  } 
+  th{
+    color: #01BACB;
+  }
+  .container-fluid{
+    --bs-gutter-x:0rem
+  }
+  .searchfilter{
+    background-color: #01909D;
+    border: none;
+    color: white;
+    // padding: 5px 15px;
+  } 
+
+  .container-fluid{
+    --bs-gutter-x:0rem
+  }
+.upload{
+background-color: #FFFFFF;
+color: #01909D;
+border: 1px solid #01909D;
+border-radius: 5px;
+padding: 6px 10px;
+}
+.uploaded-container{
+    background-color: #F7F7F7;
+    padding: 15px 0px 15px 15px;
+    border: 2px dashed #01909D;
+}
+.fa-cloud-arrow-up:hover{
+    color: #01909D !important;
+  }
+.fa-download:hover{
+    color: #01909D !important;
+  }
+  .next{
+    background-color: #01909D;
+    border: none;
+    color: white;
+  }
+  
+.gray-circle {
+  width: 10px;         
+  height: 10px;        
+  background-color: #E9E9E9;
+  border-radius: 50%;  
+}
+.shadow-down{
+  background-color: #01909D0D;
+  // padding: 10px;
+  padding-bottom:0px ;
+  border-radius: 10px;
+}
+.Downloadfile{
+  color: #000000;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 21.78px;
+}
+.pleaseDownloadfile{
+  color: #4A4A4A;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.36px;
+}
+.clickher{
+  color: #01909D;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.36px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.w-90{
+  width: 85%;
+}
+.w-15{
+  width: 15%;
+}
+.w-85{
+  width: 85%;
+}
+.file-upload {
+  cursor: pointer;
+  color: #01909D;
+}
+
+.upload-icon {
+  color: #01909D !important;
+}
+
+.file-name {
+  color: #01909D;
+}
+.headtable th{
+  margin-right: 5px !important;
+  padding-right: 3px !important;
+}
+.confirmcla{
+  background-color: #0D9346;
+  color: white;
+  padding: 7px 15px;
+  border-radius: 10px;
+  border: none;
+}
+.rejectcla{
+  background-color: #CC0000;
+  color: white;
+  padding: 7px 15px;
+  border-radius: 10px;
+  border: none;
+}
+mat-checkbox{
+  color-scheme: #01909D !important  ;
+}

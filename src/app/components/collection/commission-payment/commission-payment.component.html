@@ -1,0 +1,392 @@
+<div id="paymentWay">
+    <div class="container">
+        <div class="d-flex justify-content-between mx-5 pt-3">
+            <p class="font_Coloered3 text-center my-2">Commission Payment</p>
+        </div>
+<div class="outerBorder outerItem shadow_5 py-3">
+    <!-------------------- Search Policy ------------------->
+    <p class="text-muted fs-5 fw-bold py-2">{{'Shared.SearchHere'|translate}} :</p>
+    <form [formGroup]="SearchForm">
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field class="w-100">
+                    <mat-label>رقم اذن الصـرف</mat-label>
+                    <!-- الحافظه دي زي رقم البوليصه بس دي للحاجات ال اتعمها ابروف -->
+                    <input formControlName="Code" type="text" matInput>
+                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                            class="fa-solid fa-hashtag"></i></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field class="w-100" id="bokerField">
+                    <mat-label>{{'Offer.Broker'|translate}}</mat-label>
+                    <mat-select [(value)]="BrokerIdVal">
+                        <mat-option value="">{{'Shared.Null'|translate}}</mat-option>
+                        <mat-option *ngFor="let type of brokerCustomers"
+                            [value]="type.id">{{type.name}}</mat-option>
+                    </mat-select>
+                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                            class="fa-solid fa-people-arrows"></i></mat-icon>
+                </mat-form-field>
+            </div>
+            
+            <div class="col-md-4">
+                <mat-form-field class="w-100">
+                    <mat-label>{{'Policy.From'|translate}}</mat-label>
+                    <input formControlName="From"  matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field class="w-100">
+                    <mat-label>{{'Policy.To'|translate}}</mat-label>
+                    <input formControlName="To" matInput [matDatepicker]="picker2">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Search Now -->
+                <div class="d-flex justify-content-end">
+                    <button [disabled]="this.isClicked" (click)="Search()" mat-raised-button color="primary"
+                        class="w-75 py-2"><span *ngIf="this.isClicked"><i
+                                class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span
+                            *ngIf="!this.isClicked">{{'Shared.Search'|translate}} <i
+                                class="fa-solid fa-magnifying-glass"></i></span></button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <!-------------------- Search results ------------------->
+
+    <div style="overflow: auto;" id="SearchResults">
+        <hr class="my-4" style="width: 80%;margin: auto;">
+        <p class="text-muted fs-5 fw-bold py-2">{{'Shared.Searchresults'|translate}} <i
+                class="fa-solid fa-square-poll-vertical"></i></p>
+        <table class="table text-center table-responsive table-hover">
+            <thead class="tableHead">
+                <th class="py-2">رقـم الوثيقه</th>
+                <th class="py-2">اسم المنتج</th>
+                <th class="py-2">اجمالي العموله</th>
+                <th class="py-2">نسبه الضريبه</th>
+                <th class="py-2">صافي العموله</th>
+                <th class="py-2">تاريخ الإستحقاق</th>
+                <th class="py-2">تحديد</th>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let Policy of AllPolices;let index= index">
+                    <td class="align-middle">{{Policy.a}}</td>
+                    <td class="align-middle">{{Policy.c}}</td>
+                    <td class="align-middle">{{Policy.g}}</td>
+                    <td class="align-middle">{{Policy.tax}}</td>
+                    <td class="align-middle">{{Policy.netCommission}}</td>
+                    <td class="align-middle">{{Policy.h}}</td>
+                    <td class="align-middle">
+                        <section class="example-section">
+                            <mat-checkbox (change)="getCheckedValues($event.checked , Policy.g)"
+                                class="example-margin"></mat-checkbox>
+                        </section>
+                    </td>
+
+                </tr>
+            </tbody>
+
+        </table>
+        <div class="row">
+            <!-- total Money-->
+            <div class="col-md-4">
+                <table class="table table-striped table-bordered text-center mt-2">
+                    <tbody>
+                        <tr>
+                            <th class="w-30 py-2">Total Money</th>
+                            <td class="w-60 py-2">{{this.TotalMony}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        <!-- Loading -->
+        <div id="loading" *ngIf="isClicked">
+            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+        </div>
+    </div>
+
+    <!-------------------- Payment Way ------------------->
+
+    <div id="PaymentWay" class="py-2">
+        <div class="container_custom">
+            <div class="row py-5">
+                <div class="col-md-3"></div>
+                <div class="col-md-5" id="PaymnetWays" style="display: none;">
+                    <mat-form-field class="w-100">
+                        <mat-label>طريقه السداد</mat-label>
+                        <mat-select (selectionChange)="getPaymentWay($event.value)">
+                            <mat-option [value]="3">شيــك</mat-option>
+                            <mat-option [value]="5">تحويل بنكـي</mat-option>
+                        </mat-select>
+                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                class="fa-solid fa-coins"></i></mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2" style="display: none;" id="PaymentFile">
+                    <div>
+                        <i (click)="fileGroupInput.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2"
+                            style="color:#3F51B5;border-radius: 5px;cursor: pointer;"></i>
+                        <input accept=".xlsx" hidden (change)="uploadPaymnetFile($event)" #fileGroupInput
+                            type="file">
+                        <span class="file-name">{{selectedFile?.name}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Bodyy" style="display: none;">
+
+
+
+                <!-- شيــك -->
+                <div class="row" id="Check" style="display: none;">
+                    <form [formGroup]="CheckForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field class="w-100">
+                                    <mat-label>رقم الشيـك</mat-label>
+                                    <input formControlName="1" type="number" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-hashtag"></i></mat-icon>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field class="w-100">
+                                    <mat-label>اسم البنك المسحوب عليه</mat-label>
+                                    <input formControlName="2" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-building-columns"></i></mat-icon>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="w-100">
+                                    <mat-label>مبلـغ الشيـك</mat-label>
+                                    <input formControlName="3" type="number" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-money-bills"></i></mat-icon>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="w-100">
+                                    <mat-label>تاريـخ الشيـك</mat-label>
+                                    <input formControlName="4" [min]="this.CurrentDate" matInput [matDatepicker]="picker4">
+                                    <mat-datepicker-toggle matIconSuffix
+                                        [for]="picker4"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker4></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-2 d-flex justify-content-end">
+                                    <button (click)="viewCheck()" mat-raised-button color="accent"
+                                        class="mt-2">{{'Shared.Add'|translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+
+                
+                <!--  تحويل بنكي -->
+                <form [formGroup]="TrasferForm" id="BankTransfer" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100">
+                                <mat-label>رقـم التحويـل</mat-label>
+                                <input formControlName="1" type="number" matInput>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                        class="fa-solid fa-hashtag"></i></mat-icon>
+                            </mat-form-field>
+                            
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100">
+                                <mat-label>اسـم البنك</mat-label>
+                                <input formControlName="2" type="text" matInput>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                        class="fa-solid fa-building-columns"></i></mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100">
+                                <mat-label>مبلـغ التحويـل</mat-label>
+                                <input formControlName="3" type="number" matInput>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                        class="fa-solid fa-money-bills"></i></mat-icon>
+                            </mat-form-field>
+                            
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100">
+                                <mat-label>التاريـخ </mat-label>
+                                <input formControlName="4" [min]="this.CurrentDate" matInput [matDatepicker]="picker8">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker8"></mat-datepicker-toggle>
+                                <mat-datepicker #picker8></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2 d-flex justify-content-end">
+                            <button (click)="viewTransfer()" mat-raised-button color="accent"
+                                class="mt-2">{{'Shared.Add'|translate}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>  
+            <!-- /Table Of cash -->
+            <div class="outerBorder shadow_5" *ngIf="this.ArrCash.length>0">
+                <table class="table table-striped text-center">
+                    <thead>
+                        <th>#</th>
+                        <th>المبلغ</th>
+                        <th class="remove"></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of ArrCash;let index = index">
+                            <td>{{index+1}}</td>
+                            <td>{{item.money}}</td>
+                            <td class="remove"><button color="warn" (click)="removeCash(index,item.money)"
+                                    mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /Table Check -->
+            <div class="outerBorder shadow_5" *ngIf="this.ArrCheck.length>0">
+                <p class="text-muted fs-5 fw-bold py-2">Table Of Check <i class="fa-solid fa-money-bills"></i>
+                </p>
+
+                <table class="table table-striped text-center">
+                    <thead>
+                        <th>#</th>
+                        <th>رقم الشيك </th>
+                        <th>اسم البنك</th>
+                        <th>المبلغ</th>
+                        <th>تاريخ الشيك</th>
+                        <th class="remove"></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of ArrCheck;let index = index">
+                            <td>{{index+1}}</td>
+                            <td>{{item.a}}</td>
+                            <td>{{item.b}}</td>
+                            <td>{{item.c}}</td>
+                            <td>{{item.d}}</td>
+                            <td class="remove"><button color="warn" (click)="removeCheck(index,item.c)"
+                                    mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /Table Credit -->
+            <div class="outerBorder shadow_5" *ngIf="this.ArrCredit.length>0">
+                <p class="text-muted fs-5 fw-bold py-2">Table Of Credit </p>
+                <table class="table table-striped text-center">
+                    <thead>
+                        <th>#</th>
+                        <th>الاسم</th>
+                        <th>رقم البطاقه</th>
+                        <th>تاريـخ الانتهاء</th>
+                        <th>المبلغ</th>
+                        <th class="remove"></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of ArrCredit;let index = index">
+                            <td>{{index+1}}</td>
+                            <td>{{item.a}}</td>
+                            <td>{{item.b}}</td>
+                            <td>{{item.c}}</td>
+                            <td>{{item.d}}</td>
+                            <td class="remove"><button color="warn" (click)="removeCredit(index,item.d)"
+                                mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /Table Deposit -->
+            <div class="outerBorder shadow_5" *ngIf="this.ArrDeposit.length>0">
+                <p class="text-muted fs-5 fw-bold py-2">Table Of Deposit </p>
+                <table class="table table-striped text-center">
+                    <thead>
+                        <th>#</th>
+                        <th>رقم الايداع</th>
+                        <th>اسم البنك </th>
+                        <th> مبلغ الايداع</th>
+                        <th>التاريخ </th>
+                        <th class="remove"></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of ArrDeposit;let index = index">
+                            <td>{{index+1}}</td>
+                            <td>{{item.a}}</td>
+                            <td>{{item.b}}</td>
+                            <td>{{item.c}}</td>
+                            <td>{{item.d}}</td>
+                            <td class="remove"><button color="warn" (click)="removeDeposit(index,item.c)"
+                                mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /Table Trasfer -->
+            <div class="outerBorder shadow_5" *ngIf="this.ArrTransfer.length>0">
+                <p class="text-muted fs-5 fw-bold py-2">Table Of Trasfer </p>
+                <table class="table table-striped text-center">
+                    <thead>
+                        <th>#</th>
+                        <th>رقم التحويل</th>
+                        <th>اسم البنك </th>
+                        <th> مبلغ التحويل</th>
+                        <th>التاريخ </th>
+                        <th class="remove"></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of ArrTransfer;let index = index">
+                            <td>{{index+1}}</td>
+                            <td>{{item.a}}</td>
+                            <td>{{item.b}}</td>
+                            <td>{{item.c}}</td>
+                            <td>{{item.d}}</td>
+                            <td class="remove"><button color="warn" (click)="removeTrasfer(index,item.c)"
+                                mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+
+            <!-- Final Save Button -->
+            <!-- <div class="row">
+            <div class="col-md-6 py-2">
+                <button mat-raised-button color="primary" class="w-50">Save <i class="fa-regular fa-floppy-disk"></i></button>
+            </div>
+        </div> -->
+        </div>
+    </div>
+    <div class="row">
+        <!-- Payed Money-->
+        <div class="col-md-4">
+            <table class="table table-striped table-bordered text-center mt-2">
+                <tbody>
+                    <tr>
+                        <th class="w-30 py-2">Payed Money</th>
+                        <td class="w-60 py-2">{{this.PayedMoney}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>

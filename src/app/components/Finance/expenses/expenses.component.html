@@ -1,0 +1,367 @@
+<div class="all-account-type">
+    <div class="container-fluide">
+      <div class="row">
+        <div class="col-md-3" id="filters" style="display: none;">
+          <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+            <mat-label>{{'Shared.SearchHere'|translate}}</mat-label>
+            <input class="ssss" [(ngModel)]='term' type="text" matInput>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="outerBorder outerItem shadow_5 table-responsive">
+            <p class="font_Coloered3 my-3">Account type</p>
+            <table class="text-center table">
+                <thead class="tableHead align-middle" style="background-color: #F2F2F2 !important;">
+                    <th class="py-2">Invoice Number</th>
+                    <th class="py-2">Customer Name</th>
+                    <th class="py-2">Adress</th>
+                    <th class="py-2">Due Amount</th>
+                    <th class="py-2">Invoice Date</th>
+                    <th class="py-2">Due Date</th>
+                    <th class="py-2">Account Transactions</th>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of AllAplicationinvoiceArr|search:term|paginate:{
+                    itemsPerPage:tableSize,
+                    currentPage:page,
+                    totalItems:count};let index = index">
+                    <td class="align-middle">
+                        {{item.invoiceNumber}}
+                    </td>
+                    <td class="align-middle">
+                        {{item.customerName}}
+                    </td>
+                    <td class="align-middle">
+                        {{item.adress}}
+                    </td>
+                    <td class="align-middle">
+                        {{item.dueAmount}}
+                    </td>
+                    <td class="align-middle">
+                        {{item.invoiceDate |date:'MM/dd/YYYY'}}
+                    </td>
+                    <td class="align-middle">
+                        {{item.dueDate |date:'MM/dd/YYYY'}}
+                    </td>
+                    <td class="align-middle">
+                        <i (click)="showAccountTransactions(item.accountTransactions)" data-bs-toggle="modal" data-bs-target="#ShowAccountTransactions" class="fa-solid fa-eye fs-5 text-success px-3 py-2" style="color: #007d88 !important;"></i>
+                        </td>
+            
+                </tr>
+                </tbody>
+            </table>
+    
+            <!-- Pagination controls -->
+            <div class="d-flex justify-content-end mt-4">
+            <pagination-controls 
+                previousLabel="Prev" 
+                nextLabel="Next" 
+                (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
+            <select 
+                style="border: solid 2px #4758B8;" 
+                (change)="onTableSizeChange($event)" 
+                class="tableSize rounded-pill px-1">
+                <option *ngFor="let size of tableSizes">{{ size }}</option>
+            </select>
+            </div>
+      </div>
+    </div>   
+</div>
+
+
+
+ <!-- Add new modal -->
+<div class="overlayAccountType" (click)="closeNewAccType()">
+    <div class="AddNewAccountType" (click)="$event.stopPropagation()">
+        <div class="d-flex justify-content-between delet-details">
+            <h2>New Expenses Voucher </h2>
+            <div class="d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-xmark text-danger text-center" (click)="closeNewAccType()" style="cursor: pointer;"></i>
+            </div>
+        </div>
+        <hr>
+        <div  class="container-fluid newInvoiceBody">
+            <!-- row -->
+            <form [formGroup]="InvoiceApplicationForm">
+                <div class="row" style="margin-top: 3rem;">
+                    <div class="col-7 d-flex">
+                        <div class="mt-2 w-50 px-2">
+                            <label >Supplier name</label>
+                                <select class="w-100 form-select" formControlName="customerId" (change)="getEmailname($event)"
+                                [class.is-valid]="this.InvoiceApplicationForm.get('customerId')?.status=='VALID'"
+                                [class.is-invalid]="this.InvoiceApplicationForm.get('customerId')?.status=='INVALID'&&this.InvoiceApplicationForm.get('customerId')?.touched"
+                                >
+                                    <option value="" selected hidden>Select supplier</option>
+                                    <option *ngFor="let item of AllSupplierArr" [value]="item.id">{{item.name}}</option>
+                                </select>
+                        </div>
+                        <div class="mt-2 w-50 px-2">
+                            <label>Customer email </label>
+                            <input type="text" disabled class="w-100 form-control" [(ngModel)]="CustomerEmail" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-5 d-flex align-items-center justify-content-end">
+                        <div id="BalanceDue" style="display: none;">
+                            <p>BALANCE DUE</p>
+                            <p class="page_Title fs-1">{{this.BalanceDue}}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- row -->
+                <div class="row" style="margin-top: 3rem;">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div>
+                                    <label>Billing address </label>
+                                    <textarea formControlName="adress" type="text" class="form-control w-100" rows="3"
+                                    [class.is-valid]="this.InvoiceApplicationForm.get('adress')?.status=='VALID'"
+                                    [class.is-invalid]="this.InvoiceApplicationForm.get('adress')?.status=='INVALID'&&this.InvoiceApplicationForm.get('adress')?.touched"
+                                    ></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div>
+                                    <label>Terms </label>
+                                    <input type="text" formControlName="terms" class="form-control w-100"
+                                    [class.is-valid]="this.InvoiceApplicationForm.get('terms')?.status=='VALID'"
+                                    [class.is-invalid]="this.InvoiceApplicationForm.get('terms')?.status=='INVALID'&&this.InvoiceApplicationForm.get('terms')?.touched">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div>
+                                    <label>Invoice date </label>
+                                    <input formControlName="invoiceDate" type="date" class="form-control w-100"
+                                    [class.is-valid]="this.InvoiceApplicationForm.get('invoiceDate')?.status=='VALID'"
+                                    [class.is-invalid]="this.InvoiceApplicationForm.get('invoiceDate')?.status=='INVALID'&&this.InvoiceApplicationForm.get('invoiceDate')?.touched">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div>
+                                    <label>Due date</label>
+                                    <input formControlName="dueDate" [min]="InvoiceApplicationForm.get('invoiceDate')?.value" type="date" class="form-control w-100"
+                                    [class.is-valid]="this.InvoiceApplicationForm.get('dueDate')?.status=='VALID'"
+                                    [class.is-invalid]="this.InvoiceApplicationForm.get('dueDate')?.status=='INVALID'&&this.InvoiceApplicationForm.get('dueDate')?.touched">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-4 d-flex justify-content-center">
+                        <div class=" w-50 px-2" id="invicenumber">
+                            <label>Invoice no. </label>
+                            <input [(ngModel)]="InvoiceNumber" [ngModelOptions]="{standalone: true}" type="text" class="form-control w-100">
+                        </div>
+                    </div> -->
+                </div>
+                <!-- row -->
+                <div class="row" style="margin-top: 1rem;">
+                    <div class="col-md-3">
+                        <div>
+                            <label>Sale Location</label>
+                            <input class="form-control w-100" type="text" formControlName="saleLocation"
+                            [class.is-valid]="this.InvoiceApplicationForm.get('saleLocation')?.status=='VALID'"
+                            [class.is-invalid]="this.InvoiceApplicationForm.get('saleLocation')?.status=='INVALID'&&this.InvoiceApplicationForm.get('saleLocation')?.touched">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="invicenumber" style="display: none;">
+                            <label>Invoice no. </label>
+                            <input disabled [(ngModel)]="InvoiceNumber" [ngModelOptions]="{standalone: true}" type="text" class="form-control w-100">
+                        </div>
+                    </div>
+                    <div class="col-md-6" id="dowFiles" style="display: none;">
+                        <table class="table table-bordered text-center" style="border:solid 1px rgb(87, 87, 87);">
+                            <tbody class="align-middle" >
+                                <!-- <tr>
+                                    <th  style="background-color: #f4f5f8 !important;" class="w-30 py-2">Invice code</th>
+                                    <td  style="background-color: #f4f5f8 !important;" class="w-60 py-2">
+                                        {{this.saveInvoiceRes?.code}}
+                                    </td>
+                                </tr> -->
+                                <!-- <tr>
+                                    <th  style="background-color: #f4f5f8 !important;" class="w-30 py-3">Download VAT invoice report</th>
+                                    <td  style="background-color: #f4f5f8 !important;" class="w-60 py-3">
+                                        <i (click)="getInvoiceReports('GetVatInvoiceReport')" class="fa-solid fa-download fs-3 px-2 py-1 mt-3" style="border-radius: 7px; cursor: pointer;color:#2ca01c;"></i>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <th  style="background-color: #f4f5f8 !important;" class="w-30 py-2">Download Filled TAX invoice report</th>
+                                    <td  style="background-color: #f4f5f8 !important;" class="w-60 py-2">
+                                        <i (click)="getFilledInvoiceReports('GetFilledTaxInvoiceReport')" class="fa-solid fa-download fs-3 px-2 py-1 mt-1" style="border-radius: 7px; cursor: pointer;color:#2ca01c;"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #f4f5f8 !important;" class="w-30 py-2">Download Filled Debit invoice report</th>
+                                    <td style="background-color: #f4f5f8 !important;" class="w-60 py-2">
+                                        <i (click)="getFilledInvoiceReports('GetFilledDebitInvoiceReport')" class="fa-solid fa-download fs-3 px-2 py-1 mt-1" style="border-radius: 7px; cursor: pointer;color:#2ca01c;"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+            <!-- row -->
+            <div class="services px-2 py-4 mt-3 mb-5">
+                <!-- Form -->
+                <form [formGroup]="accountTransactionsForm">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div>
+                            <label>Description</label>
+                            <input formControlName="description" type="text" class="form-control w-100"
+                            [class.is-valid]="this.accountTransactionsForm.get('description')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('description')?.status=='INVALID'&&this.accountTransactionsForm.get('description')?.touched">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div>
+                            <label >Main account*</label>
+                            <select class="w-100 form-select" formControlName="mainAccountId" (change)="GetAllSupAccounts($event)"
+                            [class.is-valid]="this.accountTransactionsForm.get('mainAccountId')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('mainAccountId')?.status=='INVALID'&&this.accountTransactionsForm.get('mainAccountId')?.touched"
+                            >
+                                <option value="" selected hidden>Select account</option>
+                                <option *ngFor="let item of AllAccounts" [value]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div>
+                            <label>Sub Account </label>
+                            <select class="w-100 form-select" formControlName="subAccountId"
+                            [class.is-valid]="this.accountTransactionsForm.get('subAccountId')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('subAccountId')?.status=='INVALID'&&this.accountTransactionsForm.get('subAccountId')?.touched">
+                                <!-- <option disabled hidden selected>Select ..</option> -->
+                                <option value="">--</option>
+                                <option *ngFor="let item of AllSupArr" [value]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div>
+                            <label>Debit </label>
+                            <input formControlName="debit" type="number" class="w-100 form-control"
+                            [class.is-valid]="this.accountTransactionsForm.get('debit')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('debit')?.status=='INVALID'&&this.accountTransactionsForm.get('debit')?.touched">
+                            <div *ngIf="accountTransactionsForm.get('debit')?.hasError('negativeNumber')">
+                                <small class="text-danger">Negative numbers are not allowed.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div>
+                            <label>Credit</label>
+                            <input formControlName="credit" type="number" class="w-100 form-control"
+                            [class.is-valid]="this.accountTransactionsForm.get('credit')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('credit')?.status=='INVALID'&&this.accountTransactionsForm.get('credit')?.touched">
+                            <div *ngIf="accountTransactionsForm.get('credit')?.hasError('negativeNumber')">
+                                <small class="text-danger">Negative numbers are not allowed.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-center">
+                        <!-- [disabled]="isDisabled()" -->
+                        <button (click)="View()" [disabled]="
+                        accountTransactionsForm.invalid || 
+                        (!accountTransactionsForm.get('debit')?.value && !accountTransactionsForm.get('credit')?.value)||(accountTransactionsForm.get('debit')?.value && accountTransactionsForm.get('credit')?.value)" class="btn btn-danger mt-3">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    
+                </div>
+            </form>
+                    <!-- Table -->
+                    <div class="wrapper mt-5" *ngIf="this.arrTest.length>0">
+                        <table  class="custom_table text-center bordered">
+                            <thead>
+                                <th>DESCRIIPTION</th>
+                                <th>Main Account</th>
+                                <th>sub Account</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of arrTest;let index = index" style="vertical-align: middle;">
+                                    <td>{{item.description}}</td>
+                                    <td>{{getName(item.mainAccountId)}}</td>
+                                    <td>{{ getName(item.subAccountId) || '--' }}</td>
+                                    <td>{{ item.debit || '--' }}</td>
+                                    <td>{{ item.credit || '--' }}</td>
+                                    <td ><button [disabled]="this.InvoiceId != undefined" style="z-index: 1;" color="warn" (click)="remove(index)" mat-raised-button><i class="fa-solid fa-trash"></i></button></td>
+                                </tr>
+                            </tbody>
+                            <!-- <tfoot>
+                                <tr>
+                                <th colspan="6">Total</th>
+                                <th>20</th>
+                                </tr>
+                            </tfoot> -->
+                        </table>
+                    </div>
+
+
+            </div>
+            <!-- footer Add New  -->
+            <div id="AddNewfooterTransaction" style="z-index: 1000;" class="px-3 py-3">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <button (click)="closeAddNewInvoice()" class="cus_btn outerBtn px-3 AddfooterOuterBtn">Cancel</button>
+                        <!-- <button class="cus_btn outerBtn px-3 mx-2 AddfooterOuterBtn">Clear</button> -->
+                    </div>
+                    <div>
+                        <!-- <button (click)="closeAddNewTap()" class="cus_btn outerBtn px-3 mx-2 AddfooterOuterBtn">Save</button> -->
+                        <button [disabled]="this.InvoiceApplicationForm.status=='INVALID'||this.arrTest.length==0 || this.isClicked || this.InvoiceId != undefined || this.getTotalDebit()-this.getTotalCredit()!=0" (click)="AddApplicanInvoice()" class="mintBtn">
+                            <span *ngIf="!this.isClicked">Save</span>
+                            <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+                        </button>          
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
+
+
+
+<div class="overlayTypeDetails" (click)="closeshowDetails()">
+          <div class="showtypeDetails" (click)="$event.stopPropagation()">
+              <p class="text-center subPageTitle mt-2">Type details</p>
+              <i (click)="closeshowDetails()" class="fa-solid fa-xmark fs-3 "></i>
+               <div class="container_Custom my-3 mx-3">
+                <!-- Show Products Table -->
+                <div class="wrapper mt-5">
+                    <table  class="custom_table text-center bordered">
+                      <thead>
+                        <tr>
+                          <th>description</th>
+                          <th>Credit</th>
+                          <th>Debit</th>
+                          <th>Main Account</th>
+                          <th>Sup Account</th>
+                          <!-- <th>Sup Of SUp Account</th> -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of accountTransactionArrr">
+                            <td>{{item.description}}</td>
+                            <td>{{item.credit||'--'}}</td>
+                            <td>{{item.debit||'--'}}</td>
+                            <td>{{getName(item.accountId)}}</td>
+                            <td>{{getName(item.subAccountId)||'--'}}</td>
+                            <!-- <td>{{getName(item.subOfSubAccountId)||'--'}}</td> -->
+                        </tr>
+                      </tbody>
+                        
+                    </table>
+                </div>
+            </div>
+            <!-- footer Add New  -->
+            <div id="AddNewfooter" class="px-3 py-4">
+              <div class="row d-flex justify-content-between" style="margin: 0 10px;">
+                  <button (click)="closeshowDetails()" class=" w-25 cus_btn outerBtn">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>

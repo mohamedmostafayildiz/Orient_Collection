@@ -1,0 +1,55 @@
+.container_custom{
+    width: 70%;
+    margin: auto;
+}
+.w_85{
+    width: 85%;
+}
+tr td{
+    vertical-align: middle!important;
+}
+.modal{
+    --bs-modal-width: 80%;
+}
+.d_none{
+    display: none;
+}
+.container-fluid{
+    --bs-gutter-x:0rem
+  }
+  
+  .searchfilter{
+    background-color: #01909D;
+    border: none;
+    color: white;
+    // padding: 5px 15px;
+  } table thead {
+    --bs-table-bg: #F2F2F2; 
+    --bs-table-hover-bg: #e0e0e0; 
+  }
+  th, td {
+    height: 60px;
+    min-height: 60px; 
+    vertical-align: middle;
+  } 
+  th{
+    color: #01BACB;
+  }
+  .searchfilter{
+    background-color: #01909D;
+    border: none;
+    color: white;
+    // padding: 5px 15px;
+  }
+  .fa-download :hover{
+    color: #01BACB;
+  }
+
+  .custom-check-color .mat-option.mat-active .mat-pseudo-checkbox-checked {
+    background-color: #4CAF50 !important; /* Replace with your desired color */
+    border-color: #4CAF50 !important; /* Optional: Set border color to match */
+  }
+  
+  .custom-check-color .mat-option.mat-active {
+    color: #4CAF50 !important; /* Optional: Set text color to match */
+  }

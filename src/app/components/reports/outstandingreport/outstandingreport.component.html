@@ -1,0 +1,85 @@
+<div id="source-record">
+    <div class="container-fluid">
+        <div class="outerBorder outerItem shadow_5 py-3">
+    <!-------------------- Search Polices ------------------->
+            <div class="d-flex justify-content-between pt-3">
+                <p class="font_Coloered3 text-center my-2">Out Standing Report</p>
+            </div>
+            <form [formGroup]="Form" class="py-2">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <mat-form-field class="w-100" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>UY</mat-label>
+                            <mat-select (selectionChange)="getUY()" formControlName="underwritingYear">
+                                <!-- <mat-option *ngIf="this.pageType=='SOA'" value="">null</mat-option> -->
+                                <mat-option *ngFor="let item of UYList" [value]="item">{{item}}</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-regular fa-calendar-days"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>Treaty</mat-label>
+                            <mat-select (selectionChange)="getTreatyName()" formControlName="treatyName">
+                                <mat-option *ngFor="let item of TreatiesList" value="{{item}}">{{item}}</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-solid fa-tree"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>Period</mat-label>
+                            <mat-select formControlName="period">
+                                <mat-option *ngFor="let item of PeriodsList" [value]="item.id">{{item.value}}</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-solid fa-tree"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-2">
+                    <button id="searchBtn" [disabled]="this.Form.status=='INVALID'||this.isClicked" (click)="Search()"
+                    class="w-25 btn Apply mt-1"><span *ngIf="this.isClicked"><i
+                            class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span
+                        *ngIf="!this.isClicked">{{'Shared.Search'|translate}} 
+                    </span>
+                </button>
+                </div>
+            </form>
+            <!-- <form [formGroup]="SearchForm" class="py-5">
+                <p class="text-muted fs-5 fw-bold py-2">{{'Shared.SearchHere'|translate}} :</p>
+                <div class="row mt-2">
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Policy.From'|translate}}</mat-label>
+                            <input formControlName="start"  matInput [matDatepicker]="picker">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Policy.To'|translate}}</mat-label>
+                            <input formControlName="end" matInput [matDatepicker]="picker2">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+        
+                    <div class="col-md-2">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <button id="searchBtn" [disabled]="this.SearchForm.status=='INVALID'||this.isClicked" (click)="Search()"
+                                class="w-75 btn Apply mt-1"><span *ngIf="this.isClicked"><i
+                                        class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span
+                                    *ngIf="!this.isClicked">{{'Shared.Search'|translate}} 
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form> -->
+            
+        </div>
+    </div>
+</div>

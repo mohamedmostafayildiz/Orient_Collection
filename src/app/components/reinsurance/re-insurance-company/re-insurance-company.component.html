@@ -1,0 +1,115 @@
+<div id="re-insurance-company">
+    <div class="container-fluid">
+        <div class="outerBorder">
+            <div class="d-flex justify-content-between">
+                <!-- <p class="font_Coloered3 text-center">Reinsurance Company</p> -->
+            </div>
+            <form [formGroup]="Form" class="mt-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>{{'Shared.CompanyName'|translate}}</mat-label>
+                            <input formControlName="name" type="text" matInput>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-solid fa-building"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>{{'addCustomer.Country'|translate}}</mat-label>
+                            <mat-select formControlName="country" >
+                            <mat-option *ngFor="let country of AllContries" [value]="country.id">{{country.value}}</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-earth-americas"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100 mt-3" appearance="outline" id="agencyName">
+                            <mat-label>Rating Agency</mat-label>
+                            <mat-select (selectionChange)="getSelectedRatingAgency()" formControlName="ratingAgency">
+                                <mat-option *ngFor="let item of AllAgencies" value="{{item.agencyName}}">{{item.agencyName}}</mat-option>
+                                <mat-option value="Other">Other</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-chart-line"></i></mat-icon>
+                        </mat-form-field>
+                          <mat-form-field class="w-100" appearance="outline" id="OtherRatingAgency" style="display: none;">
+                            <mat-label>Rating Agency</mat-label>
+                            <input formControlName="ratingAgency" type="text" matInput>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-solid fa-chart-line"></i></mat-icon>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mt-3" appearance="outline" id="OtherRating" style="display: none;">
+                            <mat-label>agencyRate</mat-label>
+                            <input formControlName="agencyRate" type="text" matInput>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-solid fa-chart-simple"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100 mt-3" appearance="outline" id="agencyRate">
+                            <mat-label>Rating</mat-label>
+                            <mat-select  formControlName="agencyRate">
+                                <mat-option *ngFor="let item of AllRates" value="{{item.name}}">{{item.name}}</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-chart-simple"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <h2 class="text-muted mt-3"><i class="fa-solid fa-circle-info" style="color:#007d88"></i> Is That Company :</h2>
+                        <mat-radio-group formControlName="lostedOrNotListed" (change)="getCompanyStatus($event.value)" aria-label="Select an option" class="mx-3">
+                            <mat-radio-button [value]="true">Listed</mat-radio-button>
+                            <mat-radio-button [value]="false">Not Listed</mat-radio-button>
+                        </mat-radio-group>
+                        <div style="display: none;" id="AuthCode">
+                            <mat-form-field class="w-100 mt-1" appearance="outline">
+                                <mat-label>Estate Authority Code</mat-label>
+                                <textarea formControlName="authorityCode" matInput></textarea>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-id-badge"></i></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100 mt-3" appearance="outline">
+                            <mat-label>{{'addCustomer.Notes'|translate}}</mat-label>
+                            <textarea style="height: 8.3rem !important;" formControlName="notes" matInput></textarea>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-regular fa-note-sticky"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    
+                    <!-- <div class="col-md-6 mt-3"> -->
+              
+                      
+                        
+                        <!-- <mat-form-field class="w-100" id="OtherRatingAgency" style="display: none;">
+                            <mat-label>Rating Agency</mat-label>
+                            <input formControlName="agencyName" type="text" matInput>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-solid fa-chart-line"></i></mat-icon>
+                        </mat-form-field> -->
+                        <!-- <mat-form-field class="w-100" id="OtherRating" style="display: none;">
+                            <mat-label>agencyRate</mat-label>
+                            <input formControlName="agencyRate" type="text" matInput>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-solid fa-chart-simple"></i></mat-icon>
+                        </mat-form-field> -->
+                    <!-- </div> -->
+                    <!-- <div class="col-md-6 mt-3"> -->
+                        
+                        <!-- <mat-form-field class="w-100" id="agencyRate">
+                            <mat-label>Rating</mat-label>
+                            <mat-select  formControlName="agencyRate">
+                                <mat-option *ngFor="let item of AllRates" value="{{item.name}}">{{item.name}}</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-chart-simple"></i></mat-icon>
+                        </mat-form-field> -->
+                        
+                    <!-- </div> -->
+                     <div class="d-flex justify-content-end py-4">
+                        <button [disabled]="this.isClicked||this.Form.status=='INVALID'" (click)="SubmitReInCompany()" mat-raised-button  class="w-25 mt-3 tabeeb_Btn">
+                            <span *ngIf="!this.isClicked">Save <i class="fa-solid fa-floppy-disk"></i></span>
+                            <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                        </button>
+                     </div>
+                      
+                </div>
+               
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,259 @@
+<div id="offer_Versions">
+    <div class="container-fluid" style="margin: 0; padding: 0;">
+        <div class="outerBorder outerItem shadow_5 table-responsive">
+            <div class="d-flex justify-content-between mx-5">
+                <p class="font_Coloered3 text-center my-3">{{'Offer.Versions'|translate}}</p>
+                <!-- <input class="form-control w-25 ml-auto mt-3" style="height: 3rem;" placeholder="{{'Shared.SearchHere'|translate}}" /> -->
+            </div>
+            <table class="table text-center">
+                <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                    <th class="py-2">{{'Offer.VersionNo'|translate}}</th>
+                    <th class="py-2">{{'SideBar.Customer'|translate}}</th>
+                    <th class="py-2">{{'Offer.TpaName'|translate}}</th>
+                    <th class="py-2">{{'Offer.PolicySource'|translate}}</th>
+                    <th class="py-2">{{'Offer.Broker'|translate}}</th>
+                    <th class="py-2">{{'Offer.OfferDate'|translate}}</th>
+                    <th class="py-2">{{'Offer.BusinessType'|translate}}</th>
+                    <th class="py-2">{{'Offer.InsuranceClass'|translate}}</th>
+
+                    <th class="py-2">{{'Shared.Settings'|translate}}</th>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let version of OfferVersions|paginate:{
+                    itemsPerPage:tableSize,
+                    currentPage:page,
+                    totalItems:count}; let i=index">
+                        <td class="align-middle">{{version.versionNo}}</td>
+                        <td class="align-middle">{{version.customerName}}</td>
+                        <td class="align-middle">{{version.tpaName}}</td>
+                        <td class="align-middle">{{version.policySource}}</td>
+                        <td class="align-middle"><span *ngIf="version.brokerName==null||version.brokerName==''">_</span> {{version.brokerName}}</td>
+                        <td class="align-middle">{{version.offerDate|date:'shortDate'}}</td>
+                        <td class="align-middle">{{version.businessType}}</td>
+                        <td class="align-middle">{{version.insuranceClass}}</td>
+                        <td style="min-width: 1.5rem;" class="align-middle" (mouseenter)="hoverRow = version.versionNo" (mouseleave)="hoverRow = null" >
+                            <div class="dropdown">
+                              <!-- Ellipsis icon always visible -->
+                              <i class="fa-solid fa-ellipsis-v fs-5 px-3 py-2 text-secondary"></i>
+                              
+                              <!-- Dropdown menu, visible only when the row is hovered -->
+                              <div class="dropdown-menu" [ngClass]="{'show': hoverRow === version.versionNo}">
+                                <a (click)="getVersionDetails(version.versionNo,1)"
+                                    class="dropdown-item" style="color:#01BACB;">
+                                    <i class="fa-regular fa-eye mx-2" style="color:#01BACB;"></i>{{'Offer.Plans'|translate}}
+                                </a>                             
+                                <a (click)="getVersionDetails(version.versionNo,2)"
+                                    class="dropdown-item" style="color:#01BACB;">
+                                    <i class="fa-regular fa-eye mx-2" style="color:#01BACB;"></i>{{'Shared.Group'|translate}}
+                                </a>                             
+                            </div>
+                            </div>
+                          </td>
+
+                        <!-- <td class="align-middle d-flex">
+                            <button 
+                                (click)="getVersionDetails(version.versionNo,1)" mat-raised-button color="primary"
+                                class="mx-1">{{'Offer.Plans'|translate}}</button>
+                            <button
+                                (click)="getVersionDetails(version.versionNo,2)" mat-raised-button
+                                color="accent">{{'Shared.Group'|translate}}
+                            </button>
+                        </td> -->
+                    </tr>
+                </tbody>
+
+            </table>
+            <!-- Pagination -->
+            <div class="d-flex justify-content-end mt-4">
+                <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                </pagination-controls>
+                <select style="border: solid 2px #4758B8;" (change)="onTableSizeChange($event)"
+                    class="tableSize rounded-pill px-1">
+                    <option *ngFor=" let size of tableSizes">{{size}}</option>
+                </select>
+            </div>
+            <!-- Loading -->
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+    </div>
+    <!--------------------------------------- plans Modal --------------------------->
+    <!-- <div class="modal fade" id="VersionPlans" tabindex="-1" aria-labelledby="VersionPlans" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="VersionPlans">{{'Offer.Plans'|translate}}</h1>
+                </div>
+                <div class="container my-5">
+
+                    <div class="outerBorder shadow_5">
+                        <div *ngIf="this.versionPlans.length==0" class="alert alert-info w-75 my-5 m-auto text-center">
+                            <strong>{{'Offer.NoPlansYet'|translate}}</strong></div>
+                        <div style="max-height:19rem;overflow: auto;">
+                            <table *ngIf="this.versionPlans.length>0" class="table text-center">
+                                <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                                    <th>{{'Offer.PlanName'|translate}}</th>
+                                    <th>{{'Offer.NetPremium'|translate}}</th>
+                                    <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                                    <th>{{'Offer.File'|translate}}</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let plan of this.versionPlans;let index = index">
+                                        <td>{{plan.planName}}</td>
+                                        <td>{{plan.netPremium}}</td>
+                                        <td>{{plan.annualMaxLimit}}</td>
+                                        <td>{{plan.fileName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="loading" *ngIf="versionDetailsLoading">
+                            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" mat-stroked-button data-bs-dismiss="modal">{{'Shared.Close'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="overlay" (click)="closeshowplans()">
+        <div class="delet" (click)="$event.stopPropagation()">
+            <div class="d-flex justify-content-between delet-details">
+                <h2>Show Plans </h2>
+                <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeshowplans()" style="cursor: pointer;"></i></div>
+            </div>
+           <hr class="custom-hr w-100">
+           <div class="container-fluid my-5">
+
+                <div *ngIf="this.versionPlans.length==0" class="alert alert-info w-75 my-5 m-auto text-center">
+                    <strong>{{'Offer.NoPlansYet'|translate}}</strong></div>
+                <div >
+                    <table *ngIf="this.versionPlans.length>0" class="table text-center w-100">
+                        <thead  style="background-color: #F2F2F2 !important;">
+                            <th>PlanName</th>
+                            <th>{{'Offer.NetPremium'|translate}}</th>
+                            <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                            <th>{{'Offer.File'|translate}}</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let plan of this.versionPlans;let index = index">
+                                <td>{{plan.planName}}</td>
+                                <td>{{plan.netPremium}}</td>
+                                <td>{{plan.annualMaxLimit}}</td>
+                                <td>{{plan.fileName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Loading -->
+                <div id="loading" *ngIf="versionDetailsLoading">
+                    <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                </div>
+        </div>
+           <div class="d-flex justify-content-center align-items-center" style="padding: 0 3px 0 3px;">
+            <button class="main_outer_Btn mx-2 w-25" mat-stroked-button (click)="closeshowplans()">Close</button>
+            <!-- <button class="btn _delete w-50 mx-1" (click)="deleteBank()">
+                <span *ngIf="!this.isClicked">Delete</span>
+                <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+            </button> -->
+           </div>
+        </div>
+    </div>
+    <!--------------------------------------- Group Modal --------------------------->
+    <!-- <div class="modal fade" id="GroupVersion" tabindex="-1" aria-labelledby="GroupVersion" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="GroupVersion">{{'Shared.Group'|translate}}</h1>
+                </div>
+                <div class="container my-5">
+
+                    <div class="outerBorder shadow_5">
+                        <div *ngIf="this.versionGroup?.length==0" class="alert alert-info w-75 my-5 m-auto text-center">
+                            <strong>{{'Offer.NoCustomerGroupYet'|translate}}</strong></div>
+                        <div *ngIf="this.versionGroup.length>0" style="max-height:19rem;overflow: auto;"
+                            id="currentGroup">
+                            <table class="table text-center">
+                                <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                                    <th>{{'addCustomer.Name'|translate}}</th>
+                                    <th>{{'addCustomer.Sex'|translate}}</th>
+                                    <th>{{'Offer.GroupRel'|translate}}</th>
+                                    <th>{{'addCustomer.D.O.B'|translate}}</th>
+                                    <th>{{'Shared.Age'|translate}}</th>
+                                    <th>{{'addCustomer.Notes'|translate}}</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let group of this.versionGroup;">
+                                        <td>{{group.name}}</td>
+                                        <td>{{group.gender}}</td>
+                                        <td>{{group.groupRel}}</td>
+                                        <td>{{group.dateOfBirth|date:'shortDate'}}</td>
+                                        <td>{{group.age}}</td>
+                                        <td>{{group.notes}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="loading" *ngIf="versionDetailsLoading">
+                            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" mat-stroked-button data-bs-dismiss="modal">{{'Shared.Close'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="overlayAddplan" (click)="closeShowGroup()">
+        <div class="addnewplan" (click)="$event.stopPropagation()">
+            <div class="d-flex justify-content-between delet-details">
+                <h2>Show group </h2>
+                <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeShowGroup()" style="cursor: pointer;"></i></div>
+            </div>
+           <hr class="custom-hr w-100">
+           <div class="container my-5">
+
+                <div *ngIf="this.versionGroup?.length==0" class="alert alert-info w-75 my-5 m-auto text-center">
+                    <strong>{{'Offer.NoCustomerGroupYet'|translate}}</strong></div>
+                <div *ngIf="this.versionGroup.length>0" style="max-height:25rem;overflow: auto;"
+                    id="currentGroup">
+                    <table class="table text-center">
+                        <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                            <th>{{'addCustomer.Name'|translate}}</th>
+                            <th>{{'addCustomer.Sex'|translate}}</th>
+                            <th>{{'Offer.GroupRel'|translate}}</th>
+                            <th>{{'addCustomer.D.O.B'|translate}}</th>
+                            <th>{{'Shared.Age'|translate}}</th>
+                            <th>{{'addCustomer.Notes'|translate}}</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let group of this.versionGroup;">
+                                <td>{{group.name}}</td>
+                                <td>{{group.gender}}</td>
+                                <td>{{group.groupRel}}</td>
+                                <td>{{group.dateOfBirth|date:'shortDate'}}</td>
+                                <td>{{group.age}}</td>
+                                <td>{{group.notes}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="loading" *ngIf="versionDetailsLoading">
+                    <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                </div>
+        </div>
+           <div class="d-flex justify-content-center align-items-center" style="padding: 0 3px 0 3px;">
+            <button class="main_outer_Btn mx-2 w-25" mat-stroked-button (click)="closeShowGroup()">Close</button>
+            <!-- <button class="btn _delete w-50 mx-1" (click)="deleteBank()">
+                <span *ngIf="!this.isClicked">Delete</span>
+                <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+            </button> -->
+           </div>
+        </div>
+    </div>
+</div>

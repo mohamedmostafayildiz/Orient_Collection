@@ -1,0 +1,41 @@
+
+.Download{
+    cursor: pointer;
+}
+.customDanger{
+    background-color: rgb(201, 166, 166);
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+.container-fluid{
+    --bs-gutter-x:0rem
+  }
+
+.w-90{
+  width: 85%;
+}
+.w-15{
+  width: 15%;
+}
+.w-85{
+  width: 85%;
+}
+.file-upload {
+  cursor: pointer;
+  color: #01909D;
+}
+
+.upload-icon {
+  color: #01909D !important;
+}
+
+.file-name {
+  color: #01909D;
+}

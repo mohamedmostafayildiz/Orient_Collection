@@ -1,0 +1,464 @@
+<div class="AllUsers">
+    <div class="container-fluid">        
+        <!-- <div class="d-flex justify-content-between mx-5">
+            <div class="d-flex align-items-center">
+                <p class="font_Coloered3 text-center my-4 mx-3">{{'SideBar.Users'|translate}}</p>
+                <button *ngIf="this.permissions.includes('Permissions.Users.Create')" routerLink="/signup" mat-raised-button color="primary">{{'Shared.AddNew'|translate}}</button>
+            </div>
+            <input class="form-control w-25 ml-auto mt-3" style="height: 3rem;" [(ngModel)]='term' placeholder="{{'Shared.SearchHere'|translate}}" />
+        </div> -->
+        <div class="row">
+            <div class="col-md-3" id="filters" style="display: none;">
+                <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+                    <mat-label>{{'Shared.SearchHere'|translate}}</mat-label>
+                    <input class="ssss" [(ngModel)]='term' type="text" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="outerBorder outerItem  table-responsive" style="margin:0px 0px !important;">
+            <table class="table text-center">
+                <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                    <th class="py-2">Invoice Number</th>
+                    <th class="py-2">Customer Name</th>
+                    <th class="py-2">Due Amount</th>
+                    <th class="py-2">Invoice Date</th>
+                    <th class="py-2">Due Date</th>
+                    <th class="py-2">Settings</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of AllAplicationinvoiceArr|search:term|paginate:{
+                        itemsPerPage:tableSize,
+                        currentPage:page,
+                        totalItems:count}; let i=index">
+                        <td class="align-middle">
+                            {{item.invoiceNumber}}
+                        </td>
+                        <td class="align-middle">
+                            {{item.customerName}}
+                        </td>
+                        <td class="align-middle">
+                            {{item.dueAmount}}
+                        </td>
+                        <td class="align-middle">
+                            {{item.invoiceDate |date:'MM/dd/YYYY'}}
+                        </td>
+                        <td class="align-middle">
+                            {{item.dueDate |date:'MM/dd/YYYY'}}
+                        </td>
+                       
+                        <td class="align-middle d-flex align-items-center justify-content-center" (mouseenter)="hoverRow = item.id" (mouseleave)="hoverRow = null" style="vertical-align: middle;">
+                            <div class="dropdown">
+                              <!-- Ellipsis icon always visible -->
+                              <i class="fa-solid fa-ellipsis-v fs-5 py-2 text-secondary"></i>
+                              
+                              <!-- Dropdown menu, visible only when the row is hovered -->
+                              <div class="dropdown-menu text-center" [ngClass]="{'show': hoverRow === item.id}">
+                                <a (click)="showAccountTransactions(item.accountTransactions)"
+                                   class="dropdown-item">
+                                  <i class="fa-solid fa-eye fs-5 px-3 mx-1"  style="color:#01BACB;"></i>
+                                </a>
+                              </div>
+                            </div>
+                          </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end mt-4">
+                <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                </pagination-controls>
+                <select (change)="onTableSizeChange($event)" class="tableSize rounded-pill px-1">
+                  <option *ngFor=" let size of tableSizes">{{size}}</option>
+                </select>
+            </div>
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="overlayTypeDetails" (click)="closeshowAccountTransactions()">
+    <div class="showtypeDetails" (click)="$event.stopPropagation()">
+        <div class="sticky-header" style=" position: sticky;top: 0; z-index: 500000;margin: 0; width: 100%;">
+            <div class="d-flex justify-content-between" style=" background-color: rgb(255, 255, 255);border: 1px solid rgb(247, 243, 243); width: 100%;">
+                <div>
+                    <p class="py-3 fs-5 mx-2" >Transactions</p>
+                </div>
+                <div class="d-flex align-items-center mx-2">
+                    <i (click)="closeshowAccountTransactions()" class="fa-solid fa-xmark fs-3 "></i>
+                </div>
+            </div>
+            <div class="container_Custom my-3 mx-3">
+                <!-- Show Products Table -->
+                <div class="wrapper mt-5">
+                    <table class="table text-center">
+                        <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                        <tr>
+                          <th>Description</th>
+                          <th>Account Entry Num</th>
+                          <th>Credit</th>
+                          <th>Debit</th>
+                          <th>Main Account</th>
+                          <th>Sup Account</th>
+                          <th>Sup Of Sup Account</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of accountTransactionArrr">
+                            <td>{{item.description}}</td>
+                            <td>{{item.accountinEntryNum}}</td>
+                            <td>{{item.credit||'--'}}</td>
+                            <td>{{item.debit||'--'}}</td>
+                            <td>Ahmed</td>
+                            <td>Ali</td>
+                            <td>Sayed</td>
+                        </tr>
+                      </tbody>
+                        
+                    </table>
+                </div>
+            </div>
+
+        </div> 
+    </div>
+</div>
+
+<!---------------- Add new Invoice ----------------->
+<div class="AddNewInvoce newInvoiceBody">
+    <!-- title -->
+    <div class="d-flex justify-content-end mt-2 addInvTitlte px-2">
+        <!-- <div>
+            <h2 class="page_Title"><i class="fa-solid fa-clock-rotate-left mt-2"></i> Invoice no.1004 </h2>
+        </div> -->
+        <div class="main_routing_icons">
+            <div>
+                <i class="fa-solid fa-gear fs-4"></i>
+                <i class="fa-solid fa-question fs-4"></i>
+                <i (click)="closeAddNewTap()" class="fa-solid fa-xmark fs-4"></i>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid newInvoiceBody px-2">
+        <!-- row -->
+         <form [formGroup]="InvoiceApplicationForm">
+            <div class="row" style="margin-top: 3rem;">
+                <div class="col-md-4">
+                    <div class="mt-2 w-100 px-2">
+                        <label >Customer Type</label>
+                            <select class="w-100 form-select" formControlName="customerType" (change)="getBrokerNamesAndLists($event)"
+                            [class.is-valid]="this.InvoiceApplicationForm.get('customerType')?.status=='VALID'"
+                            [class.is-invalid]="this.InvoiceApplicationForm.get('customerType')?.status=='INVALID'&&this.InvoiceApplicationForm.get('customerType')?.touched"
+                            >
+                                <option value="" selected hidden>Select Type</option>
+                                <option *ngFor="let item of AllCustomersTypesArr2" [hidden]="item.id != 1 && item.id != 2" [value]="item.id">{{item.value}}</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="col-md-4" *ngIf="BrokerNameselected">
+                    <div class="mt-2 w-100 px-2">
+                        <label >Broker Name</label>
+                            <select class="w-100 form-select" formControlName="customerId"  (change)="selectinsuriornamesonbroker($event)"
+                            [class.is-valid]="this.InvoiceApplicationForm.get('customerId')?.status=='VALID'"
+                            [class.is-invalid]="this.InvoiceApplicationForm.get('customerId')?.status=='INVALID'&&this.InvoiceApplicationForm.get('customerId')?.touched"
+                            >
+                                <option value="" selected hidden>Select Type</option>
+                                <option *ngFor="let item of brokerNameArr" [value]="item.customerId">{{item.name}}</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="col-md-4" *ngIf="BrokerNameselected">
+                    <div class="mt-2 w-100 px-2">
+                        <label >Cedent Name</label>
+                            <select class="w-100 form-select" formControlName="brokerInsuranceId"
+                            [class.is-valid]="this.InvoiceApplicationForm.get('brokerInsuranceId')?.status=='VALID'"
+                            [class.is-invalid]="this.InvoiceApplicationForm.get('brokerInsuranceId')?.status=='INVALID'&&this.InvoiceApplicationForm.get('brokerInsuranceId')?.touched"
+                            >
+                                <option value="" selected hidden>Select Type</option>
+                                <option *ngFor="let item of InsuranceNameArr" [value]="item.customerId">{{item.name}}</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="col-md-4" *ngIf="InsuranceNameselected">
+                    <div class="mt-2 w-100 px-2">
+                        <label >Cedent Name</label>
+                            <select class="w-100 form-select" formControlName="customerId" (change)="selectinsuriornames($event)"
+                            [class.is-valid]="this.InvoiceApplicationForm.get('customerId')?.status=='VALID'"
+                            [class.is-invalid]="this.InvoiceApplicationForm.get('customerId')?.status=='INVALID'&&this.InvoiceApplicationForm.get('customerId')?.touched"
+                            >
+                                <option value="" selected hidden>Select Type</option>
+                                <option *ngFor="let item of InsuranceNameArr" [value]="item.customerId">{{item.name}}</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="col-md-4" *ngIf="InsurarNameselected">
+                    <div class="mt-2 w-100 px-2">
+                        <label >Insurer</label>
+                            <select class="w-100 form-select" formControlName="insurareId" 
+                            [class.is-valid]="this.InvoiceApplicationForm.get('insurareId')?.status=='VALID'"
+                            [class.is-invalid]="this.InvoiceApplicationForm.get('insurareId')?.status=='INVALID'&&this.InvoiceApplicationForm.get('insurareId')?.touched"
+                            >
+                                <option value="" selected hidden>Select Type</option>
+                                <option *ngFor="let item of AllMAINIDSAccountsArr" [value]="item.id">{{item.name}}</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mt-2 w-100 px-2" id="BalanceDue" style="display: none;">
+                        <label>BALANCE DUE</label>
+                        <!-- <p class="page_Title fs-1">{{this.BalanceDue}}</p> -->
+                        <input disabled [(ngModel)]="this.BalanceDue" [ngModelOptions]="{standalone: true}" type="text" class="form-control w-100">
+                    </div>
+                </div>
+            </div>
+            <!-- row -->
+            <div class="row" style="margin-top: 3rem;">
+                        <div class="col-md-3">
+                            <div>
+                                <label>Invoice Date </label>
+                                <input formControlName="invoiceDate" type="date" class="form-control w-100"
+                                [class.is-valid]="this.InvoiceApplicationForm.get('invoiceDate')?.status=='VALID'"
+                                [class.is-invalid]="this.InvoiceApplicationForm.get('invoiceDate')?.status=='INVALID'&&this.InvoiceApplicationForm.get('invoiceDate')?.touched">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div>
+                                <label>Due Date</label>
+                                <input formControlName="dueDate" type="date" class="form-control w-100"
+                                [class.is-valid]="this.InvoiceApplicationForm.get('dueDate')?.status=='VALID'"
+                                [class.is-invalid]="this.InvoiceApplicationForm.get('dueDate')?.status=='INVALID'&&this.InvoiceApplicationForm.get('dueDate')?.touched">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div>
+                                <label>Invoice Ref No</label>
+                                <input formControlName="invoiceRefNo" type="text" class="form-control w-100"
+                                [class.is-valid]="this.InvoiceApplicationForm.get('invoiceRefNo')?.status=='VALID'"
+                                [class.is-invalid]="this.InvoiceApplicationForm.get('invoiceRefNo')?.status=='INVALID'&&this.InvoiceApplicationForm.get('invoiceRefNo')?.touched">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div>
+                                <label >Currency</label>
+                                <select class="w-100 form-select" formControlName="currency" 
+                                [class.is-valid]="this.InvoiceApplicationForm.get('currency')?.status=='VALID'"
+                                [class.is-invalid]="this.InvoiceApplicationForm.get('currency')?.status=='INVALID'&&this.InvoiceApplicationForm.get('currency')?.touched"
+                                >
+                                    <option value="" selected hidden>Select account</option>
+                                    <option *ngFor="let item of AllCurrinces" [value]="item.id">{{item.value}}</option>
+                                </select>
+                            </div>
+                        </div>
+            </div>
+            <!-- row -->
+            <div class="row" style="margin-top: 1rem;">
+                <div class="col-md-3">
+                    <div>
+                        <label>Policy Number</label>
+                        <input class="form-control w-100" type="text" formControlName="policyNumber"
+                        [class.is-valid]="this.InvoiceApplicationForm.get('saleLocation')?.status=='VALID'"
+                        [class.is-invalid]="this.InvoiceApplicationForm.get('saleLocation')?.status=='INVALID'&&this.InvoiceApplicationForm.get('saleLocation')?.touched">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div>
+                        <label>Policy Period From</label>
+                        <input class="form-control w-100" formControlName="policyPeriodFrom" type="date"
+                        [class.is-valid]="this.InvoiceApplicationForm.get('policyPeriodFrom')?.status=='VALID'"
+                        [class.is-invalid]="this.InvoiceApplicationForm.get('policyPeriodFrom')?.status=='INVALID'&&this.InvoiceApplicationForm.get('policyPeriodFrom')?.touched">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div>
+                        <label>policy Period To</label>
+                        <input class="form-control w-100" formControlName="policyPeriodTo" type="date"
+                        [class.is-valid]="this.InvoiceApplicationForm.get('policyPeriodTo')?.status=='VALID'"
+                        [class.is-invalid]="this.InvoiceApplicationForm.get('policyPeriodTo')?.status=='INVALID'&&this.InvoiceApplicationForm.get('policyPeriodTo')?.touched">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div >
+                        <label>Due Amount.</label>
+                        <input disabled [(ngModel)]="dueAmount" [ngModelOptions]="{standalone: true}" type="text" class="form-control w-100">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="invicenumber" style="display: none;">
+                        <label>Invoice No. </label>
+                        <input disabled [(ngModel)]="InvoiceNumber" [ngModelOptions]="{standalone: true}" type="text" class="form-control w-100">
+                    </div>
+                </div>
+               
+                <!-- <div class="col-md-9" id="dowFiles" style="display: none;">
+                    <table class="table table-bordered text-center w-50 mt-3" style="border:solid 1px rgb(87, 87, 87); margin: auto;">
+                        <tbody class="align-middle" >
+                            <tr>
+                                <th  style="background-color: #f4f5f8 !important;" class="w-30 py-2">Download Filled TAX Invoice Report</th>
+                                <td  style="background-color: #f4f5f8 !important;" class="w-60 py-2">
+                                    <i (click)="getFilledInvoiceReports('GetFilledTaxInvoiceReport')" class="fa-solid fa-download fs-3 px-2 py-1 mt-1" style="border-radius: 7px; cursor: pointer;color:#2ca01c;"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #f4f5f8 !important;" class="w-30 py-2">Download Filled Debit Invoice Report</th>
+                                <td style="background-color: #f4f5f8 !important;" class="w-60 py-2">
+                                    <i (click)="getFilledInvoiceReports('GetFilledDebitInvoiceReport')" class="fa-solid fa-download fs-3 px-2 py-1 mt-1" style="border-radius: 7px; cursor: pointer;color:#2ca01c;"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> -->
+            </div>
+         </form>
+       
+        <!-- row -->
+        <div class="services px-2 py-4 mt-3 mb-5">
+            <!-- Form -->
+            <form [formGroup]="accountTransactionsForm">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div>
+                            <label>Description</label>
+                            <input formControlName="description" type="text" class="form-control w-100"
+                            [class.is-valid]="this.accountTransactionsForm.get('description')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('description')?.status=='INVALID'&&this.accountTransactionsForm.get('description')?.touched">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label >Main Account*</label>
+                            <select class="w-100 form-select" formControlName="mainAccountId" (change)="GetAllSupAccounts($event)"
+                            [class.is-valid]="this.accountTransactionsForm.get('mainAccountId')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('mainAccountId')?.status=='INVALID'&&this.accountTransactionsForm.get('mainAccountId')?.touched"
+                            >
+                                <option value="" selected hidden>Select account</option>
+                                <option *ngFor="let item of AllAccounts" [value]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label>Sub Account </label>
+                            <select class="w-100 form-select" formControlName="subAccountId" (change)="GetAllSupSupAccounts($event)"
+                            [class.is-valid]="this.accountTransactionsForm.get('subAccountId')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('subAccountId')?.status=='INVALID'&&this.accountTransactionsForm.get('subAccountId')?.touched">
+                                <!-- <option disabled hidden selected>Select ..</option> -->
+                                <option value="">--</option>
+                                <option *ngFor="let item of AllSupArr" [value]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label>Sub Sub Account </label>
+                            <select class="w-100 form-select" formControlName="subOfSubAccountId"
+                            [class.is-valid]="this.accountTransactionsForm.get('subOfSubAccountId')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('subOfSubAccountId')?.status=='INVALID'&&this.accountTransactionsForm.get('subOfSubAccountId')?.touched">
+                                <!-- <option disabled hidden selected>Select ..</option> -->
+                                <option value="">--</option>
+                                <option *ngFor="let item of AllSupSupArr" [value]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label>Debit </label>
+                            <input formControlName="debit" type="number" class="w-100 form-control" (keyup)="checkone()"
+                            [class.is-valid]="this.accountTransactionsForm.get('debit')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('debit')?.status=='INVALID'&&this.accountTransactionsForm.get('debit')?.touched">
+                            <!-- <div *ngIf="accountTransactionsForm.get('debit')?.hasError('negativeNumber')">
+                                <small class="text-danger">Negative numbers are not allowed.</small>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label>Credit</label>
+                            <input formControlName="credit" type="number" class="w-100 form-control" (keyup)="checkone()"
+                            [class.is-valid]="this.accountTransactionsForm.get('credit')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('credit')?.status=='INVALID'&&this.accountTransactionsForm.get('credit')?.touched">
+                            <!-- <div *ngIf="accountTransactionsForm.get('credit')?.hasError('negativeNumber')">
+                                <small class="text-danger">Negative numbers are not allowed.</small>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-center">
+                        <!-- [disabled]="isDisabled()" -->
+                        <button (click)="View()" [disabled]="
+                        accountTransactionsForm.invalid || 
+                        (!accountTransactionsForm.get('debit')?.value && !accountTransactionsForm.get('credit')?.value)||(accountTransactionsForm.get('debit')?.value && accountTransactionsForm.get('credit')?.value)" class="btn btn-danger mt-3">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    
+                </div>
+            </form>
+                <!-- Table -->
+                <div class="wrapper mt-5" *ngIf="this.arrTest.length > 0">
+                    <table class="table text-center bordered">
+                        <thead class="tableHead" style="background-color: #dbf1f3;">
+                            <th>DESCRIPTION</th>
+                            <th>Main Account</th>
+                            <th>Sub Account</th>
+                            <th>Sub Of Sub Account</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Actions</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of arrTest; let index = index" style="vertical-align: middle;">
+                                <td>{{ item.description }}</td>
+                                <td>{{ getName(item.mainAccountId) }}</td>
+                                <td>{{ getName(item.subAccountId) || '--' }}</td>
+                                <td>{{ getName(item.subOfSubAccountId) || '--' }}</td>
+                                <td>{{ item.debit || '--' }}</td>
+                                <td>{{ item.credit || '--' }}</td>
+                                <td>
+                                    <button 
+                                        [disabled]="this.InvoiceId != undefined" 
+                                        style="z-index: 1;" 
+                                        color="warn" 
+                                        (click)="remove(index)" 
+                                        mat-raised-button>
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" style="text-align: center;"><strong>Total:</strong></td>
+                                <td><strong>{{ getTotalDebit() | number:'1.3-3' }}</strong></td>
+                                <td><strong>{{ getTotalCredit() | number:'1.3-3' }}</strong></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                
+        </div>
+    </div>
+     <!-- footer Add New  -->
+    <div id="AddNewfooter" style="z-index: 10000002;" class="px-3 py-3">
+        <div class="d-flex justify-content-between">
+            <div>
+                <button (click)="closeAddNewTap()" class="cus_btn outerBtn px-3 AddfooterOuterBtn">Cancel</button>
+                <!-- <button class="cus_btn outerBtn px-3 mx-2 AddfooterOuterBtn">Clear</button> -->
+            </div>
+            
+            
+            <div>
+                <button *ngIf = "this.isSuccess" (click)="AddNewInvoicee()" mat-raised-button class="tabeeb_Btn mt-4 mx-2" style="border-radius: 0.2rem;">
+                  New invoice
+                </button>
+                <!-- <button (click)="closeAddNewTap()" class="cus_btn outerBtn px-3 mx-2 AddfooterOuterBtn">Save</button> -->
+                <!-- || !canSubmit() -->
+                <button [disabled]="this.InvoiceApplicationForm.status=='INVALID'||this.arrTest.length==0 || this.isClicked || this.isSuccess || this.InvoiceId != undefined " (click)="AddApplicanInvoice()" mat-raised-button class="btn tabeeb_Btn">
+                    <span *ngIf="!this.isClicked">Save</span>
+                    <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+                </button>
+            </div>
+        </div>
+    </div>
+   
+   
+</div>

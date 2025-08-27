@@ -1,0 +1,418 @@
+<div id="AllPolices">
+      <div class="outerBorder outerItem py-3">
+        <!-------------------- Search ------------------->
+        <form [formGroup]="SearchForm" class="mt-3" id="filters" style="display: none;">
+            <p class="text-muted fs-5 fw-bold py-2">{{'Shared.SearchHere'|translate}} :</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field class="w-100" appearance="outline" style="margin-bottom: -1em;">
+                        <mat-label>{{'Policy.policyNumber'|translate}}</mat-label>
+                        <input formControlName="Code" type="text" matInput>
+                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-hashtag"></i></mat-icon>
+                    </mat-form-field>
+    
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="w-100" appearance="outline" style="margin-bottom: -1em;">
+                        <mat-label>{{'Policy.UY'|translate}}</mat-label>
+                        <input formControlName="UnderWritingYear" type="text" matInput>
+                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-calendar-week"></i></mat-icon>
+                    </mat-form-field>
+                    
+                    
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="w-100" appearance="outline" style="margin-bottom: -1em;">
+                        <mat-label>{{'Offer.Insured'|translate}}</mat-label>
+                        <input formControlName="InsuredName" type="Text" matInput>
+                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-user"></i></mat-icon>
+                    </mat-form-field>
+                    
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="w-100 mt-2" appearance="outline" style="margin-bottom: -1em;">
+                        <mat-label>{{'Policy.From'|translate}}</mat-label>
+                        <input formControlName="From" matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="w-100 mt-2" appearance="outline" style="margin-bottom: -1em;">
+                        <mat-label>{{'Policy.To'|translate}}</mat-label>
+                        <input formControlName="To" matInput [matDatepicker]="picker2">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="w-100 mt-2" appearance="outline" style="margin-bottom: -1em;" id="bokerField">
+                        <mat-label>{{'Offer.Broker'|translate}}</mat-label>
+                        <mat-select  [(value)]="BrokerIdVal">
+                            <mat-option value="">{{'Shared.Null'|translate}}</mat-option>
+                            <mat-option *ngFor="let type of brokerCustomers" [value]="type.id">{{type.name}}</mat-option>
+                        </mat-select>
+                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-people-arrows"></i></mat-icon>
+                    </mat-form-field>
+    
+                    
+                </div>
+                <div class="col-md-2">
+                    <!-- Search Now -->
+                    <div class="d-flex align-items-center justify-content-center">
+                        <button [disabled]="this.isClicked" (click)="Search()" class="w-75 py-2 mt-3 btn tabeeb_Btn"><span *ngIf="this.isClicked"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span *ngIf="!this.isClicked">{{'Shared.Search'|translate}} <i class="fa-solid fa-magnifying-glass"></i></span></button>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="width: 80%;margin: auto;">
+        </form>
+        <!-------------------- Search results------------------->
+
+        <div style="overflow: auto;" style="display: none;" id="SearchResults"> 
+            <p class="text-muted fs-5 fw-bold py-2">{{'Shared.Searchresults'|translate}}  <i class="fa-solid fa-square-poll-vertical"></i></p>
+            <table class="table text-center table-responsive table-hover">
+                <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                    <th class="py-2">{{'Policy.policyNumber'|translate}}</th>
+                    <th class="py-2">{{'Policy.UY'|translate}}</th>
+                    <th class="py-2">{{'Offer.Insured'|translate}}</th>
+                    <th class="py-2">{{'Shared.More'|translate}}</th>
+                    <th class="py-2">{{'Offer.Group'|translate}}</th>
+                    <th class="py-2">{{'SideBar.Plans'|translate}}</th>
+                </thead>
+                <tbody>
+                    
+                    <tr *ngFor="let Policy of AllPolices" (click)="getLittleDetails(Policy.id)">
+                        <td class="align-middle">{{Policy.code}}</td>
+                        <td class="align-middle">{{Policy.inceptionDate|date:'YYYY'}}</td>
+                        <td class="align-middle">{{Policy.insuredName}}</td>
+                        <td class="align-middle">
+                            <i [routerLink]="['/PolicyDetails',Policy.id]" class="fa-regular fa-eye fs-5 px-2 py-2" style="color: #01909D !important;"></i>
+                        </td>
+                        <td class="align-middle">
+                            <button (click)="showGroup()" mat-stroked-button color="primary">{{'Offer.Group'|translate}}</button>
+                        </td>
+                        <td>
+                            <button  (click)="showPlan()" mat-stroked-button color="accent">{{'SideBar.Plans'|translate}}</button>
+                        </td>
+                    </tr>
+                </tbody>
+    
+            </table>
+            <div *ngIf="AllPolices?.length==0" class="d-flex justify-content-center align-items-center mt-5">
+                <div class="alert alert-warning mt-3 w-75 text-center text-muted fw-bold" role="alert" style="background-color: #9bd8dd !important; color: white;" >
+                    <span style="font-size: 1.1rem;">First search policy to add claim to it</span>
+                </div>
+            </div>
+        </div>
+        <!-------------------- Choosen Policy Details ------------------->
+        <div class="">
+        <div class="row outerItem" style="display: none;" id="PolicyDetails">
+            <hr class="my-4" style="width: 80%;margin: auto;">
+            <p class="text-muted fs-5 fw-bold py-2">{{'Policy.ChoosenPolicyDetails'|translate}} <i class="fs-3 fa-solid fa-info"></i></p>
+
+            
+                <!-- Col 1 -->
+            <div class="col-md-6" data-aos="fade-right" data-aos-duration="800">
+                <table class="table table-striped table-bordered text-center mt-2">
+                    <tbody>
+                        <tr>
+                            <th class="w-30 py-2">{{'Policy.policyNumber'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.code}}</td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py-2">{{'Offer.Insured'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.insuredName}}</td>
+                        </tr>
+    
+                        <tr>
+                            <th class="w-30 py-2">
+                                Settlements
+                            </th>
+                            <td class="w-60 py-2">
+                                <i (click)="getSettlementsInfo(PolicyDetails.settlementDtos)" style="color: #01909D !important;" data-bs-toggle="modal" data-bs-target="#Settlements" class="fa-regular fa-eye text-success fs-5 px-3 py-2"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py-2">{{'Policy.ExpiryDate'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.expiryDate|date:'dd/MM/YYY'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- col 2 -->
+            <div class="col-md-6" data-aos="fade-left" data-aos="fade-left" data-aos-duration="800">
+                <table class="table table-striped table-bordered text-center mt-2">
+                    <tbody>
+                        <tr>
+                            <th class="w-30 py-2">{{'Policy.UY'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.inceptionDate|date:'YYY'}}</td>
+                        </tr>
+
+                        <tr>
+                            <th class="w-30 py-2">{{'Shared.NetPremium'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.netPremium}}</td>
+                        </tr>
+
+                        <tr>
+                            <th class="w-30 py-2">{{'Shared.TotalSumInsured'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.totalSumInsured}}</td>
+                        </tr>
+
+                        <tr>
+                            <th class="w-30 py-2">{{'Offer.Broker'|translate}}</th>
+                            <td class="w-60 py-2"><span *ngIf="this.PolicyDetails?.brokerName==0||this.PolicyDetails?.brokerName==null">-</span> {{this.PolicyDetails?.brokerName}}</td>
+                        </tr>
+
+                        <tr>
+                            <th class="w-30 py-2">{{'Policy.IssueDate'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.issueDate|date:'dd/MM/YYY'}}</td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py-2">{{'Policy.InceptionDate'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.inceptionDate|date:'dd/MM/YYY'}}</td>
+                        </tr>
+                        
+
+                        <tr *ngIf="this.permissions.includes('Permissions.Claims.Create')">
+                            <th class="w-30 py-2 align-middle">{{'SideBar.Claims'|translate}}</th>
+                            <td class="w-60 py-2"><button [routerLink]="['/Claim',this.PolicyDetails?.id]"  class="w-50 btn tabeeb_Btn">{{'SideBar.Claims'|translate}} <i class="fa-solid fa-handshake-angle"></i></button></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                
+            </div>
+            </div>
+            <!-- Loading -->
+            <div id="loading" *ngIf="isClicked">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+      </div>
+    <!--------------------------------------- Group --------------------------->
+  <div class="modal fade" id="Group" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="edit">{{'Policy.PolicyGroup'|translate}}</h1>
+        </div>
+        
+       <div class="container_custom">
+        <div style="max-height:22rem;overflow: auto;" id="currentGroup" class="py-4 outerItem">
+            <table class="table text-center">
+                <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                    <th class="py-3">{{'addCustomer.Name'|translate}}</th>
+                    <th class="py-3">{{'addCustomer.Sex'|translate}}</th>
+                    <th class="py-3">{{'Offer.GroupRel'|translate}}</th>
+                    <th class="py-3">{{'Offer.PlanName'|translate}}</th>
+                    <th class="py-3">{{'Shared.NetPremium'|translate}}</th>
+                    <th class="py-3">{{'addCustomer.D.O.B'|translate}}</th>
+                    <th class="py-3">{{'addCustomer.Notes'|translate}}</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let group of this.PolicyGroup;" [class.customDanger]="group.age>=65">
+                        <td class="py-3">{{group.name}}</td>
+                        <td class="py-3">{{group.gender}}</td>
+                        <td class="py-3">{{group.groupRel}}</td>
+                        <td class="py-3">{{group.planName}}</td>
+                        <td class="py-3">{{group.netPremium}}</td>
+                        <td class="py-3">{{group.dateOfBirth|date:'shortDate'}}</td>
+                        <td class="py-3">{{group.notes}} <span *ngIf="group.notes ==''">_</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Loading -->
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+       </div>
+       <div class="modal-footer">
+        <button type="button" mat-raised-button data-bs-dismiss="modal">{{'Shared.Close'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!--------------------------------------- Plans --------------------------->
+  <div class="modal fade" id="Plans" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="edit">{{'Policy.PolicyPlans'|translate}}</h1>
+        </div>
+        
+       <div class="container_custom">
+        <div style="max-height:22rem;overflow: auto;" class="py-5 outerItem">
+            <table  class="table table-striped text-center">
+                <thead>
+                    <th class="py-3">{{'Offer.PlanName'|translate}}</th>
+                    <th class="py-3">{{'Offer.NetPremium'|translate}}</th>
+                    <th class="py-3">{{'Offer.AnnualMaxLimit'|translate}}</th>
+                </thead>
+                <tbody class="align-middle">
+                    <tr class="my-2" *ngFor="let plan of this.PolicyPlans;let index = index">
+                        <td class="py-3">{{plan.planName}}</td>
+                        <td class="my-3">{{plan.netPremium}}</td>
+                        <td class="my-3">{{plan.annualMaxLimit}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Loading -->
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+       </div>
+       <div class="modal-footer">
+        <button type="button" mat-raised-button data-bs-dismiss="modal">{{'Shared.Close'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- New Plans && group -->
+<div class="overlayEdit" (click)="closePlan()">
+    <div class="Editgovernmant" (click)="$event.stopPropagation()">
+        <div class="d-flex justify-content-between delet-details">
+            <h2>Plans ?</h2>
+            <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closePlan()" style="cursor: pointer;"></i></div>
+        </div>
+       <hr class="custom-hr w-100">
+       <div class="container-fluid">
+        <div style="max-height:22rem;overflow: auto;" class="py-5 outerItem">
+            <table  class="table text-center">
+                <thead style="background-color: #F2F2F2 !important;">
+                    <th class="py-3">{{'Offer.PlanName'|translate}}</th>
+                    <th class="py-3">{{'Offer.NetPremium'|translate}}</th>
+                    <th class="py-3">{{'Offer.AnnualMaxLimit'|translate}}</th>
+                </thead>
+                <tbody class="align-middle">
+                    <tr class="my-2" *ngFor="let plan of this.PolicyPlans;let index = index">
+                        <td class="py-3">{{plan.planName}}</td>
+                        <td class="my-3">{{plan.netPremium}}</td>
+                        <td class="my-3">{{plan.annualMaxLimit}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+       </div>
+       <div class="d-flex justify-content-centeralign-items-center py-5">
+        <button class="btn tabeeb_Btn w-50 mx-1" (click)="closePlan()">Cancel</button>
+       </div>
+    </div>
+</div>
+<!--  -->
+<div class="overlayAddplan" (click)="closeGroup()">
+    <div class="addnewplan" (click)="$event.stopPropagation()">
+        <div class="d-flex justify-content-between delet-details">
+            <h2>Group ?</h2>
+            <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeGroup()" style="cursor: pointer;"></i></div>
+        </div>
+       <hr class="custom-hr w-100">
+       <div class="container-fluid">
+        <div style="max-height:27rem;overflow: auto;" id="currentGroup" class="py-4 outerItem">
+            <table class="table text-center">
+                <thead style="background-color: #F2F2F2 !important;">
+                    <th class="py-3">{{'addCustomer.Name'|translate}}</th>
+                    <th class="py-3">{{'addCustomer.Sex'|translate}}</th>
+                    <th class="py-3">{{'Offer.GroupRel'|translate}}</th>
+                    <th class="py-3">{{'Offer.PlanName'|translate}}</th>
+                    <th class="py-3">{{'Shared.NetPremium'|translate}}</th>
+                    <th class="py-3">{{'addCustomer.D.O.B'|translate}}</th>
+                    <th class="py-3">{{'addCustomer.Notes'|translate}}</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let group of this.PolicyGroup;" [class.customDanger]="group.age>=65">
+                        <td class="py-3">{{group.name}}</td>
+                        <td class="py-3">{{group.gender}}</td>
+                        <td class="py-3">{{group.groupRel}}</td>
+                        <td class="py-3">{{group.planName}}</td>
+                        <td class="py-3">{{group.netPremium}}</td>
+                        <td class="py-3">{{group.dateOfBirth|date:'shortDate'}}</td>
+                        <td class="py-3">{{group.notes}} <span *ngIf="group.notes ==''">_</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Loading -->
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+       </div>
+       <div class="d-flex justify-content-centeralign-items-center py-5">
+        <button class="btn tabeeb_Btn w-50 mx-1" (click)="closeGroup()">Cancel</button>
+       </div>
+    </div>
+</div>
+
+                <!--------------------------------------- Settlements --------------------------->
+    <div class="overlay" (click)="closeSettlementsInfo()">
+        <div class="delet" (click)="$event.stopPropagation()">
+            <div class="d-flex justify-content-between delet-details">
+                <h2>All Settlements ?</h2>
+                <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeSettlementsInfo()" style="cursor: pointer;"></i></div>
+            </div>
+            <hr class="custom-hr w-100">
+            
+<div class="container my-2">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped text-center w-100">
+                <thead>
+                    <th>Date</th>
+                </thead>
+                <tbody>
+                        <tr *ngFor="let item of AllSettlements;let index = index">
+                            <td>{{item.settlementDate|date:'dd/MM/YYY'}}</td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+                     
+        <div class="d-flex justify-content-center align-items-center" style="padding: 0 3px 0 3px;">
+        <button class="btn tabeeb_Btn w-50 mx-1 mt-4" (click)="closeSettlementsInfo()">Cancel</button>
+        <!-- <button class="btn _delete w-50 mx-1" (click)="deleteBank()">
+            <span *ngIf="!this.isClicked">Delete</span>
+            <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+        </button> -->
+        </div>
+    </div>
+</div>
+<!-- <div class="modal fade" id="Settlements" tabindex="-1" aria-labelledby="Settlements" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="Settlements">All Settlements</h1>
+            </div>
+            <div class="container my-2">
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <table class="table table-striped text-center w-100">
+                            <thead>
+                                <th>Date</th>
+                            </thead>
+                            <tbody>
+                                    <tr *ngFor="let item of AllSettlements;let index = index">
+                                        <td>{{item.settlementDate|date:'dd/MM/YYY'}}</td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer py-3">
+                <button id="close" type="button" mat-raised-button
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->

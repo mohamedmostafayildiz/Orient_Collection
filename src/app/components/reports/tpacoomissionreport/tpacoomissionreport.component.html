@@ -1,0 +1,44 @@
+<div id="source-record">
+    <div class="container-fluid">
+        <div class="outerBorder outerItem shadow_5 py-3">
+    <!-------------------- Search Polices ------------------->
+            <div class="d-flex justify-content-between pt-3">
+                <p class="font_Coloered3 text-center my-2">Tpa Commission Report</p>
+            </div>
+            <form [formGroup]="SearchForm" class="py-5">
+                <p class="text-muted fs-5 fw-bold py-2">{{'Shared.SearchHere'|translate}} :</p>
+                <div class="row mt-2">
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Policy.From'|translate}}</mat-label>
+                            <input formControlName="start"  matInput [matDatepicker]="picker">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Policy.To'|translate}}</mat-label>
+                            <input formControlName="end" matInput [matDatepicker]="picker2">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+        
+                    <div class="col-md-2">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <button id="searchBtn" [disabled]="this.SearchForm.status=='INVALID'||this.isClicked" (click)="Search()"
+                                class="w-75 btn Apply mt-1"><span *ngIf="this.isClicked"><i
+                                        class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span
+                                    *ngIf="!this.isClicked">{{'Shared.Search'|translate}} 
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>

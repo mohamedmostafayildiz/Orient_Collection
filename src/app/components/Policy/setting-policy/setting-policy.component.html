@@ -1,0 +1,280 @@
+<div id="AllPolices" class="my-1">
+    <div class="container-fluid">
+
+      <div class="outerBorder outerItem shadow_5 py-3">
+        <!-------------------- Search ------------------->
+        <p class="text-muted fs-5 fw-bold py-2">Search Policy Here :</p>
+        <form [formGroup]="SearchForm">
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field class="w-100">
+                        <mat-label>Policy Number</mat-label>
+                        <input formControlName="Code" type="number" matInput>
+                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-hashtag"></i></mat-icon>
+                    </mat-form-field>
+    
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="w-100">
+                        <mat-label>UY</mat-label>
+                        <input formControlName="UnderWritingYear" type="text" matInput>
+                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-calendar-week"></i></mat-icon>
+                    </mat-form-field>
+                    
+                    
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="w-100">
+                        <mat-label>Insured</mat-label>
+                        <input formControlName="InsuredName" type="Text" matInput>
+                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-user"></i></mat-icon>
+                    </mat-form-field>
+                    
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field >
+                        <mat-label>From</mat-label>
+                        <input formControlName="From" matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field >
+                        <mat-label>To</mat-label>
+                        <input formControlName="To" matInput [matDatepicker]="picker2">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="w-100" id="bokerField">
+                        <mat-label>{{'Offer.Broker'|translate}}</mat-label>
+                        <mat-select formControlName="BrokerId">
+                            <mat-option [value]="56">Mohamed Broker 2</mat-option>
+                            <mat-option *ngFor="let type of brokerCustomers" [value]="type.id">{{type.name}}</mat-option>
+                        </mat-select>
+                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-people-arrows"></i></mat-icon>
+                    </mat-form-field>
+    
+                    
+                </div>
+                <div class="col-md-3">
+                    <!-- Search Now -->
+                    <div class="d-flex justify-content-end">
+                        <button (click)="Search()" mat-raised-button color="primary" class="w-75 py-2">Search <i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-------------------- Search results------------------->
+
+        <div style="overflow: auto;" style="display: none;" id="SearchResults"> 
+            <hr class="my-4" style="width: 80%;margin: auto;">
+            <p class="text-muted fs-5 fw-bold py-2">Search results :</p>
+            <table class="table text-center table-responsive table-hover">
+                <thead class="tableHead">
+                    <th class="py-2">Policy No.</th>
+                    <th class="py-2">UY</th>
+                    <th class="py-2">Insured Name</th>
+                    <th class="py-2">More</th>
+                    <th class="py-2">Group</th>
+                    <th class="py-2">Plans</th>
+                </thead>
+                <tbody>
+                    
+                    <tr *ngFor="let Policy of AllPolices" (click)="getLittleDetails(Policy.id)">
+                        <td class="align-middle">{{Policy.code}}</td>
+                        <td class="align-middle">{{Policy.inceptionDate|date:'YYYY'}}</td>
+                        <td class="align-middle">{{Policy.insuredName}}</td>
+                        <td class="align-middle">
+                            <i  [routerLink]="['/PolicyDetails',Policy.id]" class="fa-regular fa-eye text-success fs-5 px-2 py-2"></i>
+                        </td>
+                        <td class="align-middle">
+                            <button data-bs-toggle="modal" data-bs-target="#Group" mat-stroked-button color="primary">Group</button>
+                        </td>
+                        <td>
+                            <button  data-bs-toggle="modal" data-bs-target="#Plans" mat-stroked-button color="accent">Plans</button>
+                        </td>
+                    </tr>
+                </tbody>
+    
+            </table>
+        </div>
+        <!-------------------- Choosen Policy Details ------------------->
+        <div class="">
+        <div class="row outerItem" style="display: none;" id="PolicyDetails">
+            <hr class="my-4" style="width: 80%;margin: auto;">
+            <p class="text-muted fs-5 fw-bold py-2">Choosen Policy Details</p>
+
+            
+                <!-- Col 1 -->
+            <div class="col-md-6" data-aos="fade-right" data-aos-duration="800">
+                <table class="table table-striped table-bordered text-center mt-2">
+                    <tbody>
+                        <tr>
+                            <th class="w-30 py-2">Policy No.</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.code}}</td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py-2">{{'Offer.Insured'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.insuredName}}</td>
+                        </tr>
+
+                        <tr>
+                            <th class="w-30 py-2">Settlement 1</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.settlement1|date:'dd/MM/YYY'}}</td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py-2">Settlement 2</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.settlement2|date:'dd/MM/YYY'}}</td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py-2">Settlement 3</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.settlement3|date:'dd/MM/YYY'}}</td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py-2">Settlement 4</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.settlement4|date:'dd/MM/YYY'}}</td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py-2">{{'Policy.ExpiryDate'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.expiryDate|date:'dd/MM/YYY'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- col 2 -->
+            <div class="col-md-6" data-aos="fade-left" data-aos="fade-left" data-aos-duration="800">
+                <table class="table table-striped table-bordered text-center mt-2">
+                    <tbody>
+                        <tr>
+                            <th class="w-30 py-2">UY</th>
+                            <td class="w-60 py-2">2023</td>
+                        </tr>
+
+                        <tr>
+                            <th class="w-30 py-2">{{'Shared.NetPremium'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.netPremium}}</td>
+                        </tr>
+
+                        <tr>
+                            <th class="w-30 py-2">{{'Shared.TotalSumInsured'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.totalSumInsured}}</td>
+                        </tr>
+
+                        <tr>
+                            <th class="w-30 py-2">{{'Offer.Broker'|translate}}</th>
+                            <td class="w-60 py-2"><span *ngIf="this.PolicyDetails?.brokerName==0||this.PolicyDetails?.brokerName==null">-</span> {{this.PolicyDetails?.brokerName}}</td>
+                        </tr>
+
+                        <tr>
+                            <th class="w-30 py-2">{{'Policy.IssueDate'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.issueDate|date:'dd/MM/YYY'}}</td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py-2">{{'Policy.InceptionDate'|translate}}</th>
+                            <td class="w-60 py-2">{{this.PolicyDetails?.inceptionDate|date:'dd/MM/YYY'}}</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <th class="w-30 py-2 align-middle">Claims</th>
+                            <td class="w-60 py-2"><button [routerLink]="['/UpdateClaimStauts',this.PolicyDetails?.id]" mat-raised-button color="primary" class="w-50">Claims <i class="fa-solid fa-handshake-angle"></i></button></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                
+            </div>
+            <!-- Loading -->
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <!--------------------------------------- Group --------------------------->
+  <div class="modal fade" id="Group" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="edit">Policy Group</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+       <div class="container_custom">
+        <div style="max-height:22rem;overflow: auto;" id="currentGroup" class="py-4 outerItem">
+            <table class="table table-striped text-center">
+                <thead>
+                    <th class="py-3">{{'addCustomer.Name'|translate}}</th>
+                    <th class="py-3">{{'addCustomer.Sex'|translate}}</th>
+                    <th class="py-3">{{'Offer.GroupRel'|translate}}</th>
+                    <th class="py-3">Plan Name</th>
+                    <th class="py-3">NetPremium</th>
+                    <th class="py-3">{{'addCustomer.D.O.B'|translate}}</th>
+                    <th class="py-3">{{'addCustomer.Notes'|translate}}</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let group of this.PolicyGroup;">
+                        <td class="py-3">{{group.name}}</td>
+                        <td class="py-3">{{group.gender}}</td>
+                        <td class="py-3">{{group.groupRel}}</td>
+                        <td class="py-3">{{group.planName}}</td>
+                        <td class="py-3">{{group.netPremium}}</td>
+                        <td class="py-3">{{group.dateOfBirth|date:'shortDate'}}</td>
+                        <td class="py-3">{{group.notes}} <span *ngIf="group.notes ==''">_</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Loading -->
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+       </div>
+       <div class="modal-footer">
+        <button type="button" mat-raised-button data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!--------------------------------------- Plans --------------------------->
+  <div class="modal fade" id="Plans" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="edit">Policy Group</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+       <div class="container_custom">
+        <div style="max-height:22rem;overflow: auto;" class="py-5 outerItem">
+            <table  class="table table-striped text-center">
+                <thead>
+                    <th class="py-3">{{'Offer.PlanName'|translate}}</th>
+                    <th class="py-3">{{'Offer.NetPremium'|translate}}</th>
+                    <th class="py-3">{{'Offer.AnnualMaxLimit'|translate}}</th>
+                </thead>
+                <tbody class="align-middle">
+                    <tr class="my-2" *ngFor="let plan of this.PolicyPlans;let index = index">
+                        <td class="py-3">{{plan.planName}}</td>
+                        <td class="my-3">{{plan.netPremium}}</td>
+                        <td class="my-3">{{plan.annualMaxLimit}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Loading -->
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+       </div>
+       <div class="modal-footer">
+        <button type="button" mat-raised-button data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

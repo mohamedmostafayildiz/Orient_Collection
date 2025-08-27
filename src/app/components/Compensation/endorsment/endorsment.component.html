@@ -1,0 +1,367 @@
+<div id="Endorsment">
+    <div class="container-fluid">
+     
+    </div>
+    <div class="outerBorder outerItem shadow_5">
+        <div class="d-flex justify-content-between">
+            <p class="font_Coloered3 text-center my-4"> {{'SideBar.Endorsment'|translate}}</p>
+        </div>
+        <div id="loading" *ngIf="loading">
+            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+        </div>
+        <!-- Modal Body -->
+        <div class="container_custom" *ngIf="!loading">
+            <div class="row mt-5">
+                <div class="col-md-6 d-flex align-items-center">
+                    
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>{{'endorsment.SelectEndorsmentProcess'|translate}}</mat-label>
+                        <mat-select (selectionChange)="getAppendexVal($event.value)">
+                            <mat-option value="Add">{{'endorsment.AddNewClient'|translate}}</mat-option>
+                            <mat-option value="Remove">{{'endorsment.Remove'|translate}}</mat-option>
+                            <mat-option value="Technical">{{'endorsment.Technical'|translate}}</mat-option>
+                            <mat-option value="CategoryEdit">{{'endorsment.CategoryEdit'|translate}}</mat-option>
+                            <mat-option value="CancelFromBeginning">{{'endorsment.CancelFromBeginning'|translate}}</mat-option>
+                            <mat-option value="Cancel">{{'endorsment.Cancel'|translate}}</mat-option>
+                            <mat-option value="Pump">{{'endorsment.Pump'|translate}}</mat-option>
+                        </mat-select>
+                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                            class="fa-solid fa-battery-half"></i></mat-icon>
+                    </mat-form-field>
+                   
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>{{'endorsment.EndorsmentDate'|translate}}</mat-label>
+                        <input [(ngModel)]="EndorsmentDateVAl" [min]="this.PolicyDetails?.inceptionDate" matInput [matDatepicker]="picker5">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                        <mat-datepicker #picker5></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class=" m-auto w_85 my-3">
+            <!-- Add -->
+            <div id="AddAppendix" class="outerBorder shadow_5" style="display: none;">  
+                <table class="table table-striped table-bordered text-center mt-2" style="border-radius: 20px;">
+                    <tbody class="align-middle">
+                        <tr>
+                            <th class="w-30 py-3">{{'endorsment.DownlaodTempleteGroupFileToAddNew'|translate}}</th>
+                            <td class="w-60 py-3">
+                                <div class="Download">
+                                    <i (click)="getTempleteFile()" 
+                                        class="text-success fa-solid fa-download fs-3 px-2 py-1 mt-3" 
+                                        style="color:#01BACB !important;border-radius: 7px;"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py-3">{{'endorsment.UploadUpdatedGroupFile'|translate}}</th>
+                            <td class="w-60 py-3">
+                                <i (click)="fileInput.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2"
+                                    style="color:#01BACB !important;border-radius: 5px;"></i>
+                                <input accept=".xlsx" hidden (change)="uploadGroupFile($event)" #fileInput
+                                    type="file">
+                                <span class="file-name">{{selectedGroupFile?.name}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button (click)="SubmitAppendix()" [disabled]="this.selectedGroupFile==null||this.isClicked"
+                    mat-raised-button  class="w-50 btn tabeeb_Btn"><span *ngIf="isClicked">Waiting...</span> <span
+                        *ngIf="!isClicked">{{'Shared.Save'|translate}} <i class="fa-solid fa-floppy-disk"></i></span></button>
+            </div>
+            <!-- Remove -->
+            <div id="Delete" class="my-3 outerBorder shadow_5" style="display: none;">
+                <input class="form-control w-25 ml-auto mt-3" style="height: 3rem;" [(ngModel)]='term'
+                    placeholder="{{'Shared.SearchHere'|translate}}"/>
+                <div style="max-height:19rem;overflow: auto;">
+                    <table class="table text-center">
+                        <thead style="background-color: #F2F2F2 !important;">
+                            <th>{{'addCustomer.Name'|translate}}</th>
+                            <th>{{'addCustomer.Sex'|translate}}</th>
+                            <th>{{'Offer.GroupRel'|translate}}</th>
+                            <th>{{'addCustomer.D.O.B'|translate}}</th>
+                            <th>{{'Shared.Date'|translate}}</th>
+                            <th>Pin Code</th>
+                            <th>{{'Shared.View'|translate}}</th>
+                            <th>{{'endorsment.HasClaim'|translate}}</th>
+                            <th>{{'Shared.Delete'|translate}}</th>
+                            <th>{{'addCustomer.Notes'|translate}}</th>
+
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let group of this.EditableGroup|search:term;let index=index">
+                                <td>{{group.name}}</td>
+                                <td>{{group.gender}}</td>
+                                <td>{{group.groupRel}}</td>
+                                <td>{{group.dateOfBirth|date:'shortDate'}}</td>
+                                <td>
+                                    <!-- <mat-form-field style="margin-bottom: -1.7em;">
+                                        <mat-label>{{'Shared.ChooseADate'|translate}}</mat-label>
+                                        <input (dateChange)="getRemoveDate($event,DeleButton)" #item matInput [value]="CurrentDate" [matDatepicker]="picker">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field> -->
+                                    <input (dateChange)="getRemoveDate($event,DeleButton)" #item matInput type="date" value="{{this.CurrentDate}}" class="form-control">
+                                </td>
+                                <td>{{group.pinCode}}</td>
+                                <td>
+                                    <i  data-bs-toggle="modal" data-bs-target="#ViewClaims" (click)="getAllClaims(group.fileClaims)" class="fa-regular fa-eye text-success fs-5 px-2 py-2 mx-1"></i>
+                                </td>
+                                <td>
+                                    <div class="d-flex">
+                                        <select (change)="EnableDelBtn(DeleButton)" #hasClaims [class.d_none]="group.fileClaims?.length!=0" class="form-select" aria-label="Default select example">
+                                            <option selected hidden disabled value="">{{'Shared.Null'|translate}}</option>
+                                            <option [value]="true">{{'Shared.Yes'|translate}}</option>
+                                            <option [value]="false">{{'Shared.No'|translate}}</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button [disabled]="group.fileClaims?.length==0" class="my-2" #DeleButton (click)="Deleteitem(index,group.id, item,hasClaims)" mat-raised-button
+                                        color="accent"><i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </td>
+                                <td>{{group.notes}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button (click)="SubmitAppendix()" [disabled]="this.isClicked||this.GroupToRemove.length==0"
+                    mat-raised-button class="w-50 btn tabeeb_Btn">{{'Shared.Save'|translate}} <i class="fa-solid fa-floppy-disk"></i></button>
+            </div>
+            <!-- Technical -->
+            <div id="Technical" class="outerBorder shadow_5" style="display: none;">
+                <form [formGroup]="TechnicalForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Insured Person</mat-label>
+                                <input formControlName="insured" type="text" matInput>
+                            </mat-form-field>
+                            <mat-form-field class="w-100" id="bokerField" appearance="outline">
+                                <mat-label>{{'Offer.Broker'|translate}}</mat-label>
+                                <mat-select formControlName="brokerId">
+                                    <mat-option *ngFor="let type of brokerCustomers"
+                                        [value]="type.id">{{type.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>{{'Offer.PolicySource'|translate}}</mat-label>
+                                <mat-select (selectionChange)="CheckPolicySource($event.value)"
+                                    formControlName="policySource">
+                                    <mat-option value="Direct">Direct</mat-option>
+                                    <mat-option value="InDirect">InDirect</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+                </form>
+                <button (click)="SubmitAppendix()" [disabled]="this.TechnicalForm.status=='INVALID'||this.isClicked"
+                    mat-raised-button  class="w-50 btn tabeeb_Btn"><span *ngIf="isClicked">Waiting...</span> <span
+                        *ngIf="!isClicked">{{'Shared.Save'|translate}} <i class="fa-solid fa-floppy-disk"></i></span></button>
+
+            </div>
+            <!-- Category -->
+            <div id="CategoryEdit" class="outerBorder shadow_5" style="display: none;">
+                <input class="form-control w-25 ml-auto mt-3" style="height: 3rem;" [(ngModel)]='term'
+                    placeholder="{{'Shared.SearchHere'|translate}}" />
+                <div style="max-height:19rem;overflow: auto;">
+                    <table class="table table-striped text-center">
+                        <thead style="background-color: #F2F2F2 !important;">
+                            <th>{{'addCustomer.Name'|translate}}</th>
+                            <th>{{'addCustomer.Sex'|translate}}</th>
+                            <th>{{'Offer.GroupRel'|translate}}</th>
+                            <th>{{'addCustomer.D.O.B'|translate}}</th>
+                            <th>Plan</th>
+                            <th>{{'addCustomer.Notes'|translate}}</th>
+
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let group of this.CategoryEditGroup|search:term;let index=index">
+                                <td>{{group.name}}</td>
+                                <td>{{group.gender}}</td>
+                                <td>{{group.groupRel}}</td>
+                                <td>{{group.dateOfBirth|date:'dd-MM-YYYY'}}</td>
+                                <td>
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Plan</mat-label>
+                                        <mat-select (selectionChange)="getCategoryEdit($event.value,group.id)"
+                                            [(value)]="group.planId">
+                                            <mat-option *ngFor="let Plan of PolicyPlans"
+                                                [value]="Plan.id">{{Plan.planName}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td>{{group.notes}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button (click)="SubmitAppendix()" [disabled]="this.isClicked||this.CategoryEdit.length==0"
+                    mat-raised-button class="w-50 btn tabeeb_Btn">{{'Shared.Save'|translate}} <i
+                        class="fa-solid fa-floppy-disk my-2"></i></button>
+            </div>
+            <!-- CancelFromBeginning -->
+            <div id="CancelFromBeginning" class="outerBorder shadow_5" style="display: none;">
+                <div class="text-center">
+                    <p><strong class="text-danger fs-5">Are You Sure !!</strong></p>
+                    <p><strong class="text-success fs-6 py-3">This Process Can`t UnDo</strong></p>
+                </div>
+                <button (click)="SubmitAppendix()" [disabled]="this.isClicked" mat-raised-button color="primary"
+                    class="w-25 my-2">{{'Shared.Save'|translate}} <i class="fa-solid fa-floppy-disk"></i></button>
+            </div>
+            <!-- Cancel -->
+            <div id="Cancel" class="outerBorder shadow_5" style="display: none;">
+                <div class="text-center">
+                    <p><strong class="text-danger fs-5">Are You Sure !!</strong></p>
+                    <p><strong class="text-success fs-6 py-3">This Process Will Stop the policy and reCalcuate The
+                            Mony</strong></p>
+                </div>
+                <button (click)="SubmitAppendix()" [disabled]="this.isClicked" mat-raised-button  
+                    class="w-50 btn tabeeb_Btn">{{'Shared.Save'|translate}} <i class="fa-solid fa-floppy-disk"></i></button>
+
+            </div>
+            <!-- Pump -->
+            <div id="Pump" class="outerBorder shadow_5" style="display: none;">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <table class="outerItem table  table-bordered text-center" style="border-radius: 20px;">
+                            <tbody style="background-color: #F2F2F2 !important;">
+                                <tr>
+                                    <th class="w-30 py-2 align-middle">{{'Shared.NetPremium'|translate}}</th>
+                                    <td class="w-60 py-2 align-middle">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <mat-form-field style="margin-bottom: -1.3em;" class="w-100" appearance="outline">
+                                                    <input [(ngModel)]="netPremiumVal" type="number" value="{{this.PumpArr?.netPremium}}" matInput>
+                                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);">perm_identity</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button (click)="reCalculateNetPremium()" class="w-100" mat-stroked-button color="primary">{{'Shared.Calculate'|translate}}</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <th class="w-30 py-2 align-middle">{{'PolicyCalculatins.Stamp'|translate}}</th>
+                                    <td class="w-60 py-2 align-middle">{{this.PumpArr?.stamp| number : '1.2-2'}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="w-30 py-2 align-middle">{{'PolicyCalculatins.imprintStamp'|translate}}</th>
+                                    <td class="w-60 py-2 align-middle">{{this.PumpArr?.imprintStamp| number : '1.2-2'}}</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="w-30 py-2 align-middle">{{'PolicyCalculatins.Supervision'|translate}}</th>
+                                    <td class="w-60 py-2 align-middle">{{this.PumpArr?.supervision| number : '1.2-2'}}</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="w-30 py-2 align-middle">{{'PolicyCalculatins.policyRevision'|translate}}</th>
+                                    <td class="w-60 py-2 align-middle">{{this.PumpArr?.policyRevision| number : '1.2-2'}}</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="w-30 py-2 align-middle">{{'PolicyCalculatins.PolicyHolders'|translate}}</th>
+                                    <td class="w-60 py-2 align-middle">{{this.PumpArr?.policyHolders| number : '1.2-2'}}</td>
+                                </tr>
+
+                                
+                                <tr>
+                                    <th class="w-30 py-2 align-middle">{{'PolicyCalculatins.issueFees'|translate}}</th>
+                                    <td class="w-60 py-2 align-middle">{{this.PumpArr?.issueFees| number : '1.2-2'}}</td>
+                                </tr>
+
+
+                                <tr>
+                                    <th class="w-30 py-2 align-middle">{{'PolicyCalculatins.tpaFees'|translate}}</th>
+                                    <td class="w-60 py-2 align-middle">{{this.PumpArr?.tpaFees| number : '1.2-2'}}</td>
+                                </tr>
+                                
+                                <tr>
+                                    <th class="w-30 py-2 align-middle">{{'PolicyCalculatins.brokerage'|translate}}</th>
+                                    <td class="w-60 py-2 align-middle">{{this.PumpArr?.brokerage}}</td>
+                                </tr>
+                                
+                                <tr>
+                                    <th class="w-30 py-2 align-middle">{{'Shared.TotalSumInsured'|translate}}</th>
+                                    <td class="w-60 py-2 align-middle">
+                                        <mat-form-field style="margin-bottom: -1.3em;" class="w-100" appearance="outline">
+                                            <input [(ngModel)]="netPremiumVal" type="number" value="{{this.PumpArr?.netPremium}}" matInput>
+                                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"> perm_identity</mat-icon>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="w-30 py-2 align-middle">{{'PolicyCalculatins.grossPremium'|translate}}</th>
+                                    <td class="w-60 py-2 align-middle">{{this.PumpArr?.grossPremium| number : '1.2-2'}}</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="w-30 py-3">Taxes in <i class="fa-solid fa-percent"></i></th>
+                                    <td class="w-60 py-3">{{this.PumpArr?.taxes*100}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+                <button (click)="SubmitAppendix()" [disabled]="this.isClicked" mat-raised-button
+                    class="w-25 btn tabeeb_Btn">{{'Shared.Save'|translate}} <i class="fa-solid fa-floppy-disk"></i></button>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+    <!--------------------------------------- Claims Modal --------------------------->
+    <div class="modal fade" id="ViewClaims" tabindex="-1" aria-labelledby="networkCoding" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="networkCoding">Member Claims</h1>
+                </div>
+
+                <div class="container my-5">
+                    <!-- Body -->
+                    <table class="table text-center">
+                        <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                            <th class="py-2">file Code</th>
+                            <th class="py-2">ClaimedAmount</th>
+                            <th class="py-2">BenefitType</th>
+                            <th class="py-2">MemberName</th>
+                            <th class="py-2">ReportDate</th>
+                            <th class="py-2">Gender</th>
+                        </thead>
+                        <tbody>
+                            
+                            <tr *ngFor="let Claim of MemberAllClaims">
+                                <td class="align-middle">{{Claim.fileClaimsId}}</td>
+                                <td class="align-middle">{{Claim.claimedAmount}}</td>
+                                <td class="align-middle">{{Claim.benefitType}}</td>
+                                <td class="align-middle">{{Claim.memberName}}</td>
+                                <td class="align-middle">{{Claim.invoiceReportDate|date:'dd-MM-YYYY'}}</td>
+                                <td class="align-middle">{{Claim.gender}}</td>
+                           
+                            </tr>
+                        </tbody>
+        
+                    </table>
+                </div>
+                <div class="modal-footer py-3">
+                    <button id="close" type="button" mat-raised-button
+                        data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>

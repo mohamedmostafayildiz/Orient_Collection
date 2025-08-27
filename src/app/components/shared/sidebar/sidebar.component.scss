@@ -1,0 +1,157 @@
+ .accordion{
+  --bs-accordion-bg: #FFF;
+}
+.accordion-header{
+    margin:0px;
+    position: relative;
+}
+.head button:hover{
+  font-weight: 500;
+  font-size: 1.1rem;
+  background-color: rgba(0,0,0,0.08);
+}
+  .head:after{
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: 80%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color:#6b6b6b ;
+  }
+
+  .accordion-header button{
+    font-size: 1.20rem!important;
+    font-weight: 400;
+    padding: 10px 0;
+    border: none;
+    transition: 0.2s;
+    text-align: start;
+    color: #555;
+    font-family: 'El Messiri', sans-serif!important;
+    font-size: 1rem;
+    background-color: #FFF;
+  }
+  
+.accordion-body{
+    // letter-spacing: 0.9px!important;
+    padding: 10px 1px 10px 19px;
+    margin: 1px;
+    box-shadow: rgba(235, 239, 240, 0.76) 0px 2px 4px 0px, rgba(178, 183, 185, 0.32) 0px 2px 16px 0px;
+  }
+.accordion-body .accordion-header button{
+  font-size: 1rem!important;
+}
+.accordion-body .accordion-header button:hover{
+  font-weight: 500!important;
+  font-size: 1.1rem!important;
+}
+.accordion-body div {
+    list-style: none;
+    cursor: pointer;
+    padding: 10px 19px;
+    transition: 0.2s;
+    font-size: 0.95rem;
+    color: #555; 
+}
+.accordion-body div:hover, .accordion-body .accordion-header button:hover {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color:#555
+}
+ 
+.menu{
+  color:#fff;
+  font-size: 2.2rem;
+  cursor: pointer;
+  margin: 0 0.8rem;
+  transition: 0.2s;
+}
+.menu:hover{
+  color: rgb(201, 201, 201);
+}
+                //
+  .item{
+    
+    .item-focus{
+        border-radius: 7px;
+        --tw-bg-opacity: 1;
+    background-color: rgb(254 240 138 / var(--tw-bg-opacity));
+        // border:solid 1px #000;
+        // box-shadow: 0px 5px 10px rgb(0 0 0 / 30%);
+        cursor: pointer;
+        transition: 0.4s;
+        &:hover{
+            background-color: #FFC000;
+    }
+        &:hover h2{
+            transform:scale(1.1);
+    }
+    }
+    .item-focus h2{
+        padding: 40px 0;
+        transition: 0.3s;
+    }
+  
+  }
+i{
+  margin-right:0.3rem ;
+}
+.accordion-body {
+    padding: 10px 0px 10px 20px;
+}
+.active{
+    font-size: 1.1rem!important;
+    font-weight: 500;
+    // background-color: #4758B8!important ;
+    // color: #FFF!important;
+    
+    border-right: 0!important;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    
+    
+}
+
+// test
+.accordion-body{
+  margin: 0!important;
+}
+
+
+.active{
+  font-size: 1.05rem!important;
+  font-weight: 500;
+  // background-color: #FFF!important ;
+  background-image: url(../../.././../assets/imgs/light_dot.jpg)!important;
+  color: #000!important;
+  
+  border-right: 0!important;
+  border-top-left-radius: 1.2rem;
+  border-bottom-left-radius:  1.2rem;
+  position: relative!important;
+}
+.active::before{
+  content: '';
+  position: absolute!important;
+  width: 50px!important;
+  height: 50px!important;
+  right: 0!important;
+  top: -50px!important;
+  background-color: transparent!important;
+  border-radius: 50%!important;
+  box-shadow: 35px 35px 0 10px#FFF!important;
+}
+.active::after{
+  content: '';
+  position: absolute!important;
+  width: 50px!important;
+  height: 50px!important;
+  right: 0!important;
+  bottom: -50px!important;
+  background-color: transparent!important;
+  border-radius: 50%!important;
+  box-shadow: 35px -35px 0 10px#ffffff!important;
+}

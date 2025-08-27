@@ -1,0 +1,49 @@
+.illnessInnerBox{
+    border:solid 0.5rem #E0E0E0;
+    border-bottom-style: inset;
+    border-right-style: inset;
+    box-sizing: border-box;
+    cursor: pointer;
+    
+}
+.illnessInnerBox h3{
+    font-size: 0.8rem;
+    margin: 0!important;
+    line-height: 1.3rem!important;
+}
+.illnessInnerBox{
+    border-right-color: #4472C4;
+    border-bottom-color: #4472C4;
+}
+
+.boxTitle{
+    color: #99A8BD;
+    font-size:0.95rem;
+    font-weight: 500;
+    margin: 0!important;
+}
+.numOfIllness{
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4472C4;
+    
+}
+.numOfIllness:nth-child(1){
+    color: #09c;
+}
+.numOfIllness:nth-child(2){
+    color: #A6A6A6;
+}
+
+.illnessDetails{
+    font-size: 0.85rem;
+    line-height:1.4rem ;
+    height: 10rem;
+    font-weight: 500;
+    border: solid 2px#0097F7;
+    border-radius: 7px;
+    padding: 0.3rem;
+    overflow: auto;
+    width: 100%;
+}
+

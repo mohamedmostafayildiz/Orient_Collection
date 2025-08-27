@@ -1,0 +1,584 @@
+<div class="AllCustomers">
+    <div class="container-fluid" style="margin: 0; padding: 0;">
+        <div class="row">
+            <div class="col-md-3" id="filters" style="display: none;">
+                <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+                    <mat-label>Partner name</mat-label>
+                    <input [(ngModel)]='term' type="text" matInput>
+                </mat-form-field>
+            </div>
+            <!-- <p>{{this.message}}</p> -->
+            <!-- <div class="col-md-3">
+                <mat-form-field appearance="outline"  class="w-100 foe" style="margin-bottom: -1em;">
+                    <mat-label>Customer type</mat-label>
+                    <mat-select  [(ngModel)]='term'>
+                        <mat-option value="TPA">TPA</mat-option>
+                        <mat-option value="Corporate">Corporate</mat-option>
+                        <mat-option value="Broker">Broker</mat-option>
+                    </mat-select>
+                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-venus-mars"></i></mat-icon>
+                </mat-form-field>
+            </div> -->
+                
+            </div>
+
+        <div class="outerBorder outerItem  table-responsive" style="margin:0px 0px !important;">
+            <table class="table text-center">
+                <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                    <th class="py-2">{{'Shared.Name'|translate}}</th>
+                    <th class="py-2">{{'Shared.MobileNo'|translate}}</th>
+                    <!-- <th class="py-2">{{'Shared.AccountNo'|translate}}</th> -->
+                    <th class="py-2">{{'Shared.Email'|translate}}</th>
+                    <th *ngIf="CustomerTypeId ==null" class="py-2">{{'Shared.Type'|translate}}</th>
+                    <th class="py-2">Block Status</th>
+                    <th class="py-2">Hold Status</th>
+                    <th class="py-2">{{'Shared.Settings'|translate}}</th>
+                </thead>
+                <tbody>
+                    
+                    <tr *ngFor="let customer of AllCustomers|search:term|paginate:{
+                        itemsPerPage:tableSize,
+                        currentPage:page,
+                        totalItems:count}; let i=index">
+                        <td class="align-middle">{{customer.name}}</td>
+                        <td class="align-middle">{{customer.mobile}}</td>
+                        <!-- <td class="align-middle">{{customer.accountNO}}</td> -->
+                        <td class="align-middle">{{customer.email}}</td>
+                        <td style="color: #01BACB;" *ngIf="CustomerTypeId ==null" class="align-middle">{{customer.customerType}}</td>
+                        <td class="align-middle" *ngIf="this.permissions.includes('Permissions.Customers.Update')">
+                        <p *ngIf="customer.block==false" style="color: #0D9346;" class="py-2">UnBlock</p>
+                        <p *ngIf="customer.block==true" style="color: #CC0000;" class="py-2">Block</p>
+                        </td>
+                        <td class="align-middle" *ngIf="this.permissions.includes('Permissions.Customers.Update')">
+                            <p *ngIf="customer.onHold==false" style="color: #0D9346;" class="py-2">UnHold</p>
+                            <p *ngIf="customer.onHold==true" style="color: #CC0000;" class="py-2">Hold</p>
+                            </td>
+                        <td class="align-middle" (mouseenter)="hoverRow = customer.id" (mouseleave)="hoverRow = null" >
+                            <div class="dropdown">
+                              <!-- Ellipsis icon always visible -->
+                              <i class="fa-solid fa-ellipsis-v fs-5 px-3 py-2 text-secondary" style="padding-left: 4rem !important;padding-right: 0px !important;"></i>
+                              
+                              <!-- Dropdown menu, visible only when the row is hovered -->
+                              <div class="dropdown-menu" [ngClass]="{'show': hoverRow === customer.id}">
+                                <a *ngIf="permissions.includes('Permissions.Customers.Update')" 
+                                   (click)="getCustomerStatus(customer)" 
+                                   class="dropdown-item" style="color:#01BACB;">
+                                  <i class="fa-solid fa-road-barrier mx-2" style="color:#01BACB;"></i> Status
+                                </a>
+                                <!-- <a *ngIf="permissions.includes('Permissions.Customers.Update')" 
+                                   (click)="getCustomerInfo(customer)" 
+                                   data-bs-toggle="modal" data-bs-target="#editCustomer" 
+                                   class="dropdown-item" style="color:#01BACB;">
+                                  <i class="fa-solid fa-pencil mx-2" style="color:#01BACB;"></i> Edit
+                                </a> -->
+                                <!-- (click)="toggleButtons()"  -->
+                                <a *ngIf="permissions.includes('Permissions.Customers.View')" 
+                                   routerLink="/CustomerDetails/{{customer.id}}" 
+                                   class="dropdown-item" style="color:#01BACB;">
+                                  <i class="fa-regular fa-eye hhh mx-2" style="color:#01BACB "></i> View
+                                </a>
+                              </div>
+                            </div>
+                          </td>
+                        <!-- <td><button mat-raised-button (click)="getCustomerInfo(customer)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomer">Edit <i class="fa-solid fa-user-pen"></i></button></td> -->
+                        <!-- <td><button mat-raised-button color="primary" routerLink="/CustomerDetails/{{customer.id}}">View <i class="fa-solid fa-magnifying-glass"></i></button></td> -->
+                        <td *ngIf="customer.customerType =='Broker' && CustomerTypeId !=null"><button mat-raised-button color="primary" routerLink="/BrokerCommissions/{{customer.name}}/{{customer.id}}">Commissions <i class="fa-solid fa-droplet"></i></button></td>
+                        <td *ngIf="customer.customerType =='TPA' && CustomerTypeId !=null"><button mat-raised-button color="primary" routerLink="/AllPlans/{{customer.id}}">Plans <i class="fa-solid fa-hand-holding-droplet"></i></button></td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <div class="d-flex justify-content-end mt-4">
+                <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                </pagination-controls>
+                <select (change)="onTableSizeChange($event)" class="tableSize rounded-pill px-1">
+                  <option *ngFor=" let size of tableSizes">{{size}}</option>
+                </select>
+            </div>
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+
+    </div>
+    <!-- <nz-alert 
+    nzType="success"
+    nzDescription="This is a success message with a close icon."
+    nzShowIcon
+    nzCloseable
+    class="custom-alert"
+    ></nz-alert> -->
+    <!--------------------------------------- Edit Customer --------------------------->
+  <div class="modal fade" id="editCustomer" tabindex="-1" aria-labelledby="editCustomer" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="editCustomer">Edit {{Form.get('name')?.value}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!----------------------- body -------------------->
+        <div style="width: 80%;margin: auto;">
+            <form [formGroup]="Form">
+                <p class="font_Coloered3 text-center my-4"  data-aos-duration="1000" data-aos="zoom-in-down">Edit {{Form.get('name')?.value}}</p>
+                <!-- Person Info -->
+                <div class="row">
+                    <p class="font_Coloered2 my-3">Person Info</p>
+                    <div class="col-md-6">   
+                        <!-- Col 1 -->
+                            <mat-form-field class="w-100" appearance="outline" data-aos-duration="700" data-aos="fade-right">
+                                <mat-label>Name</mat-label>
+                                <input formControlName="name" [class.is-valid]="Form.controls.name.status=='VALID'" type="text" matInput>
+                            </mat-form-field>
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Arabic Name</mat-label>
+                                <input formControlName="arabicName" type="text" matInput>
+                            </mat-form-field>
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Nick Name</mat-label>
+                                <input formControlName="nickName" type="text" matInput>
+                            </mat-form-field>
+                            
+                            <mat-form-field class="w-100" appearance="outline" color="warn">
+                                <mat-label>Gender</mat-label>
+                                <mat-select [(value)]="genderValue" (selectionChange)="getValidInputs()" >
+                                <mat-option value="Male">Male</mat-option>
+                                <mat-option value="Female">Female</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            
+                            <mat-form-field id="taxNom" class="w-100" appearance="outline">
+                                <mat-label>Tax NO. </mat-label>
+                                <input formControlName="taxNo" type="number" matInput>
+                            </mat-form-field>
+                            
+                            <mat-form-field id="job" style="display: none;" class="w-100" appearance="outline">
+                                <mat-label>Job</mat-label>
+                                <input formControlName="job" type="text" matInput>
+                            </mat-form-field>
+
+                            <mat-form-field id="code" style="display: none;" class="w-100" appearance="outline">
+                                <mat-label>Autherity Code</mat-label>
+                                <input formControlName="authorityCode" type="text" matInput>
+                            </mat-form-field>
+
+                            <mat-form-field id="start" style="display: none;" class="w-100" appearance="outline" color="warn">
+                                <mat-label>Start</mat-label>
+                                <input (dateChange)="checkStartDate()" formControlName="authorityStart" matInput [matDatepicker]="picker6">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                                <mat-datepicker #picker6></mat-datepicker>
+                            </mat-form-field>
+                            <div *ngIf="inValidStartDate" class="alert alert-danger fs-6">
+                                Please Enter Correct Autherity Start Date
+                            </div>
+
+                            <mat-form-field id="end" style="display: none;" class="w-100" appearance="outline" color="warn">
+                                <mat-label>End</mat-label>
+                                <input (dateChange)="checkEndDate()" formControlName="authorityEnd"  matInput [matDatepicker]="picker7">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
+                                <mat-datepicker #picker7></mat-datepicker>
+                            </mat-form-field>
+                            <div *ngIf="inValidEndDate" class="alert alert-danger fs-6">
+                                Please Enter Correct Autherity End Date
+                            </div>
+                    </div>
+                    <!-- Col 2 -->
+                    <div class="col-md-6">
+                       
+                            <mat-form-field class="w-100" class="w-100" appearance="outline" data-aos-duration="700" data-aos="fade-left">
+                                <mat-label>Type</mat-label>
+                                <mat-select [(value)]="CustomerTypeValue" (selectionChange)="getCustomerTypeValue($event.value)" (selectionChange)="getValidInputs()">
+                                    <mat-option *ngFor="let type of customerTypes" value="{{type.value}}">{{type.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            
+                            <mat-form-field class="w-100" appearance="outline" color="primary" data-aos-duration="1100" data-aos="fade-left">
+                                <mat-label>Id</mat-label>
+                                <input formControlName="regNo" type="text" max="3" matInput>
+                            </mat-form-field>
+                            
+
+                            <mat-form-field id="taxExpiryDate" style="display: none;" class="w-100" appearance="outline" color="warn">
+                                <mat-label>Tax Expiry Date</mat-label>
+                                <input (dateChange)="checkTaxDate()" formControlName="expiredTaxDate" matInput [matDatepicker]="picker11">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker11"></mat-datepicker-toggle>
+                                <mat-datepicker #picker11></mat-datepicker>
+                            </mat-form-field>
+                            <div *ngIf="inValidTaxExpireDate" class="alert alert-danger fs-6">
+                                Please Enter Correct Expired Tax Date
+                            </div>
+                            
+                            <mat-form-field id="Newgroup" style="display: none;" class="w-100" appearance="outline" color="warn" >
+                                <mat-label>Group</mat-label>
+                                <mat-select [(value)]="groupValue" (selectionChange)="selectGroup($event.value)">
+                                <mat-option value="">Null</mat-option>
+                                <mat-option *ngFor="let corporate of listOfCorporare" value="{{corporate.id}}">{{corporate.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            
+                       
+                    </div>
+                    <hr style="width:80%; margin:auto;border-top:2px solid;color:#000" class="my-5">
+                </div>
+                <!-- Contact Info -->
+                <div class="row">
+                    <p class="font_Coloered2 my-4">Contact Info</p>
+                    <div class="col-md-6" data-aos-duration="1300" data-aos="fade-right">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Mobile</mat-label>
+                                <input formControlName="mobile" type="text" matInput>
+                            </mat-form-field>
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Phone</mat-label>
+                                <input formControlName="phoneNumber" type="text" matInput>
+                            </mat-form-field>
+                    
+                        
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Email</mat-label>
+                                <input formControlName="email" type="text" matInput>
+                            </mat-form-field>
+                    
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Country</mat-label>
+                                <mat-select [(value)]="contryValue" (selectionChange)="getCountryValue($event)"(selectionChange)="getValidInputs()">
+                                <mat-option *ngFor="let country of Contries" value="{{country.id}}">{{country.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                    
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Contact Person Name</mat-label>
+                                <input [(ngModel)]="contactPersonName" [ngModelOptions]="{standalone: true}" type="text" matInput>
+                            </mat-form-field>
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Contact Person Mobile</mat-label>
+                                <input  [(ngModel)]="contactPersonMobile" [ngModelOptions]="{standalone: true}" type="text" matInput>
+                            </mat-form-field>
+                            
+                            <mat-form-field style="display: none;" id="ForginCountryInput" class="w-100" >
+                                <mat-label>{{'addCustomer.Government'|translate}}</mat-label>
+                                <input formControlName="governorateName" type="text" matInput>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-mountain-city"></i></mat-icon>
+                            </mat-form-field>
+                            <mat-form-field style="display: none;" id="LocalCountryInput" class="w-100">
+                                <mat-label>{{'addCustomer.Government'|translate}}</mat-label>
+                                <mat-select formControlName="governorateName">
+                                <mat-option *ngFor="let governmnet of AllItems" [value]="governmnet.name">{{governmnet.name}}</mat-option>
+                                </mat-select>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-mountain-city"></i></mat-icon>
+                            </mat-form-field>
+                            
+                    </div>
+    
+                    <div class="col-md-6">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Mobile 2</mat-label>
+                                <input formControlName="mobile2" type="text" matInput>
+                            </mat-form-field>
+                    
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Phone 2</mat-label>
+                                <input formControlName="phoneNumber2" type="text" matInput>
+                            </mat-form-field>
+                        
+                    
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Website</mat-label>
+                                <input formControlName="website" type="text" matInput>
+                            </mat-form-field>
+    
+                            
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Notes</mat-label>
+                                <textarea formControlName="notes" matInput></textarea>
+                            </mat-form-field>
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Address</mat-label>
+                                <textarea formControlName="address" matInput></textarea>
+                            </mat-form-field>
+                            <mat-form-field  class="w-100" color="warn">
+                                <mat-label>{{'addCustomer.D.O.B'|translate}}</mat-label>
+                                <input matInput formControlName="birthday" (dateChange)="checkBirthDate()" [class.is-valid]="Form.controls.birthday.status=='VALID'" [matDatepicker]="picker10">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker10"></mat-datepicker-toggle>
+                                <mat-datepicker #picker10></mat-datepicker>
+                            </mat-form-field>
+                            <div class="my-3 d-flex">
+                                <label class="cus_label mx-3">Notification :</label>
+                                <mat-checkbox formControlName="smsNotification" color="warm" class="example-margin mx-2">SMS</mat-checkbox>
+                                <mat-checkbox formControlName="emailNotification" class="example-margin">Email</mat-checkbox>
+                            </div>    
+                    </div>
+    
+                </div>
+                <hr style="width:80%; margin:auto;border-top:2px solid;color:#000" class="my-5">
+                <!-- Account Info -->
+                <div class="row">
+                    <p class="font_Coloered2 my-4">Account Information</p>
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Bank Name</mat-label>
+                            <input formControlName="bankName" type="text" matInput>
+                        </mat-form-field>
+    
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Account NO.</mat-label>
+                            <input formControlName="accountNO" type="text" matInput>
+                        </mat-form-field>
+    
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Currency</mat-label>
+                            <mat-select [(value)]="CurrencyValue" (selectionChange)="getCurrencyValue($event)"(selectionChange)="getValidInputs()">
+                                <mat-option *ngFor="let item of Currency" value="{{item.value}}">{{item.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+    
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Bank Country</mat-label>
+                            <mat-select [(value)]="bankCountryValue" (selectionChange)="getBankCountryValue($event)"(selectionChange)="getValidInputs()">
+                              <mat-option *ngFor="let country of Contries" value="{{country.id}}">{{country.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+    
+                        <mat-form-field class="w-100" appearance="outline" >
+                            <mat-label>IBAN</mat-label>
+                            <input formControlName="iban" type="text" matInput>
+                        </mat-form-field>
+    
+    
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Swift Code</mat-label>
+                            <input formControlName="swiftCode" type="text" matInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <hr style="width:80%; margin:auto;border-top:2px solid;color:#000" class="my-4">
+    
+                <!-- Status -->
+                <p class="font_Coloered2 my-4">Status</p>
+                        <label class="cus_label">Notification :</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-checkbox formControlName="onHold" color="primary" (click)="onHoldToggle()" class="example-margin d-block">On Hold</mat-checkbox>
+                                <div style="display: none;" id="onhold">
+                                    <!-- <mat-form-field style="display: none;" id="onhold" appearance="outline" color="warn">
+                                    <mat-label>Choose a date</mat-label>
+                                    <input formControlName="onHoldDate" matInput [matDatepicker]="picker2">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field> -->
+                                    <mat-form-field class=" w-100">
+                                        <mat-label>{{'Shared.ChooseADate'|translate}}</mat-label>
+                                        <input formControlName="onHoldDate" matInput [matDatepicker]="picker30">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker30"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker30></mat-datepicker>
+                                    </mat-form-field>
+                                    <mat-form-field class="w-100 ">
+                                        <mat-label>{{'addCustomer.HoldReason'|translate}}</mat-label>
+                                        <textarea  formControlName="onHoldReason" matInput></textarea>
+                                    </mat-form-field>
+        
+                                    <mat-form-field class="w-100 ">
+                                        <mat-label>{{'addCustomer.HoldDangerLevel'|translate}}</mat-label>
+                                        <mat-select formControlName="onHoldDangerLevel" >
+                                        <mat-option *ngFor="let level of AllDangerLevels" [value]="level.value">{{level.value}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                
+                            </div>
+                            <div class="col-md-6">
+                                <mat-checkbox color="primary" formControlName="block" (click)="onHoldToggle()" class="example-margin d-block">Block</mat-checkbox>
+                                <div style="display: none;" id="block">
+                                    <!-- <mat-form-field appearance="outline" color="warn">
+                                    <mat-label>Choose a date</mat-label>
+                                    <input formControlName="blockDate" matInput [matDatepicker]="picker1">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field> -->
+                                    <mat-form-field  class=" w-100">
+                                        <mat-label>{{'Shared.ChooseADate'|translate}}</mat-label>
+                                        <input formControlName="blockDate" matInput [matDatepicker]="picker33">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker33"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker33></mat-datepicker>
+                                    </mat-form-field>
+        
+                                    <mat-form-field  class="w-100 ">
+                                        <mat-label>{{'addCustomer.BlockReason'|translate}}</mat-label>
+                                        <textarea formControlName="blockReason" matInput></textarea>
+                                    </mat-form-field>
+            
+                                    <mat-form-field class="w-100 ">
+                                        <mat-label>{{'addCustomer.BlockDangerLevel'|translate}}</mat-label>
+                                        <mat-select formControlName="blockDangerLevel">
+                                        <mat-option *ngFor="let level of AllDangerLevels" [value]="level.value">{{level.value}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div> 
+                        </div>   
+                <hr style="width:80%; margin:auto;border-top:2px solid;color:#000" class="my-4">
+                <div class="modal-footer">
+                    <button type="button" id="clodeEditModal" mat-raised-button data-bs-dismiss="modal">Close</button>
+                    <button [disabled]="this.Form.status=='INVALID'||this.isClicked" (click)="SubmitCustomer()" type="button" mat-raised-button color="primary">
+                        <span *ngIf="!this.isClicked">{{'Shared.Save'|translate}}</span>
+                        <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                    </button>
+                    <!--  -->
+                  </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--------------------------------------- Status Modal --------------------------->
+<!-- <div class="modal fade" id="Status" tabindex="-1" aria-labelledby="Status" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="Status">Status</h1>
+            </div>
+            <div class="container my-2">
+                <div class="row">
+                    <div class="col-md-6 mt-2">
+                        <div class="outerBorder shadow_5">
+                            <mat-radio-group aria-label="Select an option" (change)="getBlockStatus($event)">
+                                <mat-radio-button [checked]="this.customerStaus?.block ==true"  [value]="true" class="px-4">Block</mat-radio-button>
+                                <mat-radio-button [checked]="this.customerStaus?.block ==false" [value]="false">UnBlock</mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field style="display: none;" class="block w-100" appearance="outline">
+                                <mat-label>{{'Shared.ChooseADate'|translate}}</mat-label>
+                                <input [(ngModel)]="this.BlockDate" matInput [matDatepicker]="picker5">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                                <mat-datepicker #picker5></mat-datepicker>
+                            </mat-form-field>
+
+                            <mat-form-field style="display:none;" class="w-100 block" appearance="outline">
+                                <mat-label>{{'addCustomer.BlockReason'|translate}}</mat-label>
+                                <textarea [(ngModel)]="this.BlockReason" matInput></textarea>
+                            </mat-form-field>
+    
+                            <mat-form-field style="display: none;" class="w-100 block" appearance="outline">
+                                <mat-label>{{'addCustomer.BlockDangerLevel'|translate}}</mat-label>
+                                <mat-select [(value)]="this.BlockDangerLevel">
+                                <mat-option *ngFor="let level of AllDangerLevels" [value]="level.value">{{level.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <button (click)="SaveBlockEdit()" class="w-25 d-block btn tabeeb_Btn" mat-raised-button >Save</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-2">
+                        <div class="outerBorder shadow_5">
+                            <mat-radio-group aria-label="Select an option" (change)="getHoldStatus($event)">
+                                <mat-radio-button [checked]="this.customerStaus?.onHold ==true"  [value]="true" class="px-4">Hold</mat-radio-button>
+                                <mat-radio-button [checked]="this.customerStaus?.onHold ==false"  [value]="false">UnHold</mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field style="display: none;"class="onhold w-100" appearance="outline">
+                                <mat-label>{{'Shared.ChooseADate'|translate}}</mat-label>
+                                <input [(ngModel)]="this.HoldDate" matInput [matDatepicker]="picker12">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker12"></mat-datepicker-toggle>
+                                <mat-datepicker #picker12></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field style="display:none;" class="w-100 onhold" appearance="outline">
+                                <mat-label>{{'addCustomer.HoldReason'|translate}}</mat-label>
+                                <textarea [(ngModel)]="this.HoldReason" matInput></textarea>
+                            </mat-form-field>
+
+                            <mat-form-field style="display: none;" class="w-100 onhold" appearance="outline">
+                                <mat-label>{{'addCustomer.HoldDangerLevel'|translate}}</mat-label>
+                                <mat-select [(ngModel)]="this.HoldDangerLevel">
+                                <mat-option *ngFor="let level of AllDangerLevels" [value]="level.value">{{level.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <button (click)="SaveHoldEdit()" class="w-25 d-block btn tabeeb_Btn" mat-raised-button>Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer py-3">
+                <button id="close" type="button" mat-raised-button
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="overlayAddplan" (click)="CloseStatus()">
+    <div class="addnewplan" (click)="$event.stopPropagation()">
+        <div class="d-flex justify-content-between delet-details">
+            <h2>Status ?</h2>
+            <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="CloseStatus()" style="cursor: pointer;"></i></div>
+        </div>
+       <hr class="custom-hr w-100">
+       <div class="container">
+        <div class="row">
+            <div class="col-md-6 mt-2">
+                <div class="outerBorder shadow_5 mt-2">
+                    <mat-radio-group aria-label="Select an option" (change)="getBlockStatus($event)">
+                        <mat-radio-button [checked]="this.customerStaus?.block ==true"  [value]="true" class="px-4">Block</mat-radio-button>
+                        <mat-radio-button [checked]="this.customerStaus?.block ==false" [value]="false">UnBlock</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-form-field style="display: none;" class="block w-100 mt-3" appearance="outline">
+                        <mat-label>{{'Shared.ChooseADate'|translate}}</mat-label>
+                        <input [(ngModel)]="this.BlockDate" matInput [matDatepicker]="picker5">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker5"></mat-datepicker-toggle>
+                        <mat-datepicker #picker5></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field style="display:none;" class="w-100 block mt-2" appearance="outline">
+                        <mat-label>{{'addCustomer.BlockReason'|translate}}</mat-label>
+                        <textarea [(ngModel)]="this.BlockReason" matInput></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field style="display: none;" class="w-100 block mt-2" appearance="outline">
+                        <mat-label>{{'addCustomer.BlockDangerLevel'|translate}}</mat-label>
+                        <mat-select [(value)]="this.BlockDangerLevel">
+                        <mat-option *ngFor="let level of AllDangerLevels" [value]="level.value">{{level.value}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div class="text-center d-flex align-items-center justify-content-center">
+                        <button (click)="SaveBlockEdit()" class="w-25 d-block btn tabeeb_Btn text-center mt-2" mat-raised-button >Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mt-2">
+                <div class="outerBorder shadow_5 mt-2">
+                    <mat-radio-group aria-label="Select an option" (change)="getHoldStatus($event)">
+                        <mat-radio-button [checked]="this.customerStaus?.onHold ==true"  [value]="true" class="px-4">Hold</mat-radio-button>
+                        <mat-radio-button [checked]="this.customerStaus?.onHold ==false"  [value]="false">UnHold</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-form-field style="display: none;"class="onhold w-100 mt-3" appearance="outline">
+                        <mat-label>{{'Shared.ChooseADate'|translate}}</mat-label>
+                        <input [(ngModel)]="this.HoldDate" matInput [matDatepicker]="picker12">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker12"></mat-datepicker-toggle>
+                        <mat-datepicker #picker12></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field style="display:none;" class="w-100 onhold mt-2" appearance="outline">
+                        <mat-label>{{'addCustomer.HoldReason'|translate}}</mat-label>
+                        <textarea [(ngModel)]="this.HoldReason" matInput></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field style="display: none;" class="w-100 onhold mt-2" appearance="outline">
+                        <mat-label>{{'addCustomer.HoldDangerLevel'|translate}}</mat-label>
+                        <mat-select [(ngModel)]="this.HoldDangerLevel">
+                        <mat-option *ngFor="let level of AllDangerLevels" [value]="level.value">{{level.value}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <button (click)="SaveHoldEdit()" class="w-25 d-block btn tabeeb_Btn mt-2" mat-raised-button>Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+       </div>
+       <div class="d-flex justify-content-center align-items-center" style="padding: 0 3px 0 3px;">
+        <button class="main_outer_Btn mt-5 w-25" mat-stroked-button (click)="CloseStatus()">close</button>
+        <!-- <button class="btn _delete w-50 mx-1" (click)="deleteBank()">
+            <span *ngIf="!this.isClicked">Delete</span>
+            <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+        </button> -->
+       </div>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+<div id="policy_creation_report">
+    <div class="container-fluid">
+        <!-------------------- Search Polices ------------------->
+        <div class="outerBorder outerItem shadow_5 py-3">
+            <div class="d-flex justify-content-between">
+                <p class="font_Coloered3 text-center my-2">Rejected Claims</p>
+            </div>
+            <p class="text-muted fs-5 fw-bold mt-4">{{'Shared.SearchHere'|translate}} :</p>
+            <form [formGroup]="SearchForm" class="py-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>Policy Code</mat-label>
+                            <mat-select formControlName="PolicyCode" (selectionChange)="onPolicyCodeChange($event.value)" >
+                            <mat-option *ngFor="let policy of AllPolices" [value]="policy.policyCode">
+                            {{ policy.policyCode}}
+                            </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>Insured Name</mat-label>
+                            <mat-select formControlName="InsuredId">
+                                <mat-option [value]="this.insuredObject?.insuredId">
+                                    {{ this.insuredObject?.insuredName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div id="supCompany" style="display: none;" class="mt-4">
+                        <form [formGroup]="SupcompanyData">
+                            <div class="row">
+                                <!-- <div class="col-md-1"></div> -->
+                                <div class="col-md-3">
+                                    <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                                        <mat-label>Insured Name</mat-label>
+                                        <mat-select formControlName="subCompanyId">
+                                            <mat-option *ngFor="let item of this.insuredObject?.subCompanies" [value]="this.item.id">
+                                                {{ item.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                                        <mat-label>Out Standing</mat-label>
+                                        <input formControlName="outStanding" type="number" matInput>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                                        <mat-label>IBNR</mat-label>
+                                        <input formControlName="ibnr" type="number" matInput>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3 d-flex align-items-center">
+                                    <button [disabled]="this.SupcompanyData.status=='INVALID'" (click)="Add()" mat-raised-button color="primary">Add</button>
+                                </div>
+                                <div style="padding-left: 15rem !important;">
+                                    <table *ngIf="this.subCompanyArr.length>0"  class="table table-striped text-center mt-2 w-75 ">
+                                        <thead>
+                                            <th>Out Standing</th>
+                                            <th>IBNR</th>
+                                            <th class="remove"></th>
+                                        </thead>
+                                        <tbody>
+                                                <tr *ngFor="let item of subCompanyArr;let index = index" class="align-middle">
+                                                    <td>{{item.outStanding}}</td>
+                                                    <td>{{item.ibnr}}</td>
+                                                    <td class="remove"><button color="warn" (click)="remove(index)" mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                                                </tr>
+                                        </tbody>
+                                        <!-- <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th>All Fees</th>
+                                            
+                                            <th><button  mat-raised-button color="primary" class="w-50 mt-3"> <span >Save <i class="fa-regular fa-floppy-disk"></i></span></button></th>
+                                            </tr>
+                                        </tfoot> -->
+                                    </table>
+                                </div>
+                             
+                            </div>
+                            <div>
+                              
+                            </div>
+                        </form>
+                    
+                    </div>
+                    <!-- <div class="col-md-3">
+                        <mat-form-field class="w-100">
+                            <mat-label>{{'Policy.To'|translate}}</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </div> -->
+                    <div>
+                        <!-- Search Now -->
+                        <div class="d-flex justify-content-center align-items-center mt-3">
+                            <button [disabled]="this.SearchForm.status=='INVALID'|| this.subCompanyArr.length<this.insuredObject?.subCompanies.length" id="searchBtn" (click)="Search1()" mat-raised-button color="primary"
+                                class="w-25 btn Apply"><span *ngIf="this.isClicked"><i
+                                        class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span
+                                    *ngIf="!this.isClicked">{{'Shared.Search'|translate}} 
+                                    <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+                                </span>
+                            </button>
+                            <button (click)="ResetForm()" mat-raised-button color="accent" class="w-25 btn Apply mx-2" style="background-color: brown;">
+                                <span>Reset</span>
+                              </button>                            <!-- <button (click)="ResetForm()" class="btn btn-danger mt-1 mx-1 resetBtn">Reset <i class="fa-solid fa-backward-step"></i></button> -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+      
+    </div>
+</div>
+
+                      

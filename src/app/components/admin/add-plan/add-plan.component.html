@@ -1,0 +1,64 @@
+<div id="addPlan" class="mt-5">
+    <div class="container">
+        <p class="font_Coloered3 text-center mb-4" data-aos-duration="1000" data-aos="zoom-in">Add New Plan</p>
+        <div class="outerBorder shadow_5 mt-5">
+            <form [formGroup]="palnForm">
+                <div class="row">
+                    <div class="col-md-5 offset-md-1 mt-2">
+    
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Service Provider</mat-label>
+                            <input readonly value="TPA Name Here" type="text"  matInput>
+                        </mat-form-field>
+    
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Plan Code</mat-label>
+                            <input formControlName="planName" type="text"  matInput>
+                        </mat-form-field>
+    
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Annual Max Limit</mat-label>
+                            <input formControlName="annualMaxLimit" type="text"  matInput>
+                        </mat-form-field>
+    
+    
+                    </div>
+    
+                    <div class="col-md-5 mt-2">
+    
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Type Of service</mat-label>
+                            <mat-select [(value)]="typeOfServiceValue">
+                                <mat-option value="0">Direct</mat-option>
+                                <mat-option value="1">Indirect</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+    
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>GeographicalScope</mat-label>
+                            <mat-select [(value)]="GeographicalScopeVAlue">
+                                <mat-option value="0">Outside Egypt</mat-option>
+                                <mat-option value="1">Inside Egypt</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label><span class="text-danger mx-1"></span>Accommodation Class</mat-label>
+                            <input formControlName="accommodationClass" type="text"  matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-11">
+                        <div class="d-flex justify-content-end mt-3" data-aos-duration="1000" data-aos="zoom-in">
+                            <button (click)=submitPlan() [disabled]="this.palnForm.status=='INVALID' || typeOfServiceValue ==null || GeographicalScopeVAlue==null" type="button" mat-raised-button color="primary">Save</button>
+                        </div>
+                     </div>         
+                </div>
+                <div class="modal-footer py-3">
+    
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>

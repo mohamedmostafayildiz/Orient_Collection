@@ -1,0 +1,26 @@
+h2{
+    color: #01BACB;
+    font-size: 1.5rem;
+}
+.accordion-header button{
+    background-color:#FFF!important ;
+    color: #000!important;
+    padding: 0 1rem!important;
+}
+.accordion-item {
+    color: #000!important;
+     background-color: transparent!important; 
+    // border: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
+}
+.accordion-body{
+    color: #000!important;
+
+}
+h2{
+    cursor: pointer;
+    padding: 0.5rem 0 0.5rem 0;
+    transition: 0.3s;
+}
+h2:hover{
+    transform: scale(1.05);
+}

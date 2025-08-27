@@ -1,0 +1,392 @@
+<div id="offer_Versions">
+    <div class="container-fluid">
+        <!-- <div class="d-flex justify-content-between mx-5">
+            <p class="font_Coloered3 text-center my-4">{{"Shared.Details"|translate}}</p>
+        </div> -->
+        <div class="outerBorder outerItem  table-responsive" style="margin:0px 0px !important;">
+            <div class="d-flex justify-content-between">
+                <p class="maindetails text-center">Main details</p>
+                <p routerLink="/EditOffer/{{offerId}}" class="Editpartner text-center" style="cursor: pointer;"><img src="../../../.././assets/imgs/Design/edit.png" alt=""> Edit offer</p>
+            </div>
+            <hr class="my-3" style="width: 100%;margin: auto;">
+            <div class="row">
+                <div class="col-md-2">
+                    <h5 class="quest">{{"Offer.OfferCode"|translate}}</h5>
+                    <p class="answ">{{this.OfferDetails?.code}}</p>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="quest">{{"Offer.CustomerName"|translate}}</h5>
+                    <p class="answ">{{this.OfferDetails?.customerName}}</p>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="quest">{{"Offer.BusinessType"|translate}}</h5>
+                    <p class="answ">{{this.OfferDetails?.businessType}}</p>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="quest">{{"Offer.InsuranceClass"|translate}}</h5>
+                    <p class="answ">{{this.OfferDetails?.insuranceClass}}</p>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="quest">TotalPremium</h5>
+                    <p class="answ">{{this.OfferDetails?.totalPremium}}</p>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="quest">TotalSumInsured</h5>
+                    <p class="answ">{{this.OfferDetails?.totalSumInsured}}</p>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-2">
+                    <h5 class="quest">{{"Offer.TpaName"|translate}}</h5>
+                    <p class="answ">{{this.OfferDetails?.tpaName}}</p>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="quest">{{"Offer.NetPremium"|translate}}</h5>
+                    <p class="answ">{{this.OfferDetails?.netPremium}}</p>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="quest">{{"Offer.OfferDate"|translate}}</h5>
+                    <p class="answ">{{this.OfferDetails?.offerDate|date:'shortDate'}}</p>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="quest">{{"Offer.PolicySource"|translate}}</h5>
+                    <p class="answ">{{this.OfferDetails?.policySource}}</p>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="quest">{{"Offer.Broker"|translate}}</h5>
+                    <p class="answ"><span *ngIf="this.OfferDetails?.policySource=='Direct'">_</span> {{this.OfferDetails?.brokerName}}</p>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="quest">Branch</h5>
+                    <p class="answ">{{this.OfferDetails?.branch}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt-4">
+        <div class="outerBorder outerItem  table-responsive" style="margin:0px 0px !important;">
+            <div class="d-flex">
+                <p class="maindetails">Current plans</p>
+                <i *ngIf="isClickedGetFile" class="fa-solid fa-fan fs-3 text-success"></i>
+                <i *ngIf="!isClickedGetFile" (click)="getPlansFile()" class="fa-solid fa-download fs-3 px-2 pt-1 " style="border-radius: 7px; cursor: pointer; color:#01BACB !important;"></i>
+            </div>
+            <hr class="my-3" style="width: 100%;margin: auto;">
+            <div *ngIf="this.OfferPlans?.length==0" class="alert alert-info w-75 my-5 m-auto text-center"><strong>{{'Offer.NoPlansYet'|translate}}</strong></div>
+            <div style="max-height:19rem;overflow: auto;">
+                <table *ngIf="this.OfferPlans.length>0" class="table text-center">
+                    <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                        <th>{{"Offer.Plan Name"|translate}}</th>
+                        <th>{{'Offer.NetPremium'|translate}}</th>
+                        <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                        <th>Risks</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let plan of this.OfferPlans;let index = index" class="spaced-row">
+                            <td class="my-2">{{plan.planName}}</td>
+                            <td class="my-2">{{plan.netPremium}}</td>
+                            <td class="my-2">{{plan.annualMaxLimit}}</td>
+                            <td class="my-2">
+                                <i (click)="getRiskInfo(plan.risks)" class="fa-regular fa-eye fs-5 px-3 py-2" style="color:#01BACB !important;"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      
+    </div>
+    <div class="container-fluid mt-4">
+        <div class="outerBorder outerItem  table-responsive" style="margin:0px 0px !important;">
+            <div>
+                <p class="maindetails">Currernt Group</p>
+            </div>
+            <hr class="my-3" style="width: 100%;margin: auto;">
+            <div *ngIf="this.OfferGroup.length==0" class="alert alert-info w-75 my-5 m-auto text-center"><strong>{{'Offer.NoCustomerGroupYet'|translate}}</strong></div>
+                <div *ngIf="this.OfferGroup.length>0" style="max-height:19rem;overflow: auto;" id="currentGroup">
+                    <table class="table text-center">
+                        <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                            <th>{{'addCustomer.Name'|translate}}</th>
+                            <th>{{'addCustomer.Sex'|translate}}</th>
+                            <th>{{'Offer.GroupRel'|translate}}</th>
+                            <th>{{'addCustomer.D.O.B'|translate}}</th>
+                            <th>Plan Name</th>
+                            <th>Age</th>
+                            <th>Net Premium</th>
+                            <th>{{'addCustomer.Notes'|translate}}notes</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let plan of this.OfferGroup;">
+                                <td>{{plan.name}}</td>
+                                <td>{{plan.gender}}</td>
+                                <td>{{plan.groupRel}}</td>
+                                <td>{{plan.dateOfBirth|date:'dd/MM/YYYY'}}</td>
+                                <td>{{plan.planName}}</td>
+                                <td>{{plan.age}}</td>
+                                <td>{{plan.netPremium}}</td>
+                                <td>{{plan.notes}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+
+
+
+        <!-- <div class="outerBorder outerItem shadow_5"> -->
+
+            <!--------------- Main Details ------------->
+            <!-- <h2 class="text-muted">{{"Shared.MainDetails"|translate}}</h2> -->
+            <!-- <div class="row">
+                <div class="col-md-6" data-aos="fade-right" data-aos-duration="800">
+                    <table class="table table-striped table-bordered text-center mt-2">
+                        <tbody>
+                            <tr>
+                                <th class="w-30 py-3">{{"Offer.OfferCode"|translate}}</th>
+                                <td class="w-60 py-3">{{this.OfferDetails?.code}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">{{"Offer.CustomerName"|translate}}</th>
+                                <td class="w-60 py-3">{{this.OfferDetails?.customerName}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">{{'Offer.BusinessType'|translate}}</th>
+                                <td class="w-60 py-3">{{this.OfferDetails?.businessType}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">{{'Offer.InsuranceClass'|translate}}</th>
+                                <td class="w-60 py-3">{{this.OfferDetails?.insuranceClass}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">{{'Shared.TotalPremium'|translate}}</th>
+                                <td class="w-60 py-3">{{this.OfferDetails?.totalPremium}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">{{'Shared.TotalSumInsured'|translate}}</th>
+                                <td class="w-60 py-3">{{this.OfferDetails?.totalSumInsured}}</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos="fade-left" data-aos-duration="800">
+                    <table class="table table-striped table-bordered text-center mt-2">
+                        <tbody>
+                            <tr>
+                                <th class="w-30 py-3">{{"Offer.TpaName"|translate}}</th>
+                                <td class="w-60 py-3">{{this.OfferDetails?.tpaName}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">{{'Shared.NetPremium'|translate}}</th>
+                                <td class="w-60 py-3">{{this.OfferDetails?.netPremium}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">{{'Offer.OfferDate'|translate}}</th>
+                                <td class="w-60 py-3">{{this.OfferDetails?.offerDate|date:'shortDate'}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">{{'Offer.PolicySource'|translate}}</th>
+                                <td class="w-60 py-3">{{this.OfferDetails?.policySource}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">{{'Offer.Broker'|translate}}</th>
+                                <td class="w-60 py-3"><span *ngIf="this.OfferDetails?.policySource=='Direct'">_</span> {{this.OfferDetails?.brokerName}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">Branch</th>
+                                <td class="w-60 py-3">{{this.OfferDetails?.branch}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div> -->
+            <!-- <hr class="my-3" style="width: 80%;margin: auto;"> -->
+            <!--------------- Plans ------------->
+            <!-- <div class="d-flex ">
+                <h2 class="text-muted">{{'Offer.CurrentPlans'|translate}}</h2>
+                <i *ngIf="isClickedGetFile" class="fa-solid fa-fan fs-3 text-success"></i>
+                <i *ngIf="!isClickedGetFile" (click)="getPlansFile()" class="text-success fa-solid fa-download fs-3 px-2 pt-1 " style="border-radius: 7px; cursor: pointer;"></i>
+            </div> -->
+
+            <!-- <div class="container shadow_5 py-3" style="border-radius: 0.5rem;">
+                <div *ngIf="this.OfferPlans?.length==0" class="alert alert-info w-75 my-5 m-auto text-center"><strong>{{'Offer.NoPlansYet'|translate}}</strong></div>
+                <div style="max-height:19rem;overflow: auto;">
+                    <table *ngIf="this.OfferPlans.length>0" class="table table-striped text-center">
+                        <thead>
+                            <th>{{"Offer.Plan Name"|translate}}</th>
+                            <th>{{'Offer.NetPremium'|translate}}</th>
+                            <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                            <th>Risks</th>
+                        </thead>
+                        <tbody>
+                            <tr class="my-2" *ngFor="let plan of this.OfferPlans;let index = index">
+                                <td class="my-2">{{plan.planName}}</td>
+                                <td class="my-2">{{plan.netPremium}}</td>
+                                <td class="my-2">{{plan.annualMaxLimit}}</td>
+                                <td class="my-2">
+                                    <i (click)="getRiskInfo(plan.risks)" data-bs-toggle="modal" data-bs-target="#Risk" class="fa-regular fa-eye text-success fs-5 px-3 py-2"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div> -->
+            <!-- <hr class="my-3" style="width: 80%;margin: auto;"> -->
+            <!--------------- groups ------------->
+            <!-- <h2 class="text-muted">{{"Offer.CurrerntGroup"|translate}}</h2> -->
+            <!-- <div class="container shadow_5 p-3" style="border-radius: 0.5rem;"> -->
+                <!-- <div *ngIf="this.OfferGroup.length==0" class="alert alert-info w-75 my-5 m-auto text-center"><strong>{{'Offer.NoCustomerGroupYet'|translate}}</strong></div> -->
+                <!-- <div *ngIf="this.OfferGroup.length>0" style="max-height:19rem;overflow: auto;" id="currentGroup">
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <th>{{'addCustomer.Name'|translate}}</th>
+                            <th>{{'addCustomer.Sex'|translate}}</th>
+                            <th>{{'Offer.GroupRel'|translate}}</th>
+                            <th>{{'addCustomer.D.O.B'|translate}}</th>
+                            <th>Plan Name</th>
+                            <th>Age</th>
+                            <th>Net Premium</th>
+                            <th>{{'addCustomer.Notes'|translate}}notes</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let plan of this.OfferGroup;">
+                                <td>{{plan.name}}</td>
+                                <td>{{plan.gender}}</td>
+                                <td>{{plan.groupRel}}</td>
+                                <td>{{plan.dateOfBirth|date:'dd/MM/YYYY'}}</td>
+                                <td>{{plan.planName}}</td>
+                                <td>{{plan.age}}</td>
+                                <td>{{plan.netPremium}}</td>
+                                <td>{{plan.notes}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> -->
+            <!-- </div> -->
+            <!-- <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div> -->
+        <!-- </div> -->
+
+        <!-- <div class="outerBorder outerItem shadow_5 table-responsive">
+        <table class="table table-striped text-center">
+            <thead class="tableHead">
+                <th class="py-2">Version No.</th>
+                <th class="py-2">Customer</th>
+                <th class="py-2">TPA</th>
+                <th class="py-2">Policy Source</th>
+                <th class="py-2">Broker</th>
+                <th class="py-2">Offer Date</th>
+                <th class="py-2">Business Type</th>
+                <th class="py-2">Insurance Class</th>
+
+                <th class="py-2">Settings</th>
+            </thead>
+            <tbody>
+                
+                <tr *ngFor="let version of OfferDetails|paginate:{
+                    itemsPerPage:tableSize,
+                    currentPage:page,
+                    totalItems:count}; let i=index">
+                    <td class="align-middle">{{version.versionNo}}</td>
+                    <td class="align-middle">{{version.customerId}}</td>
+                    <td class="align-middle">{{version.tpaId}}</td>
+                    <td class="align-middle">{{version.policySource}}</td>
+                    <td class="align-middle">{{version.brokerId}}</td>
+                    <td class="align-middle">{{version.offerDate|date:'shortDate'}}</td>
+                    <td class="align-middle">{{version.businessType}}</td>
+                    <td class="align-middle">{{version.insuranceClass}}</td>
+        
+
+                    <td class="align-middle d-flex">
+                        <button mat-raised-button color="primary" class="mx-1">Plans</button>
+                        <button mat-raised-button color="accent">Group</button>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+       
+        <div class="d-flex justify-content-end mt-4">
+            <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
+            <select style="border: solid 2px #4758B8;" (change)="onTableSizeChange($event)" class="tableSize rounded-pill px-1">
+              <option *ngFor=" let size of tableSizes">{{size}}</option>
+            </select>
+        </div>
+        
+        <div id="loading" *ngIf="loading">
+            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+        </div>
+      </div> -->
+</div>
+
+
+                <!--------------------------------------- Risk Modal --------------------------->
+<!-- <div class="modal fade" id="Risk" tabindex="-1" aria-labelledby="Risk" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="Risk">{{"Offer.Risk"|translate}}</h1>
+            </div>
+            <div class="container my-2">
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <table class="table text-center w-100">
+                            <thead style="background-color: #F2F2F2 !important;">
+                                <th>{{"Offer.Risk"|translate}}</th>
+                                <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                            </thead>
+                            <tbody>
+                                    <tr *ngFor="let item of AllRisk;let index = index">
+                                        <td>{{ getRiskNameById(item.id) }}</td>
+                                        <td>{{item.annualMaxLimit}}</td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer py-3">
+                <button id="close" type="button" mat-raised-button
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+    <!-- Risk Model -->
+    <div class="overlay" (click)="closeShowRisk()">
+        <div class="delet" (click)="$event.stopPropagation()">
+            <div class="d-flex justify-content-between delet-details">
+                <h2>{{"Offer.Risk"|translate}}</h2>
+                <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeShowRisk()" style="cursor: pointer;"></i></div>
+            </div>
+            <hr class="custom-hr w-100">
+            <div class="container my-2">
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table text-center w-100">
+                            <thead style="background-color: #F2F2F2 !important;">
+                                <th>{{"Offer.Risk"|translate}}</th>
+                                <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                            </thead>
+                            <tbody>
+                                    <tr *ngFor="let item of AllRisk;let index = index">
+                                        <td>{{ getRiskNameById(item.riskId) }}</td>
+                                        <td>{{item.annualMaxLimit}}</td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center" style="padding: 0 3px 0 3px;">
+            <button class="btn _cancel w-50 mx-1" (click)="closeShowRisk()">Cancel</button>
+            </div>
+        </div>
+    </div>

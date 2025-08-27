@@ -1,0 +1,187 @@
+<div id="CollectionAdmin">
+      <div class="outerBorder outerItem py-3">
+        <!-------------------- Search Portfolio ------------------->
+        <div id="filters" style="display: none;">
+            <p class="fs-5 fw-bold py-2 main_color">{{'Shared.SearchHere'|translate}} :</p>
+            <form [formGroup]="SearchForm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{'Portfolios.PortfolioNo'|translate}}</mat-label>
+                            <input formControlName="code" type="text" matInput>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-hashtag"></i></mat-icon>
+                        </mat-form-field>
+        
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" id="bokerField">
+                            <mat-label>{{'Offer.Broker'|translate}}</mat-label>
+                            <mat-select  [(value)]="BrokerIdVal">
+                                <mat-option value="">{{'Shared.Null'|translate}}</mat-option>
+                                <mat-option *ngFor="let type of brokerCustomers" [value]="type.id">{{type.arabicName}}</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-people-arrows"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{'Offer.Insured'|translate}}</mat-label>
+                            <input formControlName="Insured" type="Text" matInput>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-user"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{'Policy.From'|translate}}</mat-label>
+                            <input formControlName="From" matInput [matDatepicker]="picker">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{'Policy.To'|translate}}</mat-label>
+                            <input formControlName="To" matInput [matDatepicker]="picker2">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="col-md-4">
+                        <!-- Search Now -->
+                        <div class="d-flex justify-content-start mt-2">
+                            <button [disabled]="this.isClicked" (click)="Search()" mat-raised-button class="tabeeb_Btn w-75 py-2">
+                                <span *ngIf="this.isClicked"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span> 
+                                <span *ngIf="!this.isClicked">{{'Shared.Search'|translate}} <i class="fa-solid fa-magnifying-glass"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr class="my-4" style="width: 80%;margin: auto;">
+        </div>
+
+        <!-------------------- Search results ------------------->
+        <div class="px-3">
+            <button id="Save" style="display: none;" [disabled]="this.ArrTest.length==0||this.isClicked2" (click)="SumbitPortfolios()" mat-raised-button class="w-100 tabeeb_Btn my-2">
+                <span *ngIf="this.isClicked2"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span><span *ngIf="!this.isClicked2">{{'Shared.Save'|translate}} <i class="fa-regular fa-floppy-disk"></i></span>
+            </button>  
+        </div>
+        <div style="overflow: auto;" id="SearchResults" class="outerItem"> 
+            <!-- <p class="fs-5 fw-bold py-2 main_color">{{'Shared.Searchresults'|translate}} <i class="fa-solid fa-square-poll-vertical"></i></p> -->
+            
+            <table class="table text-center table-responsive">
+                <thead class="py-5 main_color" style="background-color: #F2F2F2 !important;">
+                    <th class="py-3">{{'Portfolios.PortfolioNo'|translate}}</th>
+                    <th class="py-3">{{'Portfolios.Total'|translate}}</th>
+                    <th class="py-3">{{'Portfolios.CreatedAt'|translate}}</th>
+                    <th class="py-3">{{'Portfolios.Details'|translate}}</th>
+                    <th class="py-3">{{'Portfolios.Decision'|translate}}</th>
+                </thead>
+                <tbody>
+                    
+                    <tr *ngFor="let Policy of AllPortfolio;let index= index">
+                        <td class="align-middle">{{Policy.portfolioId}}</td>
+                        <td class="align-middle">{{Policy.amount}}</td>
+                        <td class="align-middle">{{Policy.createdAt|date:'dd-MM-YYYY'}}</td>
+                        <td class="align-middle">
+                            <i (click)="getPortflioCollections(Policy.collections)" class="fa-regular fa-eye fs-5 px-3 py-2" style="color: #01BACB !important;"></i>
+                        </td>
+                        <td class="align-middle d-flex justify-content-center">
+                            <select (change)="getApproveDecision(Policy.portfolioId , $event.target)"
+                             class="form-select w-50">
+                                <option style="background-color: #FFF;" value=""  selected>{{'Shared.Null'|translate}}</option>
+                                <option style="background-color: #E2F2E9;" value="true">{{'Portfolios.Approve'|translate}}</option>
+                                <option style="background-color: #FBECEC;" value="false">{{'Portfolios.DisApprove'|translate}}</option>
+                            </select>
+                        </td>
+
+                    </tr>
+                </tbody>
+                
+            </table>
+
+                            <!-- total Money-->
+
+            <!-- Loading -->
+            <div id="loading" *ngIf="loading">  
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+      </div>
+                            <!------------------ Modal --------------------->
+                              <!-- Add  Portofolio Actions  -->
+      <div class="overlayPortflioCollections" (click)="closePortflioCollections()">
+        <div class="closePortflioCollections" (click)="$event.stopPropagation()">
+            <div class="d-flex justify-content-between delet-details">
+                <h2>Portofoilo Details</h2>
+                <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closePortflioCollections()" style="cursor: pointer;"></i></div>
+            </div>
+           <hr class="custom-hr w-100">
+           <div class="container">
+                <table class="table text-center table-responsive table-hover">
+                    <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                        <th class="py-2">Collection Type</th>
+                        <!-- <th class="py-2">Created At</th> -->
+                        <th class="py-2">Is Payed</th>
+                        <th class="py-2">Payment Date</th>
+                        <th class="py-2">Amount</th>
+                    </thead>
+                    <tbody>
+                        
+                        <tr *ngFor="let Collection of PortflioCollections;let index= index">
+                            <td>{{Collection.collectionType}}</td>
+                            <!-- <td>{{Collection.createdAt|date:'dd - MM - YYYY'}}</td> -->
+                            <td class="text-success">{{Collection.isPayed}}</td>
+                            <td>{{Collection.paymentDate|date:'dd - MM - YYYY'}}</td>
+                            <td>{{Collection.localPremium}}</td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
+                <div class="d-flex justify-content-cnter align-items-center" style="padding: 20rem 0px 0px 0px;">
+                  <!-- <button [disabled]="this.AddBankForm.status=='INVALID'||this.isClicked" class="btn _cancel w-50 mx-1" (click)="AddBank()">
+                    <span *ngIf="!this.isClicked">Save</span>
+                    <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                  </button> -->
+                  <button class="btn _delete w-25 mx-1" (click)="closePortflioCollections()">Cancel</button>
+                 </div>
+           </div>       
+          </div>
+      </div>
+    <!-- <div class="modal fade" id="PortofoilDetails" tabindex="-1" aria-labelledby="addPlan" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addPlan">{{'Portfolios.PortofoiloDetails'|translate}}</h1>
+                </div>
+                <div class="outerBorder shadow_5 table-responsive my-4">
+
+                    <table class="table text-center table-responsive table-hover">
+                        <thead class="tableHead">
+                            <th class="py-2">{{'Portfolios.CollectionType'|translate}}</th>
+                            <th class="py-2">{{'Portfolios.IsPayed'|translate}}</th>
+                            <th class="py-2">{{'Portfolios.PaymentDate'|translate}}</th>
+                            <th class="py-2">{{'Portfolios.Price'|translate}}</th>
+                        </thead>
+                        <tbody>
+                            
+                            <tr *ngFor="let Collection of PortflioCollections;let index= index">
+                                <td>{{Collection.collectionType}}</td>
+                                <td>{{Collection.isPayed}}</td>
+                                <td>{{Collection.paymentDate|date:'dd - MM - YYYY'}}</td>
+                                <td>{{Collection.premium}}</td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                </div>   
+
+                <div class="modal-footer py-3">
+                    <button  type="button" mat-raised-button
+                        data-bs-dismiss="modal">{{'Shared.Close'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>

@@ -1,0 +1,249 @@
+.modal{
+    --bs-modal-width: 70%;
+}
+table thead {
+    --bs-table-bg: #F2F2F2; 
+    --bs-table-hover-bg: #e0e0e0; 
+  }
+  th, td {
+    height: 60px;
+    min-height: 60px; 
+    vertical-align: middle;
+  } 
+  th{
+    color: #01BACB;
+  }
+  .container-fluid{
+    --bs-gutter-x:0rem
+  }
+  .btn.active {
+    background-color: #01909d !important;
+    color: white !important;
+    border-color: #01909d !important;
+}
+.btn-outline-primary{
+    color: #01909d ;
+    border-color: #01909d;
+}
+.btn-outline-primary:hover{
+    background-color: #01909d;
+    color: white;
+}
+
+// dropdown
+.dropdown {
+    max-width: 25px; /* Restricts the width of the ellipsis container */
+  }
+.dropdown-item:hover{
+    background-color: #01BACB !important;
+    color: white !important;
+    cursor: pointer;
+  }
+  
+  .dropdown-item:hover .fa-eye {
+    color: white !important;
+  }
+  .dropdown-item:hover .fa-download  {
+    color: white !important;
+  }
+  .dropdown.show{
+    display: block;
+    position: absolute;
+    z-index: 1000001;
+  }
+  .dropdown-menu{
+    min-width: 50px;
+  }
+  
+  .fa-ellipsis-v {
+    cursor: pointer;
+  }
+  // img:hover{
+  // color: white !important;
+  // }
+  
+  .dropdown:hover .fa-ellipsis-v {
+    visibility: visible;
+  }
+  .form-group {
+    padding: 10px 0;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.form-control[readonly] {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+}
+.searchfilter{
+    background-color: #01909D;
+    border: none;
+    color: white;
+    // padding: 3px 10px;
+  }
+  .colorgray{
+    background-color: #F2F2F2 !important;
+  }
+  .overlayEditNon{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+    z-index: 1000; /* Ensure it is on top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
+.EditgovernmantNon{
+    position: absolute;
+    z-index: 999;
+    width: 75%;
+    height: 100%;
+    background-color: white;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    top: 0;
+    right: -30%;
+    // padding: 0rem 1rem;
+    overflow-y: auto;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// /* ✅ تثبيت رأس الجدول أثناء التمرير */
+.container{
+  width: 100% !important;
+}
+.outerBorder{
+  width: 100%;
+}
+.outerItem{
+  width: 100%;
+}
+.table-wrapper {
+  max-height: 500px; /* ارتفاع الجدول */
+  overflow: auto; /* Scroll أفقي وعمودي */
+  position: relative;
+}
+.table-responsive thead th {
+  position: sticky;
+  top: 0;
+  background: #f8f9fa;
+  z-index: 2;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.05);
+}
+.table th:first-child,
+.table td:first-child {
+  position: sticky;
+  left: 0;
+  // background: #fff; /* نفس لون الصف */
+  z-index: 2; /* فوق باقي الصفوف */
+}
+
+/* أول عمود في الـ header */
+.table thead th:first-child {
+  z-index: 4; /* أعلى من باقي الأعمدة */
+}
+
+/* ✅ حجم الخط ولون الخلفية للأعمدة */
+.table {
+  font-size: 14px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead th {
+  font-weight: 600;
+  text-transform: capitalize;
+  color: #333;
+}
+
+/* ✅ تحسين الصفوف */
+.table tbody tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+.table tbody tr:hover {
+  background-color: #f1f7ff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* ✅ محاذاة النص */
+.table td,
+.table th {
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 0.75rem;
+}
+
+/* ✅ محاذاة الأعمدة المالية لليمين */
+.table td.amount {
+  text-align: right;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* ✅ أيقونات أصغر */
+.mat-icon, .fa-solid {
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* ✅ دعم العرض على الشاشات الصغيرة */
+.table-responsive {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 6px;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+
+
+@media (min-width: 1200px) {
+    .container-xl, .container-lg, .container-md, .container-sm, .container {
+        max-width: 1214px;
+    }
+}
+
+
+
+
+// Icone toogol
+.text-success {
+  color: #28a745 !important;
+}
+.text-muted {
+  color: #ccc !important;
+}
+.disabled-icon {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.big-icon {
+  font-size: 25px;
+  width: 25px;
+  height: 25px;
+}

@@ -1,0 +1,122 @@
+<section id="AccountantPi">
+    <div class="container-fluid">
+        <div class="outerBorder outerItem" style="margin:0px 0px !important;">
+             <!-------------------- Search Policy ------------------->
+            <div id="filters" style="display: none;">
+                <p class="main_color fs-5 fw-bold py-2">{{'Shared.SearchHere'|translate}} :</p>
+                <form [formGroup]="SearchForm" class="mt-2">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Cheque Number</mat-label>
+                                <input formControlName="chequeNumber" type="text" matInput>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-hashtag"></i></mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- <mat-form-field appearance="outline">
+                                <mat-label>Status</mat-label>
+                                <input formControlName="status" type="text" matInput>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-hashtag"></i></mat-icon>
+                            </mat-form-field> -->
+                             <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Status</mat-label>
+                                <mat-select formControlName="status">
+                                    <mat-option [value]="null">Null</mat-option>
+                                    <mat-option [value]="1">DueCheck</mat-option>
+                                    <mat-option [value]="2">PostdatedCheck</mat-option>
+                                    <mat-option [value]="3">Returned</mat-option>
+                                </mat-select>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-money-bill"></i></mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <div class="d-flex justify-content-start">
+                                <button [disabled]="this.isClicked" (click)="Search()" mat-raised-button class="w-75 py-2 tabeeb_Btn"><span *ngIf="this.isClicked"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span *ngIf="!this.isClicked">{{'Shared.Search'|translate}} <i class="fa-solid fa-magnifying-glass"></i></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr class="my-3" style="width: 80%;margin: auto;">
+            </div>
+                  <div class="table-responsive mt-1 table-wrapper">
+                     <div *ngIf="this.ArrTest.length>0"  class="alert alert-warning mt-3 text-dark row my-2 mx-2" style="background-color: #fdfbe7!important;" role="alert">
+                    <div class="col-md-7 d-flex align-items-center">
+                        <h2 class="fw-bold fs-4 mb-0">{{this.ArrTest.length}} selected</h2>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-8">
+                            </div>
+                            <div class="col-4">
+                                <button [disabled]="this.ArrTest.length==0||isClicked" mat-raised-button (click)="converCheck()"  class="w-100 mt-2 tabeeb_Btn">
+                                    <span *ngIf="!isClicked">Save<i class="fa-regular fa-floppy-disk"></i></span>
+                                    <span *ngIf="isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <table class="table text-center">
+                        <thead style="background-color: #F2F2F2 !important;">
+                            <th class="py-3">Check Num</th>
+                            <th class="py-3">Check Num</th>
+                            <th class="py-3">Date</th>
+                            <th class="py-3">Amount</th>
+                            <th class="py-3">Bank Name</th>
+                            <th>Check Type</th>
+                            <th>Status</th>
+                        </thead>
+                        <tbody>
+                            
+                            <tr *ngFor="let check of AllCheqes;let index= index">
+                                 <td class="align-middle">
+                                     <section class="example-section">
+                                        <mat-checkbox 
+                                            [disabled]="!check.isApproved"
+                                            (change)="getCheckedValues($event, check, $event.checked)"
+                                            color="primary"
+                                            class="example-margin">
+                                            
+                                        </mat-checkbox>
+                                    </section>
+                                </td>
+                                 <td class="align-middle">
+                                    {{check.checkNumber}}
+                                </td>
+                                <!-- <td class="align-middle">
+                                    <mat-checkbox 
+                                    [disabled]="!check.isApproved" 
+                                    (change)="getCheckedValues($event, check, $event.checked)" 
+                                    color="primary"
+                                    class="custom-checkbox"
+                                    >
+                                    {{ check.checkNumber }}
+                                    </mat-checkbox>
+                                </td> -->
+                                <td class="align-middle">{{check.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                <td class="align-middle">{{check.amount}}</td>
+                                <td class="align-middle">{{check.bankName}}</td>
+                                <td class="align-middle">{{check.type}}</td>
+                                <td>
+                                    <span *ngIf="!check.isApproved" class="text-danger fw-bold">Returned</span>
+                                    <span *ngIf="check.isApproved" class="text-success fw-bold">{{check.type}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                        <div *ngIf="AllCheqes.length==0"  class="d-flex justify-content-center align-items-center mt-5">
+                            <div class="alert d-flex justify-content-center align-items-center  w-75 text-center shadow-sm border-0" 
+                                style="background-color: #b2e2e7; color: #003f5c; font-size: 1.1rem; padding: 1.5rem; border-radius: 12px;">
+                                
+                                <h5 class="fs-4 mb-3">No Check Found</h5>
+                            </div>
+                        </div>
+                    <div id="loading" *ngIf="loading">
+                        <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+    

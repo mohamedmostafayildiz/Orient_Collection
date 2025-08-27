@@ -1,0 +1,187 @@
+<div class="departments">
+    <div class="container-fluid">        
+        <!-- <div class="d-flex justify-content-between mx-5">
+            <div class="d-flex align-items-center">
+                <p class="font_Coloered3 text-center my-4 mx-3">{{'Admin.Departments'|translate}}</p>
+                <button *ngIf="this.permissions.includes('Permissions.Departments.Create')" data-bs-toggle="modal" data-bs-target="#Add" (click)="WhenModalOpen()" mat-raised-button color="primary">{{'Shared.AddNew'|translate}}</button>
+            </div>
+            not updated <input class="form-control w-25 ml-auto mt-3" style="height: 3rem;" [(ngModel)]='term' placeholder="{{'Shared.SearchHere'|translate}}" />
+        </div> -->
+        <div class="outerBorder outerItem  table-responsive" style="margin:0px 0px !important;">
+            
+            <table class="table text-center">
+              <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                <th class="py-2">#</th>
+                <th class="py-2">{{'addCustomer.Name'|translate}}</th>
+                <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let Branch of AllBranches|search:term|paginate:{
+                        itemsPerPage:tableSize,
+                        currentPage:page,
+                        totalItems:count}; let i=index">
+                        <td style="vertical-align: middle; width: 20px;" class="align-middle">{{i+1}}</td>
+                        <td style="vertical-align: middle; width: 20px;" class="align-middle">{{Branch.name}}</td>
+                        <!-- <td>
+                            <i *ngIf="this.permissions.includes('Permissions.Departments.Update')" (click)="getBranchDetails(Branch)" data-bs-toggle="modal" data-bs-target="#Edit" class="fa-solid fa-pencil fs-5 px-3 py-2 mx-1" style="color:#3F51B5;"></i>
+                            <i *ngIf="this.permissions.includes('Permissions.Departments.Delete')" (click)="deleteDepartment(Branch)" class="fa-regular fa-trash-can fs-5 px-3 py-2" style="color:#FF4081"></i>
+                        </td> -->
+                        <td class="align-middle" (mouseenter)="hoverRow = Branch.id" (mouseleave)="hoverRow = null" style="vertical-align: middle; width: 30px;">
+                          <div class="dropdown">
+                            <!-- Ellipsis icon always visible -->
+                            <i class="fa-solid fa-ellipsis-v fs-5 px-3 py-2 text-secondary"></i>
+                            
+                            <!-- Dropdown menu, visible only when the row is hovered -->
+                            <div class="dropdown-menu text-center" [ngClass]="{'show': hoverRow === Branch.id}">
+                              <a *ngIf="this.permissions.includes('Permissions.Departments.Update')" class="dropdown-item" (click)="Editgovenmante(Branch)">
+                                  <i class="fa-solid fa-pencil fs-5 px-1 py-1" style="color:#01BACB;"></i>
+                              </a>
+                              <a *ngIf="this.permissions.includes('Permissions.Departments.Delete')" class="dropdown-item" (click)="AddNewAccType(Branch.id)">
+                                  <i class="fa-regular fa-trash-can fs-5 px-1 py-1" style="color:#01BACB;"></i>
+                              </a>
+                            </div>
+                            
+                          </div>
+                      </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end mt-4">
+                <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                </pagination-controls>
+                <select (change)="onTableSizeChange($event)" class="tableSize rounded-pill px-1">
+                  <option *ngFor=" let size of tableSizes">{{size}}</option>
+                </select>
+            </div>
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+
+    </div>
+</div>
+  <!--------------------------------------- Add branch --------------------------->
+  <div class="modal fade" id="Add" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header d-flex justify-content-between">
+          <h1 class="modal-title fs-5" id="edit">{{'Admin.Adddepartment'|translate}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+       <div class="container_custom">
+        <form [formGroup]="AddDepartmentForm" class="my-5">
+            
+            <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                <mat-label> {{'addCustomer.Name'|translate}}</mat-label>
+                <input formControlName="name" type="text" matInput>
+            </mat-form-field>
+
+            <div class="modal-footer">
+              <button id="clodeEditModal" type="button"  class="btn cancelModal" data-bs-dismiss="modal">{{'Shared.Close'|translate}}</button>
+              <button [disabled]="this.AddDepartmentForm.status=='INVALID'" type="button" class="btn addModal" (click)="AddDepartment()">{{'Shared.Save'|translate}}</button>
+            </div>
+        </form>
+       </div>
+        
+      </div>
+    </div>
+  </div>
+  <!--------------------------------------- Edit branch --------------------------->
+  <!-- <div class="modal fade" id="Edit" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
+
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="edit">{{'Admin.Editdepartment'|translate}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+       <div class="container_custom">
+        <form [formGroup]="AddDepartmentForm" class="my-5">
+            <mat-form-field class="w-100  feo" appearance="outline" style="margin-bottom: -1em;">
+                <mat-label> {{'addCustomer.Name'|translate}}</mat-label>
+                <input formControlName="name" type="text" matInput>
+            </mat-form-field>
+
+            <div class="modal-footer">
+              <button id="clodeEditModal" type="button" class="btn cancelModal" data-bs-dismiss="modal">{{'Shared.Close'|translate}}</button>
+              <button [disabled]="this.AddDepartmentForm.status=='INVALID'" type="button" class="btn addModal" (click)="SubmitEditBranch()">{{'Shared.Save'|translate}}</button>
+            </div>
+        </form>
+       </div>
+        
+      </div>
+    </div>
+  </div> -->
+    <!-- Add new modal  -->
+    <div class="overlayAdd" (click)="closeAddgovenmantee()">
+      <div class="Addgovernmant" (click)="$event.stopPropagation()">
+          <div class="d-flex justify-content-between delet-details">
+              <h2>Add governmate ?</h2>
+              <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeAddgovenmantee()" style="cursor: pointer;"></i></div>
+          </div>
+         <hr class="custom-hr w-100">
+         <div class="container">
+          <form [formGroup]="AddDepartmentForm" class="mt-5">
+              <mat-form-field class="w-100   feo" appearance="outline" style="margin-bottom: -1em;">
+                  <mat-label> {{'Shared.Name'|translate}}</mat-label>
+                  <input formControlName="name" type="text" matInput>
+              </mat-form-field>
+              <div class="d-flex justify-content-between align-items-center" style="padding: 20rem 3px 0 3px;">
+                <button [disabled]="this.AddDepartmentForm.status=='INVALID'||this.isClicked" class="btn _cancel w-50 mx-1" (click)="AddDepartment()">
+                  <span *ngIf="!this.isClicked">Save</span>
+                  <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                </button>
+                <button class="btn _delete w-50 mx-1" (click)="closeAddgovenmantee()">Cancel</button>
+               </div>
+          </form>
+         </div>       
+        </div>
+    </div>
+  <!-- Edit new modal -->
+    <div class="overlayEdit" (click)="closeEditgovenmantee()">
+      <div class="Editgovernmant" (click)="$event.stopPropagation()">
+          <div class="d-flex justify-content-between delet-details">
+              <h2>Edit department ?</h2>
+              <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeEditgovenmantee()" style="cursor: pointer;"></i></div>
+          </div>
+         <hr class="custom-hr w-100">
+         <div class="container">
+          <form [formGroup]="AddDepartmentForm" class="mt-5">
+              <mat-form-field class="w-100   feo" appearance="outline" style="margin-bottom: -1em;">
+                  <mat-label> {{'Shared.Name'|translate}}</mat-label>
+                  <input formControlName="name" type="text" matInput>
+              </mat-form-field>
+              <div class="d-flex justify-content-between align-items-center" style="padding: 20rem 3px 0 3px;">
+                <button [disabled]="this.AddDepartmentForm.status=='INVALID'||this.isClicked" class="btn _cancel w-50 mx-1" (click)="SubmitEditBranch()">
+                  <span *ngIf="!this.isClicked">Save</span>
+                  <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                </button>
+                <button class="btn _delete w-50 mx-1" (click)="closeEditgovenmantee()">Cancel</button>
+               </div>
+          </form>
+         </div>    
+        </div>
+    </div>
+          <!-- Delete department -->
+<div class="overlay" (click)="closeNewAccType()">
+  <div class="delet" (click)="$event.stopPropagation()">
+      <div class="d-flex justify-content-between delet-details">
+          <h2>Delete user ?</h2>
+          <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeNewAccType()" style="cursor: pointer;"></i></div>
+      </div>
+     <hr class="custom-hr w-100">
+     <div class="py-5 text-center USER">
+      <h3>Are you sure you want to delete <br>this department ?</h3>
+      <p>Deleting this department will remove the data <br> permanently from the database</p>
+     </div>
+     <div class="d-flex justify-content-between align-items-center" style="padding: 0 3px 0 3px;">
+      <button class="btn _cancel w-50 mx-1" (click)="closeNewAccType()">Cancel</button>
+      <button class="btn _delete w-50 mx-1" (click)="deleteDepartment()">
+          <span *ngIf="!this.isClicked">Delete</span>
+          <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+      </button>
+     </div>
+  </div>
+</div>

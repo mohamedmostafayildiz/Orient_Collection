@@ -1,0 +1,90 @@
+<div id="PolicyDetails">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between mx-5">
+            <p class="font_Coloered3 text-center mt-3">{{PolicyDetails?.name}} detials</p>
+        </div>
+        <div class="outerBorder outerItem shadow_5">
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-striped table-bordered text-center mt-2" style="border-radius: 50px;">
+                        <thead style="border-radius: 20px!important;">
+                            <tr>
+                                <th colspan="2" class="fs-5 py-3" style="color: #4758B8;">Main Info</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="w-30 py-3">Name</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.name}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">Insurance Class</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.insuranceClass}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">Business Type</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.businessType}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">Business Type</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.offerDate|date:'shortDate'}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">Policy Source</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.policySource}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">Broker Name</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.brokerId}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- col 2 -->
+                <div class="col-md-6" *ngIf="this.PolicyDetails?.insuranceClass=='Individual'">
+                    <table class="table table-striped table-bordered text-center mt-2">
+                        <thead style="border-radius: 20px!important;">
+                            <tr>
+                                <th colspan="2" class="fs-5 py-3" style="color: #4758B8;">Individual Info</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="w-30 py-3">Individual Marital Status</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.maritalStatus}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">Height</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.height}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">Weight</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.weight}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">MilitaryStatus</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.militaryStatus}}</td>
+                            </tr>
+                            <tr>
+                                <th class="w-30 py-3">Old Insurance</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.oldInsurance}}</td>
+                            </tr>
+                            <tr *ngIf="this.PolicyDetails?.oldInsurance==true">
+                                <th class="w-30 py-3">Old Insurance Company</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.oldInsuranceCompany}}</td>
+                            </tr>
+                            <tr *ngIf="this.PolicyDetails?.oldInsurance==true">
+                                <th class="w-30 py-3">Old Insurance Date</th>
+                                <td class="w-60 py-3">{{PolicyDetails?.oldInsuranceDate|date:'shortDate'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+    </div>
+
+</div>

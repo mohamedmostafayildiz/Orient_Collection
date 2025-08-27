@@ -1,0 +1,69 @@
+<div id="activateGroup">
+    <div class="container-fluid">
+        <div class="outerBorder shadow_5 outerItem" style="max-height: 40rem!important;overflow: auto;"> 
+            <div class="d-flex justify-content-between mx-1">
+                <p class="font_Coloered3 text-center my-3">{{'Shared.Update'|translate}} {{'Shared.Group'|translate}}</p>
+                <div class="mt-1">
+                    <mat-form-field style="margin-bottom: -1.8em;"  class="w-100 feo" appearance="outline">
+                        <mat-label>Over65 Percentage</mat-label>
+                        <input (keyup)="CheckOverAge()" [(ngModel)]="this.Over65Percentage" type="number" matInput>
+                    </mat-form-field> 
+                </div>
+                <!-- <input class="form-control w-25 ml-auto mt-3" style="height: 3rem;" [(ngModel)]='term'  placeholder="{{'Shared.SearchHere'|translate}}" /> -->
+            </div>
+            <div *ngIf="this.PoicyGroup.length==0"  class="alert alert-info w-75 my-5 m-auto text-center fs-5"><strong>{{'Offer.NoCustomerGroupYet'|translate}}</strong></div>
+            <div *ngIf="this.PoicyGroup.length>0" id="currentGroup" class="mt-4">
+                <table class="table text-center" >
+                    <thead style="background-color: #F2F2F2 !important;">
+                        <th>{{'addCustomer.Name'|translate}}</th>
+                        <th>Pin Code</th>
+                        <th>{{'addCustomer.Sex'|translate}}</th>
+                        <th>{{'Offer.GroupRel'|translate}}</th>
+                        <th>{{'addCustomer.D.O.B'|translate}}</th>
+                        <th>{{'Shared.Age'|translate}}</th>
+                        <th>Plan Name</th>
+                        <th>{{'Shared.NetPremium'|translate}}</th>
+                        <th>{{'addCustomer.Notes'|translate}}</th>
+                        <th>
+                            <section class="example-section">
+                                <mat-checkbox [(ngModel)]="SelectAll" (change)="selectAllOver($event.checked)" class="example-margin"></mat-checkbox>
+                            </section>
+                            <span>Over 65 </span>
+                        </th>
+                        </thead>
+                    <tbody>
+                        <tr  class="align-middle" *ngFor="let group of this.PoicyGroup|search:term;let index=index;" [class.customDanger]="group.age>=65">
+                            <td>{{group.name}}</td>
+                            <td>{{group.pinCode}}</td>
+                            <td>{{group.gender}}</td>
+                            <td>{{group.groupRel}}</td>
+                            <td> {{group.dateOfBirth|date:'shortDate':'dd-MM-YYYY'}}</td>
+                            <td>{{group.age}}</td>
+                            <td>{{group.planName}}</td>
+                            <td>
+                                <mat-form-field style="margin-bottom: -1.8em;" class="w-100 feo" appearance="outline">
+                                    <mat-label>{{'Shared.NetPremium'|translate}}</mat-label>
+                                    <input [(ngModel)]="valuess[index]" #memberPremium value="{{group.netPremium}}" type="number" matInput>
+                                </mat-form-field>  
+                            </td>
+                            <td><span *ngIf="group.notes==''">_</span>{{group.notes}}</td>
+                            <td>
+                                <section class="example-section" *ngIf="group.age>=65">
+                                    <mat-checkbox [(ngModel)]="values[index]" (change)="getOver65($event.checked,group?.id,memberPremium,index)" class="example-margin"></mat-checkbox>
+                                </section>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Loading -->
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+        <!-- <button (click)="FinalModel()" class="btn btn-info">getAll</button> -->
+        <button  [disabled]="this.isClicked||PolicyDetails?.code==null&&PolicyDetails?.code==''" class="w-25 mx-4 btn tabeeb_Btn mt-4" (click)="UpdatePolicyGroupPremium()"><span *ngIf="this.isClicked">{{'Shared.Waiting'|translate}}</span> <span *ngIf="!this.isClicked">{{'Shared.Update'|translate}} {{'Shared.Group'|translate}} </span><i class="fa-solid fa-people-group"></i></button>
+    </div>
+</div>
+

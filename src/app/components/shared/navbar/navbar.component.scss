@@ -1,0 +1,90 @@
+ /// nav Bar
+ .navbar {
+    // min-height:7.5vh;
+    // background-image: url(../../.././../assets/imgs/light_dot.jpg)!important;
+    background-color: #f0f2f5;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px!important;
+  }
+  
+  nav ul li a{
+    padding: 0.7rem 0;
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  nav ul li a:after{
+    content:"";
+    position: absolute;
+    border-radius:7px;
+    width:60%;
+    height:0.3rem;
+    background-color:#4758B8;
+    bottom: 0;
+    left:-60%;
+    transition: 0.4s; 
+  }
+  nav ul li:hover a:after{
+    left:0%;
+  }
+   .collapse ul{
+    margin-left: auto;
+  }
+  .navbar img{
+    width: 6rem;
+  }
+  .text_nav{
+    font-size: 1rem;
+    color:#000;
+    transition: 0.3s;
+    font-weight: 600!important;
+  }
+  // .text_nav:hover{
+  //   color:#E29741
+  // }
+.navbar-collapse button{
+  font-weight: 500;
+
+}
+   
+                 /* HAMborger Menu */
+#menu{
+  position: relative;
+}
+#menu.is-active span:nth-child(1){
+  transform: translate(0px,-2px) rotate(45deg)
+}
+#menu.is-active span:nth-child(2){
+  opacity: 0;
+  transform: translateX(15px)
+}
+#menu.is-active span:nth-child(3){
+  transform: translate(-3px,3px) rotate(-45deg)
+}
+#menu.is-active span{
+  background-color:#343957;
+}
+#menu span{
+  display: block;
+  width:3rem;
+  height:0.33rem;
+  background-color:#A5A5A5;
+  border-radius: 6px;
+  transform-origin: 0 0;
+  transition: 0.3s;
+  margin-bottom: 5px;
+
+}
+
+.btn_test{
+  border-radius: 2rem;
+  // background-color: #d97706;
+  border:solid 2px #343957 ;
+
+  // color: #fff;
+}
+.btn_test:hover{
+  background-color: #343957;
+  color:#fff
+}

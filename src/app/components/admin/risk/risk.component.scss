@@ -1,0 +1,114 @@
+#Add_Category{
+    min-height: 100vh;
+}
+  .modal{
+    --bs-modal-width: 80%;
+}
+.container_custom{
+  width: 85%;
+  margin: auto;
+}
+////////////
+.wrapper {
+  overflow: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(16, 74, 143, 0.25);
+}
+.jobRolesDescriptions{
+    border-radius: 0.3rem;
+    border: solid 1px rgb(172, 172, 172);
+    min-height: 3.5rem;
+    // overflow: auto;
+    color: #104A8F;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  border-style: hidden;
+
+  width:100%;
+  max-width: 100%;
+}
+
+// th, td {
+//   padding: 10px;
+//   border: 1px solid #CCCCCC;
+//   color: #000;
+
+  
+// }
+
+.view{
+  // border: 1px solid #F3B900;
+  background: rgba(5, 4, 2, 0.85);  
+  // padding-right: 25px;
+  // padding-left: 25px;
+  color: white;
+  }
+  // th{
+  //   text-decoration: underline;
+  // }
+  .font_Coloered3:before{
+    content: '';
+    padding-left: 0.7rem;
+    border-left: solid 0.32rem 104A8F;
+  }
+  label{
+    color: #2A2A2A;
+    font-family: 'El Messiri', sans-serif!important;
+    font-size: 15px;
+    font-weight: 600;
+    }
+    .container-fluid{
+      --bs-gutter-x:0rem
+    }
+    table thead {
+      --bs-table-bg: #F2F2F2; 
+      --bs-table-hover-bg: #e0e0e0; 
+    }
+    th, td {
+      height: 60px;
+      min-height: 60px; 
+      vertical-align: middle;
+    } 
+    th{
+      color: #01BACB;
+    }
+      
+// dropdown
+.dropdown {
+  max-width: 25px; /* Restricts the width of the ellipsis container */
+}
+.dropdown-item:hover{
+  background-color: #01BACB !important;
+  color: white !important;
+  cursor: pointer;
+}
+.dropdown-item:hover .fa-pencil {
+  color: white !important;
+}
+.dropdown-item:hover .fa-trash-can  {
+  color: white !important;
+}
+
+.dropdown.show{
+  display: block;
+  position: absolute;
+  z-index: 100;
+}
+.dropdown-menu{
+  min-width: 50px;
+}
+
+.fa-ellipsis-v {
+  cursor: pointer;
+}
+// img:hover{
+// color: white !important;
+// }
+
+.dropdown:hover .fa-ellipsis-v {
+  visibility: visible;
+}

@@ -1,0 +1,214 @@
+<div id="model-Brokerage" class="Prentable d-flex align-items-center" dir="rtl" >
+    <div class=" ParentWhaterMark w-100">
+        <div class="BodderCustom ouerItem shadow_5 p-2 w-100">
+            <!-- Table 1 -->
+            <table class="w-100 text-center">
+            <!-- 1 -->
+                <tr>
+                    <td colspan="4"><img style="max-width:6rem;" src="../../../../assets/imgs/medicalLogo2.png"></td>
+                    <td >مصر للتأمين التكافلي <br> ممتلكات ومسؤليات</td>
+                    <td class="bg_gray">أذن صرف عمولة رقم</td>
+                    <td>{{AllBrokerage?.permitNumber}}</td>    
+                    <td class="bg_gray">تاريخ الاذن</td>    
+                    <td>{{AllBrokerage?.createdTime|date:'dd/MM/YYYY'}}</td>    
+                </tr>
+            <!-- 2 -->
+                <tr>
+                    <td colspan="1">الفرع السداد :</td>
+                    <td colspan="3">{{AllBrokerage?.branchName}}</td>
+                    <td>الحالة الانتاجية</td>
+                    <td colspan="2">{{AllBrokerage?.brokerName}}</td>
+                    <td>رقم التسجيل بالهيئة :</td>
+                    <td>{{AllBrokerage?.brokerId}}</td>
+                </tr>
+            <!-- 3 -->
+                <tr>
+                    <td colspan="1">العملة </td>
+                    <td colspan="3"> <span class="fw-bold">الجنية المصري </span></td>
+                    <td>صافي العمولة  :</td>
+                    <td colspan="2">
+                        <span *ngIf="AllBrokerage?.totalNetCommission<0">{{AllBrokerage?.totalNetCommission|abs}}</span>
+                        <span *ngIf="AllBrokerage?.totalNetCommission>0">{{AllBrokerage?.totalNetCommission}}</span>
+                    </td>
+                    <td>فقط وقدره :</td>
+                    <td>{{AllBrokerage?.arTotalNetCommission}}</td>
+                </tr>
+            <!-- 4 -->
+                <tr  class="foot bg_gray">
+                    <td rowspan="2" class="foot">نوع التأمين</td>
+                    <td rowspan="2" class="foot">رقم الوثيقة</td>
+                    <td rowspan="2" class="foot">رقم حافظة التوريد</td>
+                    <td rowspan="2" class="foot">تاريخ حافظة التوريد</td>
+                    <td rowspan="2" class="foot">اسم العميل</td>
+                    <td rowspan="2" class="foot" colspan="2">صافى القسط</td>
+                    <td colspan="2" class="foot">عمولة أصلية </td>
+                </tr>
+                <tr class="bg_gray">
+                    <td class="foot">النسبة</td>
+                    <td class="foot">القيمة</td>
+                </tr>
+            <!-- Looping row-->
+                <tr *ngFor="let item of ExchangePermitTemplateDetails">
+                    <td>{{item?.businessType}}</td>
+                    <td>{{item?.code}}</td>
+                    <td>{{item?.portfolioCode}}</td>
+                    <td>{{item?.portfolioDate|date:'dd-MM-YYYY'}}</td>
+                    <td>{{item?.insured}}</td>
+
+                    <td colspan="2">
+                        <span *ngIf="item?.netAmount<0">({{item?.netAmount|abs}})</span>
+                        <span *ngIf="item?.netAmount>0">{{item?.netAmount}}</span>
+                         <!-- {{item?.netAmount}} -->
+                    </td>
+
+                    <td>{{item?.commission}} %</td>
+                    <td>
+                        <span *ngIf="item?.premium<0">({{item?.premium|abs}})</span>
+                        <span *ngIf="item?.premium>0">{{item?.premium}}</span>
+                    </td>
+                </tr>
+                <!-- Footer -->
+                <tfoot>
+                    <tr>
+                        <td class="py-2 foot footTotal" colspan="5"><span class="mx-5">الاجمالي</span></td>
+                        <td colspan="2" class="foot">
+                            <span *ngIf="AllBrokerage?.totalNetPremium<0">({{AllBrokerage?.totalNetPremium|abs}})</span>
+                            <span *ngIf="AllBrokerage?.totalNetPremium>0">{{AllBrokerage?.totalNetPremium}}</span>
+                        </td>  
+                        <td colspan="2" class="foot">
+                            <span *ngIf="AllBrokerage?.grossCommission<0">({{AllBrokerage?.grossCommission|abs}})</span>
+                            <span *ngIf="AllBrokerage?.grossCommission>0">{{AllBrokerage?.grossCommission}}</span>
+                        </td>  
+                    </tr>
+                </tfoot> 
+                
+
+                <!-- Footer -->
+                <!-- <tfoot>
+                    <tr class="foot" style="background-color: rgb(197, 197, 197);">
+                        <td class="py-2 foot" colspan="4">الخزينه برجاء تحصيل مبلغ وقدره </td>
+                        <td colspan="5" class="foot">  </td>  
+                    </tr>
+                </tfoot>     -->
+            </table>
+            <div class="row mt-2">
+                <!-- Payment Ways -->
+                <div class="col-6">
+                    <table class="w-100 text-center NoneBrdTable">
+                        <thead class="tableHead">
+                            <th class="py-2 NoneBrdTable">الرقم </th>
+                            <th class="py-2 NoneBrdTable">البنك</th>
+                            <th class="py-2 NoneBrdTable">المبلغ</th>
+                            <th class="py-2 NoneBrdTable">التاريخ</th>
+                            <th class="py-2 NoneBrdTable">طـرق الدفع</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let bank of this.CheckTable">
+                                <td class="NoneBrdTable">{{bank.checkNumber}}</td>
+                                <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                <td class="NoneBrdTable">{{bank.amount}}</td>
+                                <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                <td class="NoneBrdTable">{{bank.type}}</td>
+                            </tr>
+                            <tr *ngFor="let bank of this.bankTransferTable">
+                                <td class="NoneBrdTable">{{bank.transferNumber}}</td>
+                                <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                <td class="NoneBrdTable">{{bank.amount}}</td>
+                                <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                <td class="NoneBrdTable">{{bank.type}}</td>
+                            </tr>
+                            <tr *ngFor="let bank of this.bankDepositPaymentTable">
+                                <td class="NoneBrdTable">{{bank.depositNumber}}</td>
+                                <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                <td class="NoneBrdTable">{{bank.amount}}</td>
+                                <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                <td class="NoneBrdTable">{{bank.type}}</td>
+                            </tr>
+                            
+                            <tr *ngFor="let bank of this.VisaTable">
+                                <td class="NoneBrdTable">{{bank.cardNumber}}</td>
+                                <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                <td class="NoneBrdTable">{{bank.amount}}</td>
+                                <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                <td class="NoneBrdTable">{{bank.type}}</td>
+                            </tr>
+                            <tr *ngFor="let item of this.secretariatTable">
+                                <td class="NoneBrdTable">-</td>
+                                <td class="NoneBrdTable">-</td>
+                                <td class="NoneBrdTable">{{item.amount}}</td>
+                                <td class="NoneBrdTable">{{item.paymentDateTime|date:'dd-MM-YYYY'}}</td>
+                                <td class="NoneBrdTable">{{item.type}}({{item.insuredName}})</td>
+                            </tr>
+                            <tr *ngFor="let bank of this.CashTable">
+                                <td class="NoneBrdTable">-</td>
+                                <td class="NoneBrdTable">-</td>
+                                <td class="NoneBrdTable">{{bank.amount}}</td>
+                                <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                <td class="NoneBrdTable">{{bank.type}}</td>
+                            </tr>
+                            <tr *ngFor="let bank of this.postdatedCheckTable">
+                                <td class="NoneBrdTable">{{bank.checkNumber}}</td>
+                                <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                <td class="NoneBrdTable">{{bank.amount}}</td>
+                                <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                <td class="NoneBrdTable">{{bank.type}}</td>
+                            </tr>
+                              <tr *ngFor="let bank of this.mappedDtos">
+                                    <td class="NoneBrdTable">{{bank.transactionNo}}</td>
+                                    <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                    <td class="NoneBrdTable">{{bank.amount}}</td>
+                                    <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                    <td class="NoneBrdTable">{{bank.type}}</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+                <div class="col-6">
+                    <table class="table w-100 foot text-center" style="font-weight: 600!important;">
+                        <tr class="foot">
+                            <td colspan="4" class="foot text-center py-2" style="font-weight: 600!important;">ملخص اذن صرف العمولة</td>
+                        </tr>
+                        <tr>
+                            <td class="foot py-2 bg_gray" style="font-weight: 600!important;">اجمالي المبلغ <br> الخاضع للضريبة</td>
+                            <td class="foot bg_gray" style="font-weight: 600!important;">الضريبة المستقطعة </td>
+                            <td [class.bg-danger]="AllBrokerage?.agents!=0" class="foot bg_gray" style="font-weight: 600!important;">ح/ وكلاء</td>
+                            <td class="foot bg_gray" style="font-weight: 600!important;">صافي العمولات <br> الواجب صرفها</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2">
+                                <span *ngIf="AllBrokerage?.grossCommission<0">({{AllBrokerage?.grossCommission|abs}})</span>
+                                <span *ngIf="AllBrokerage?.grossCommission>0">{{AllBrokerage?.grossCommission}}</span>
+                            </td>
+                            <td>
+                                <span *ngIf="AllBrokerage?.totalTaxes<0">({{AllBrokerage?.totalTaxes|abs}})</span>
+                                <span *ngIf="AllBrokerage?.totalTaxes>0">{{AllBrokerage?.totalTaxes}}</span>
+                            </td>
+                            <td [class.bg-danger]="AllBrokerage?.agents!=0">
+                                <span *ngIf="AllBrokerage?.agents<0" style="background-color: transparent;">({{AllBrokerage?.agents|abs}})</span>
+                                <span *ngIf="AllBrokerage?.agents>0" style="background-color: transparent;">{{AllBrokerage?.agents}}</span>
+                            </td>
+                            <td>
+                                <span *ngIf="AllBrokerage?.totalNetCommission<0">({{AllBrokerage?.totalNetCommission|abs}})</span>
+                                <span *ngIf="AllBrokerage?.totalNetCommission>0">{{AllBrokerage?.totalNetCommission}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table w-100 text-center">
+                        <tr class="foot">
+                            <td class="foot py-2" style="font-weight: 600!important;">محرر بمعرفة :</td>
+                            <td class="foot" style="font-weight: 600!important;">{{this.AllBrokerage?.createdBy}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- Table 2 -->
+            <div class="row mt-4">
+                <div class="col-4">
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

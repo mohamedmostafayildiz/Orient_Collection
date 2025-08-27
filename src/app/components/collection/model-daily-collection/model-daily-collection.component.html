@@ -1,0 +1,149 @@
+<div id="model-daily-collection" class="Prentable" dir="rtl">
+    <div class="container Non-prentable">
+        <form [formGroup]="Form">
+            <div class="row pt-5">
+                <div class="col-md-4">
+                    <mat-form-field id="start" class="w-100  feo" appearance="outline" style="margin-bottom: -1em;">
+                        <mat-label>مـن</mat-label>
+                        <input formControlName="start" matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field id="start" class="w-100  feo" appearance="outline" style="margin-bottom: -1em;">
+                        <mat-label>الــي</mat-label>
+                        <input formControlName="end" matInput [matDatepicker]="picker1">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 d-flex align-items-center">
+                    <button [disabled]="this.Form.status=='INVALID'||this.loading" (click)="SubmitForm()"  class="w-50 btn Apply">
+                        <span *ngIf="!loading">بـحـث</span> 
+                        <span *ngIf="loading"><i class="fa-solid fa-fan fa-spin"></i></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="BodderCustom outerItem shadow_5 mt-1 p-2 mt-3 w-100">
+        
+        <table class="w-100 text-center">
+            <!-- 1 -->
+            <tr>
+                <td colspan="2" rowspan="3" class="bg_gray"></td>
+                <td colspan="20">يومية تحصيل  / من {{this.Form.get("start")?.value|date:'dd/MM/YYYY'}} إلي {{this.Form.get("end")?.value|date:'dd/MM/YYYY'}} - فرع الشركه  /<span class="fw-bold"> {{this.AllData?.branchName}} </span>-  العملة / <span class="fw-bold">الجنيه المصري</span></td>
+                <td colspan="2" rowspan="3" class="bg_gray"></td>
+                 
+            </tr>
+            <!-- 2 -->
+            <tr>
+                <td colspan="13" class="titles bg_gray">الجانب المدين</td>
+                <td class="bg_Open_Blue titles" colspan="7" rowspan="2">الجانب الدائن</td>
+            </tr>
+            <!-- 3 -->
+            <tr>
+                <td colspan="7" class="titles bg_Open_Blue">التحصيلات الفعلية</td>
+                <td colspan="6" class="titles bg_Open_Red">خصومات</td>
+            </tr>
+            <!-- 4 -->
+            <tr>
+                <td rowspan="2">التاريخ <br> حافظة التوريد</td>
+                <td rowspan="2">رقم حافظة التوريد</td>
+                <td rowspan="2">نقدية</td>
+                <td>شيكات</td>
+                <td>-</td>
+                <td rowspan="2">بطاقة إئتمانية</td>
+                <td rowspan="2">إشعار إضافة بنكي</td>
+                <td rowspan="2">تحويل بنكي</td>
+                <td rowspan="2">إجمالى المحصل</td>
+                <td rowspan="2">ملحق مرتد</td>
+                <td rowspan="2">ملحق الغاء</td>
+                <td rowspan="2" colspan="2">تسويه امـانه</td>
+                <!-- <td rowspan="2">جارى وكلاء</td> -->
+                <!-- <td rowspan="2">اخري</td> -->
+                <td rowspan="2" colspan="2">إجمالى المخصوم</td>
+
+                <td rowspan="2" class="bg_Open_Yellow titles">إجمالى الجانب المدين</td>
+                <td rowspan="2">التامين الطبى</td>
+                <td rowspan="2">إجمالى أقساط تحت التحصيل</td>
+                <!-- <td rowspan="2">جارى وكلاء</td> -->
+                <td rowspan="2" colspan="2">انشاء امانه</td>
+                <!-- <td rowspan="2">اخرى</td> -->
+                <td rowspan="2" colspan="2" class="bg_Open_Blue titles">إجمالى الجانب الدئن</td>
+                <td rowspan="2">صافي القسط</td>
+                <td rowspan="2">ملاحظات </td>
+            </tr>
+            <!-- 5 -->
+            <tr>
+                <td>شيكات مستحقة</td>
+                <td>شيكات آجلة</td>
+            </tr>
+            <!-- 6 -->
+            <tr *ngFor="let item of AllCollectionJournalForms">
+                <td>{{item.createdAt|date:'dd/MM/YYYY'}}</td>
+                <td>{{item.code}}</td>
+                <td>{{item.cash}}</td>
+                <td>{{item.dueCheck}}</td>
+                <td>{{item.futureCheck}}</td>
+                <td>{{item.creditCard}}</td>
+                <td>{{item.bankDeposit}}</td>
+                <td>{{item.bankTransfer}}</td>
+                <td>{{item.totalCollectorForOneLine}}</td>
+                <td>{{item.refluxEndorsment}}</td>
+                <td>{{item.cancelEndorsment}}</td>
+                <td colspan="2">{{item.useSecretariat}}</td>
+
+                <td colspan="2">{{item.totalDeductibleForOneLine}}</td>
+
+                <td class="bg_Open_Yellow titles">{{item.totalDebitSideForOneLine}}</td>
+                <td>{{item.medicalInsurance}}</td>
+                <td>{{item.totalInstallmentsUnderCollectionForOneLine}}</td>
+                <td colspan="2">{{item.createSecretariat}}</td>
+                <td colspan="2" class="bg_Open_Blue titles">{{item.totalCreditSideForOneLine}}</td>
+                <td>{{item.netPremiumForOneLine}}</td>
+                <td>--</td>
+            </tr>
+            <!-- Total -->
+            <tr>
+                <td colspan="2" class="bg_Open_Red titles">إجمالي</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.totalCash}}</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.totalDueCheck}}</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.totalFutureCheck}}</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.totalCreditCard}}</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.totalBankDeposit}}</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.totalBankTransfer}}</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.allTotalCollectorForOneLine}}</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.totalRefluxEndorsment}}</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.totalCancelEndorsment}}</td>
+                <td colspan="2" class="bg_Open_Red titles">{{this.AllData?.totalUseSecretariat}}</td>
+
+                <td colspan="2" class="bg_Open_Red titles">{{this.AllData?.allTotalDeductibleForOneLine}}</td>
+
+                <td class="bg_Open_Yellow titles">{{this.AllData?.allTotalDebitSideForOneLine}}</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.totalMedicalInsurance}}</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.allTotalInstallmentsUnderCollectionForOneLine}}</td>
+                <td class="bg_Open_Red titles" colspan="2">{{this.AllData?.totalCreateSecretariat}}</td>
+                <td colspan="2" class="bg_Open_Blue titles">{{this.AllData?.allTotalCreditSideForOneLine}}</td>
+                <td class="bg_Open_Red titles">{{this.AllData?.totalNetPremiumForOneLine}}</td>
+                <td>--</td>
+            </tr>
+            
+        </table>
+
+        <table class="w-50 m-auto text-center mt-2">
+            <tr class="fw-bold">
+                <td class="bg_Open_Yellow titles">إجمالى الجانب المدين</td>
+                <td class="bg_Open_Blue titles">إجمالى الجانب الدئن</td>
+            </tr>
+            <tr>
+                <td class="bg_Open_Yellow titles">{{this.AllData?.totalDebit}}</td>
+                <td class="bg_Open_Blue titles">{{this.AllData?.totalCredit}}</td>
+            </tr>
+        </table>
+        <div id="loading" *ngIf="loading">
+            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+        </div>
+    </div>
+</div>

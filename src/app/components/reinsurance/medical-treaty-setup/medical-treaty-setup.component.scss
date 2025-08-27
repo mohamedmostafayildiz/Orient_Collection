@@ -1,0 +1,96 @@
+.assignBorder{
+    border-radius: 6px 6px 0px 0px;
+    border: 1px solid rgb(190, 190, 190);
+    // background-color: rgba(0, 0, 0, 0.05);
+    // box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+.container-fluid{
+    --bs-gutter-x:0rem
+  }
+//   .Add
+.fa-eye{
+  transition: 0.5s;
+  border-radius: 0.5rem;
+}
+.fa-eye:hover{
+  cursor: pointer;
+  background-color: green;
+  
+}
+.delet{
+  position: absolute;
+  width: 50%!important;
+}
+.BusBox{
+  padding: 0.8rem 0.2rem;
+  border-radius: 0.3rem;
+  border :solid 2px #09c;
+  text-align: center;
+  color: rgb(143, 75, 75);
+  font-weight: bold;
+  font-size: 1rem;
+
+}
+
+.overlayEdit{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+    z-index: 1000; /* Ensure it is on top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
+.Editgovernmant{
+    position: absolute;
+    z-index: 999;
+    width: 70%;
+    height: 100%;
+    background-color: white;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    top: 0;
+    right: -30%;
+    // padding: 0rem 1rem;
+    overflow-y: auto;
+
+}
+.overlayEditNon{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+    z-index: 1000; /* Ensure it is on top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
+.EditgovernmantNon{
+    position: absolute;
+    z-index: 999;
+    width: 80%;
+    height: 100%;
+    background-color: white;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    top: 0;
+    right: -30%;
+    // padding: 0rem 1rem;
+    overflow-y: auto;
+
+}
+.text-warning {
+  color: #ff9800; /* orange */
+}
+
+.text-danger {
+  color: #f44336; /* red */
+}

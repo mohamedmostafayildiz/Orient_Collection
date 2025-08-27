@@ -1,0 +1,299 @@
+<div id="restriks">
+    <div class="container-fluid">
+        <form [formGroup]="form">
+          <div class="outerBorder outerItem table-responsive">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex align-items-center">
+                  <p class="font_Coloered3 text-center my-4">Restrikts</p>
+              </div>
+          </div>
+              <div class="row">
+                  <!-- Admin -->
+                  <div class="col-md-3">
+                      <div style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                          <h2 (click)="toggleItem('admin')" class="text-center">Admin</h2>
+                          <div style="display: none;" id="admin">
+                              <!-- Users -->
+                              <mat-checkbox formControlName="Permissions.Users.Create" class="example-margin" color="primary">Add Users</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Users.Update" class="example-margin" color="primary">Edit Users</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Users.View" class="example-margin" color="primary">View Users</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Users.Delete" class="example-margin" color="primary">Delete Users</mat-checkbox>
+                              <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                            
+                              <!-- Banks -->
+                              <mat-checkbox formControlName="Permissions.Banks.Create" class="example-margin" color="primary">Add Banks</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Banks.Update" class="example-margin" color="primary">Edit Banks</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Banks.View" class="example-margin" color="primary">View Banks</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Banks.Delete" class="example-margin" color="primary">Delete Banks</mat-checkbox>
+                              <hr style="margin: 3px!important; width: 75%;margin: auto;">
+
+                              <!-- Branches -->
+                              <mat-checkbox formControlName="Permissions.Branches.Create" class="example-margin" color="primary">Add Branches</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Branches.Update" class="example-margin" color="primary">Edit Branches</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Branches.View" class="example-margin" color="primary">View Branches</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Branches.Delete" class="example-margin" color="primary">Delete Branches</mat-checkbox>
+                              <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                            
+                              <!-- Departments -->
+                              <mat-checkbox formControlName="Permissions.Departments.Create" class="example-margin" color="primary">Add Departments</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Departments.Update" class="example-margin" color="primary">Edit Departments</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Departments.View" class="example-margin" color="primary">View Departments</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Departments.Delete" class="example-margin" color="primary">Delete Departments</mat-checkbox>
+                              <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                            
+                              <!-- Departments -->
+                              <mat-checkbox formControlName="Permissions.Governorates.Add" class="example-margin" color="primary">Add Governorates</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Governorates.Update" class="example-margin" color="primary">Edit Governorates</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Governorates.View" class="example-margin" color="primary">View Governorates</mat-checkbox>
+                              <br>
+                              <mat-checkbox formControlName="Permissions.Governorates.Delete" class="example-margin" color="primary">Delete Governorates</mat-checkbox>
+                              <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                          </div>
+                        
+                      </div>
+                  </div>
+                  <!-- customer Services -->
+                  <div class="col-md-3">
+                    <div style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                      <h2 (click)="toggleItem('customerServices')" class="text-center">Customer Service</h2>
+                      <div style="display: none;" id="customerServices">
+                        <form [formGroup]="form">
+                        
+                          <!-- Customer -->
+                          <mat-checkbox formControlName="Permissions.Customers.Create" color="primary">Add Customers</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Customers.Update" color="primary">Edit Customers</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Customers.View" color="primary">View Customers</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Customers.Delete" color="primary">Delete Customers</mat-checkbox>
+                          <!-- Customer -->
+                          <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                          <mat-checkbox formControlName="Permissions.CustomerSecretaries.Create" color="primary">Create Secretaries</mat-checkbox>
+                      </form>
+                      </div>
+    
+                    </div>
+                  </div>
+                  
+
+                  <!-- Issunace -->
+                  <div class="col-md-3">
+                      <div style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                          <h2 (click)="toggleItem('issunace')" class="text-center">Issunace</h2>
+                          <div style="display: none;" id="issunace">
+                            <!-- Offers -->
+                          <mat-checkbox formControlName="Permissions.Offers.Create" class="example-margin" color="primary">Add Offers</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Offers.Update" class="example-margin" color="primary">Edit Offers</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Offers.View" class="example-margin" color="primary">View Offers</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Offers.ConvertOfferToPolicy" class="example-margin" color="primary">Convert to Policy</mat-checkbox>
+                          <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                          <!-- Policies -->
+                          <mat-checkbox formControlName="Permissions.Policies.Update" class="example-margin" color="primary">Edit Policies</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Policies.View" class="example-margin" color="primary">View Policies</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Policies.Renewal" class="example-margin" color="primary">Renew Policies</mat-checkbox>
+                          <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                          <!-- Claims -->
+                          <mat-checkbox formControlName="Permissions.Claims.Create" class="example-margin" color="primary">Add Claims</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Claims.View" class="example-margin" color="primary">View Claims</mat-checkbox>
+                          <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                          <!-- Endorsements -->
+                          <mat-checkbox formControlName="Permissions.Endorsements.Create" class="example-margin" color="primary">Add Endorsements</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Endorsements.View" class="example-margin" color="primary">View Endorsements</mat-checkbox>
+                          <!-- JournalEntry -->
+                          <mat-checkbox formControlName="Permissions.JournalEntry.Add" class="example-margin" color="primary">Add To Journal Entery</mat-checkbox>
+                          <!-- <mat-checkbox formControlName="Permissions.JournalEntry.Delete" class="example-margin" color="primary">Add To Journal Entery</mat-checkbox> -->
+                          <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                          </div>
+                          
+                      </div>
+                  </div>
+                  <!-- Collection -->
+                  <div class="col-md-3">
+                    <div style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                        <h2 (click)="toggleItem('collection')" class="text-center">Collection</h2>
+                        <div style="display: none;" id="collection">
+                          <!-- Portfolios -->
+                          <mat-checkbox formControlName="Permissions.Portfolios.Create" color="primary">Add Portfolios</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Portfolios.View" color="primary">View Portfolios</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Portfolios.Approve" color="primary">Approve Portfolios</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Portfolios.Payment" color="primary">Payment Portfolios</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.Portfolios.FinalApprove" color="primary">FinalApprove Portfolios</mat-checkbox>
+                          <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                          <!-- ExchangePermits -->
+                          <mat-checkbox formControlName="Permissions.ExchangePermits.View" color="primary">View Exchange Permits</mat-checkbox>
+                          
+                        </div>
+                        
+                    </div>
+                  </div>
+                  
+                 
+                  <!-- Reporting -->
+                  <div class="col-md-3">
+                      <div style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                          <h2 class="text-center" (click)="toggleItem('accordionExample')">Reporting</h2>
+                          <div class="accordion" id="accordionExample" style="display: none;">
+                            <!-- Issunace -->
+                              <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseTwo">
+                                    Issunace Reports
+                                  </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                  <div class="accordion-body CusItem">
+                                      <!-- Source Record -->
+                                      <input formControlName="Permissions.Reports.SourceRecord" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span>Source Record</label>
+                                      <!-- Claim Details -->
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      <input formControlName="Permissions.Reports.ClaimDetails" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span>Claim Details</label>
+                                      <!-- Polices -->
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      <input formControlName="Permissions.Reports.Polices" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span>Polices</label>
+                                      <!-- Offers -->
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      <input formControlName="Permissions.Reports.Offers" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span>Offers</label>
+                                      <!-- Customers -->
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      <input formControlName="Permissions.Reports.Customers" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span>Customers</label>
+                                  
+                                    <br>
+                                      
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- Collection -->
+                              <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Collection Reports
+                                  </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                  <div class="accordion-body">
+                                      <input formControlName="Permissions.Reports.Treasury" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span> تقرير الخزينه</label>
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      <input formControlName="Permissions.Reports.PaidAndCollector" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span> سجل المسدد (المحصل)</label>
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      <input formControlName="Permissions.Reports.UnderCollector" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span> سجل اقساط تحت التحصيل</label>
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      <input formControlName="Permissions.Reports.GetInsured" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span> جاري مؤمن له </label>
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      <input formControlName="Permissions.Reports.CurrentAgent" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span> جاري وكلاء ومنتجون</label>
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      <input formControlName="Permissions.Reports.SecretariatRecord" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span> سجل الامانات</label>
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      
+                                      <input formControlName="Permissions.Reports.CollectionDaily" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span> طباعة يوميه التحصيل</label>
+
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      <input formControlName="Permissions.Reports.DueCommissions" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span>عمولات مستحقة لاقساط تحت التحصيل</label>
+                                      <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                                      <input formControlName="Permissions.Reports.paidCommissions" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span> عمولات منصرفة</label>
+                                      <!-- <hr>
+                                      <input formControlName="Permissions.Reports.ClaimDetails" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                      <label class="mt-1 fs-6"><span class="px-1"></span> طباعه عمولات مستحقه</label> -->
+                                    
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- Admin -->
+                              <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                      Admin Reports
+                                  </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                  <div class="accordion-body">
+                                    <!-- <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow. -->
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- Fianance -->
+                              <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                                      Fianance Reports
+                                  </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                  <div class="accordion-body">
+                                    <!-- <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow. -->
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                          <br>
+                      </div>
+                    <button [disabled]="this.isClicked" (click)="SavePermissions()" class="btn addModal mt-3 w-75" >
+                      
+                      <span *ngIf="!this.isClicked">Save</span>
+                      <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin fs-5"></i></span>
+                    </button>
+                  </div>
+                  <!-- Commissions -->
+                  <div class="col-md-3">
+                    <div style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                        <h2 (click)="toggleItem('Commissions')" class="text-center">Commissions</h2>
+                        <div style="display: none;" id="Commissions">
+                          <!-- Brokerage -->
+                          <mat-checkbox formControlName="Permissions.BrokerageCommissions.Add" color="primary">Add Brokerage</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.BrokerageCommissions.View" color="primary">View Brokerage</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.BrokerageCommissions.Edit" color="primary">Edit Brokerage</mat-checkbox>
+                          <hr style="margin: 3px!important; width: 75%;margin: auto;">
+                          <!-- Tpa Commissions -->
+                          <!-- <mat-checkbox formControlName="Permissions.TpaCommissions.Add" color="primary">Add Tpa Commissions</mat-checkbox> -->
+                          <mat-checkbox formControlName="Permissions.TpaCommissions.View" color="primary">View Tpa Commissions</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.TpaCommissions.Edit" color="primary">Edit Tpa Commissions</mat-checkbox>
+                        </div>
+                        
+                    </div>
+                  </div>
+                  <!-- Finance -->
+                  <div class="col-md-3">
+                    <div style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                        <h2 (click)="toggleItem('Finance')" class="text-center">Finance</h2>
+                        <div style="display: none;" id="Finance">
+                          <mat-checkbox formControlName="Permissions.Claims.Payment" class="example-margin" color="primary">Payment Claims</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.BrokerageCommissions.Pay" color="primary">Broker Payment</mat-checkbox>
+                          <mat-checkbox formControlName="Permissions.TpaCommissions.Pay" color="primary">TPA Payment</mat-checkbox>
+                        </div>
+                        
+                    </div>
+                  </div>
+                  
+              </div>
+              <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+          </div>
+        </form>
+    </div>
+</div>

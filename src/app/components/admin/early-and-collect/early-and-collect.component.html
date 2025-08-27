@@ -1,0 +1,94 @@
+<div id="addEarlyCollect" class="mt-5">
+    <div class="container"> 
+        <p class="font_Coloered3 text-center mt-2">Add Early & Colleect</p>
+        <div class="outerBorder shadow_5 mt-5">
+            <form [formGroup]="Form">
+                <div class="row my-4 mx-2">
+        
+                    <div class="col-md-5 offset-md-1">
+                        <mat-form-field class="w-100" appearance="outline" >
+                            <mat-label><span class="text-danger mx-1">*</span>Select Broker</mat-label>
+                            <mat-select [(value)]="brokerIdValue">
+                            <mat-option *ngFor="let broker of brokerCustomers" value="{{broker.id}}">{{broker.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+        
+                        <mat-form-field class="w-100" appearance="outline" data-aos-duration="1000" data-aos="fade-right">
+                            <mat-label><span class="text-danger mx-1">*</span>Insurance Class</mat-label>
+                            <mat-select [(value)]="insuranceClassValue">
+                                <mat-option *ngFor="let type of InsuranceClasses" value="{{type.id}}">{{type.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-5 ">
+                        <mat-form-field class="w-100" appearance="outline" data-aos-duration="1000" data-aos="fade-right">
+                            <mat-label><span class="text-danger mx-1">*</span>Business Type</mat-label>
+                            <mat-select [(value)]="BusinessTypeValue">
+                                <mat-option value="{{type.id}}" *ngFor="let type of BusinessTypes">{{type.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                       
+                    </div>
+                        <hr style="width: 85%;margin: auto;" class="my-4">
+        
+                        <div class="d-flex" id="objectInputs" style="width: 83%;margin: auto;">
+                            <div style="width:15%">
+                                <mat-form-field appearance="outline" color="accent" class="w-100">
+                                    <mat-label>From</mat-label>
+                                    <input formControlName="from" type="number" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div style="width:11%" class="mx-1">
+                                <mat-form-field appearance="outline" color="accent" class="w-100">
+                                    <mat-label>To</mat-label>
+                                    <input formControlName="to" type="number" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div style="width:15%">
+                                <mat-form-field appearance="outline" color="accent" class="w-100">
+                                    <mat-label>Pct</mat-label>
+                                    <input formControlName="pre" type="number" matInput>
+                                </mat-form-field>
+                            </div>
+                            <!-- Amount -->
+                            <div style="width:19%" class="mx-1">
+                                <mat-form-field appearance="outline" color="accent" class="w-100">
+                                    <mat-label>Amount</mat-label>
+                                    <input formControlName="amount" type="number" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div style="width:25%">
+                                <mat-checkbox formControlName="includeHolidays" class="example-margin"><label>Include Holiday?</label></mat-checkbox>
+                            </div>
+                            <div style="width:13%">
+                                <button color="accent" (click)="view()" class="btn btn-success px-4 py-2 w-100" mat-raised-button >Add</button>
+                            </div>
+                        </div>
+                        
+        
+                 <div class="col-10 offset-1">
+                    <div *ngFor="let item of arr;let index = index" class="d-flex my-2">
+                        <p class="w-25 pl-3 text-success fw-bold">{{item.from}}</p>
+                        <p class="w-25 px-3 text-success fw-bolder">{{item?.to}}</p>
+                        <p class="w-25 px-3 text-success fw-bolder">{{item?.pre}}</p>
+                        <p class="w-25 px-3 text-success fw-bolder">{{item?.amount}}</p>
+                        <p class="w-25 px-3 text-success fw-bolder">{{item?.includeHolidays}}</p>
+                        <button color="warn" (click)="remove(index)" class="btn btn-danger" mat-raised-button>Remove</button>
+                    </div>
+                 </div>  
+                 <div class="col-md-11">
+                    <div class="d-flex justify-content-end" data-aos-duration="1000" data-aos="zoom-in">
+                        <button (click)="SubmitAddEarly()" type="button" mat-raised-button color="primary" class="w-25 mt-3">Save</button>
+                    </div>
+                 </div>         
+                            
+                    
+                </div>
+            </form>
+            <div *ngIf="addEarlyErrrorMsg!=null" class="alert alert-danger w-75 m-auto my-2 d-flex justify-content-center">
+                <strong class="fs-6">{{this.addEarlyErrrorMsg}}</strong>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,128 @@
+<div id="model-payment-permission" class="Prentable" dir="rtl">
+    <div class=" ParentWhaterMark">
+        <div id="loading" *ngIf="loading" style="height: 85vh;">
+            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+        </div>
+        <div *ngIf="!loading" class="BodderCustom ouerItem mt-1 p-2 w-100">
+            <i (click)="print()" class="fa-solid fa-print fs-4 px-4 py-2 Non-prentable" style="border-radius: 0.3rem;cursor: pointer;position: fixed;z-index: 99999;color: #01BACB !important;"></i>
+           <!-- 1 -->
+           <div class="fw-bold fs-6 d-flex align-items-center">
+                <div class="w-100">
+                    <br>
+                    <br>
+                    <!-- Head -->
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="fs-3 headColor mt-3">اورينت للتأمين التكافلي</p>
+                            <p class="fs-3 mt-3 headColor">ممتلكـات ومسؤوليـات</p>
+                            <p class="mt-2">شركة مساهمة مصرية خاضعة ألحكام القانون رقم 10
+                                لسنة 1981 وتعديالته ومسجلة بالهيئة العامة للرقابة
+                                المالية تحت رقم "38" سجل تجاري رقم 107655
+                                القاهرة</p>
+                        </div>
+                        <div class="col-2">
+                            <img class="w-100" src="../../../../assets/imgs/orientlogo.jpg" alt="">
+                        </div>
+                        <div class="col-5" style="text-align: left;">
+                            <p class="fs-3 headColor mt-3">ORINT Takaful Insurance</p>
+                            <p class="fs-3 mt-3 headColor">Property & Liabilities</p>
+                            <p class="mt-2">شركة مساهمة مصرية خاضعة ألحكام القانون رقم 10
+                                لسنة 1981 وتعديالته ومسجلة بالهيئة العامة للرقابة
+                                المالية تحت رقم "38" سجل تجاري رقم 107655
+                                القاهرة</p>
+                        </div>
+                    </div>
+                    <!-- تعويض -->
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="claimBox" style="background-color: rgba(0, 0, 0, 0.23)">
+                                <p class=" fs-2 py-3">تعويـض - إشعار دائن</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- المستفيد -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="d-flex benefit px-2">
+                                <div class="w-50" style="border-left: solid #000 2px;">
+                                    <br>
+                                     <p class="fs-3">{{AllData.beneficiaryName}}</p>
+                                    <br>
+                                </div>
+                                <div class="w-50">
+                                    <br>
+                                    <p><span class="mx-2"></span>رقم الإشعار : <span>{{AllData.noticeNumber}}</span></p>
+                                    <p><span class="mx-2"></span>الـتـاريــخ : <span>{{AllData.date}}</span></p>
+                                    <p><span class="mx-2"></span>رقم التعويض : <span>{{AllData.claimCode}}</span></p>
+                                    <p><span class="mx-2"></span>رقم الوثيقة : <span>{{AllData.policyCode}}</span></p>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- الوصف -->
+                    
+                    <table class="w-100 mt-3">
+                        <tbody>
+                            <tr>
+                                <td class="w-75 py-2">الوصف</td>
+                                <td class="w-25 py-2">المبلغ </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--  -->
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="d-flex benefit px-2">
+                                <div class="w-75" style="border-left: solid #000 2px;">
+                                    <br>
+                                    <p><span class="mx-2"></span>رقم التعويض : <span>{{AllData.claimCode}}</span></p>
+                                    <p><span class="mx-2"></span>رقم الوثيقة : <span>{{AllData.policyCode}}</span></p>
+                                    <p><span class="mx-2"></span> تاريخ المطالبة :  <span>{{AllData.dateOfReceiptOfTheClaim}}</span></p>
+                                    <p><span class="mx-2"></span> سبب الإشعار : <span>{{AllData.reason}}</span></p>
+                                    <p><span class="mx-2"></span>تاريخ اصدار الإشعار : <span>{{AllData.createdAt}}</span></p>
+                                    <p><span class="mx-2"></span>الإدارة : <span>{{AllData.management}}</span></p>
+                                    <br>
+                                </div>
+                                <div class="w-25">
+                                    <br>
+                                    <br>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex benefit px-2" style="border-top: none;">
+                                <div class="w-75" style="border-left: solid #000 2px;">
+                                    <p class="fs-4 py-1 px-3">{{AllData.arabicAmount}}</p>
+                                </div>
+                                <div class="w-25">
+                                    <p class="px-3">{{AllData.amount}} ج.م</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fs-4 mt-1">إدارة التعويضات - الطبي</p>
+                    <!-- Footer -->
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="mt-1"><span class="fs-6">حرر بمعرفة :</span> {{AllData.createdBy}}</p>
+                            <p class="mt-1"><span class="fs-5">إعتماد الإدارة :</span>.....</p>
+                            <p class="mt-1"><span class="fs-5">أصدر بواسطة :</span> {{AllData.createdBy}}</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="mt-1"><span class="fs-5">تاريخ الطلب :</span> {{AllData.createdAt}}</p>
+                            <p class="mt-1"><span class="fs-5"> المــــراجــعــة :</span>.....</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="PageCount">1/1</p>
+
+           </div>
+
+        </div>
+    </div>
+</div>

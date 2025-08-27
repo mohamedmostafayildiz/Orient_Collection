@@ -1,0 +1,24 @@
+#AccountantPi{
+    min-height: 90vh;
+}
+.inner{
+    border-radius: 0.6rem;
+}
+.container-fluid{
+    --bs-gutter-x:0rem
+}
+
+
+tr th{
+    color:#01909D !important
+}
+table{
+    border: var(--mode-two)!important;
+}
+.table_color{
+    background-color: var(--mode-one)!important;
+}
+table {
+    border: #01909D  !important;
+    border-radius: 1rem!important;
+}

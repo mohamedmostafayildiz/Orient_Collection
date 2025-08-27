@@ -1,0 +1,433 @@
+<div id="upload-plans-file">
+    <div class="container-fluid">
+        <div class="outerBorder shadow_5">
+            <div class="d-flex justify-content-between p2-3 py-2">
+                <div class="d-flex">
+                    <button (click)="AddNewAccType()" type="button" class="mintBtn py-5 my-3">
+                        <i class="fa-solid fa-plus" style="margin-right: 2px;"></i>Add New Plan
+                    </button>
+                    <!-- <p class="font_Coloered3 text-center my-3">{{'Shared.Add'|translate}} {{'Offer.Plan'|translate}}</p> -->
+                    <!-- <button (click)="this._location.back()" class="Current-plan mt-2 mx-2" style="padding: 5px 15px;">Back</button> -->
+                </div>
+                <button data-bs-toggle="modal" data-bs-target="#ViewPlans"
+                    class="Current-plan mt-3">{{'Offer.CurrentPlans'|translate}}</button>
+            </div>
+            <!-- <h2 class="fs-4"><span class="text-muted">{{'Shared.AddOnlyExcelFile'|translate}}</span> </h2> -->
+            <!-- File Upload -->
+            <div class="row">
+                <div class="col-md-8 d-flex align-items-center">
+                    <div class="w-100">
+                        <div *ngIf="AllOfferPlans && AllOfferPlans.length !== 0">
+                            <p class="fs-5">Current plans Are
+                                <span *ngFor="let item of this.AllOfferPlans"
+                                    class="mx-1 text-danger fs-4 fw-bold">{{item.planName}}</span>
+                            </p>
+
+                        </div>
+                        <div>
+                            <table *ngIf="this.arrTest.length>0" class="table text-center mt-2">
+                                <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                                    <th>{{"Offer.Plan Name"|translate}}</th>
+                                    <th>{{'Offer.NetPremium'|translate}}</th>
+                                    <th>Total Sum Insured</th>
+                                    <th>Total Sum Insured</th>
+                                    <th>Risk</th>
+                                    <th class="remove"></th>
+                                </thead>
+                                <tbody>
+                                        <tr *ngFor="let item of arrTest;let index = index" class="align-middle">
+                                            <td>{{item.planName}}</td>
+                                            <td>{{item.netPremium}}</td>
+                                            <td>{{item.totalSumInsured}}</td>
+                                            <td>
+                                                <i (click)="getRiskInfo(item.risksLst)" style="color:#01909D !important;" class="fa-regular fa-eye fs-5 px-3 py-2"></i>
+                                            </td>
+                                            <!-- <td class="remove"><button color="warn" (click)="remove(index,item.planName)" mat-raised-button>{{'Shared.Remove'|translate}}</button></td> -->
+                                            <td><i (click)="remove(index,item.planName)" class="fa-regular fa-trash-can fs-5 px-3 py-2" style="color:red !important"></i></td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center mt-3">
+                            <button *ngIf="this.arrTest.length>0"
+                                [disabled]="this.arrTest.length==0||this.isClickedDocumnet" (click)="SavePlans()"
+                                mat-raised-button class="btn tabeeb_Btn w-50 mx-1"><span
+                                    *ngIf="this.isClickedDocumnet">Uploading <i
+                                        class="fa-solid fa-spinner fa-spin"></i></span><span
+                                    *ngIf="!this.isClickedDocumnet">{{'Shared.Submit'|translate}} <i
+                                        class="fa-solid fa-floppy-disk"></i></span></button>
+                        </div>
+
+                        <!-- <form [formGroup]="PlanForm">
+                            <div class="row">
+                                <div class="col-md-7 my-2">
+                                    <table class="table table-striped table-bordered text-center mt-2" style="border-radius: 20px;">
+                                        <tbody class="align-middle">
+                                            <tr>
+                                                <th class="w-30 py-3">{{'Offer.Upload Plans File'|translate}}</th>
+                                                <td class="w-60 py-3">
+                                                    <i (click)="fileInput.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#01909D;border-radius: 5px;"></i>
+                                                    <input accept=" .pdf" hidden (change)="uploadFile($event)" #fileInput type="file">
+                                                    <span class="file-name">{{selectedFile?.name}}</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                                        <mat-label>{{'Offer.Plan Name'|translate}}</mat-label>
+                                        <mat-select formControlName="planName">
+                                            <mat-option value="A">A</mat-option>
+                                            <mat-option value="B">B</mat-option>
+                                            <mat-option value="C">C</mat-option>
+                                            <mat-option value="D">D</mat-option>
+                                            <mat-option value="E">E</mat-option>
+                                            <mat-option value="F">F</mat-option>
+                                            <mat-option value="G">G</mat-option>
+                                            <mat-option value="H">H</mat-option>
+                                            <mat-option value="I">I</mat-option>
+                                            <mat-option value="J">J</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                                        <mat-label>{{'Offer.NetPremium'|translate}}</mat-label>
+                                        <input formControlName="netPremium" type="number" matInput>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                                        <mat-label>{{"Offer.Total Annual"|translate}}</mat-label>
+                                        <input [(ngModel)]="totalAnnual" [ngModelOptions]="{standalone: true}" disabled readonly type="number" matInput>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </form>
+                        <form [formGroup]="RiskForm">
+                                <div class="row  shadow_5 py-4" style="border-radius: 0.6rem">
+                                    <div class="col-md-5">
+                                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                                            <mat-label>{{"Offer.Risk"|translate}}</mat-label>
+                                            <mat-select formControlName="riskId">
+                                                <mat-option *ngFor="let item of AllRisks" [value]="item.id">{{item.englishName}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <div class="col-md-5">
+                                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                                            <mat-label>{{'Offer.AnnualMaxLimit'|translate}}</mat-label>
+                                            <input formControlName="annualMaxLimit" type="number" matInput>
+                                        </mat-form-field>
+                                        <span [hidden]="this.RiskForm.get('annualMaxLimit')?.value === ''" style="color: red;" *ngIf="this.RiskForm.get('annualMaxLimit')?.value < this.PlanForm.get('netPremium')?.value"> Annual Max Limit must be more than or equal netPremium</span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button [disabled]="this.RiskForm.status=='INVALID' || this.RiskForm.get('annualMaxLimit')?.value < this.PlanForm.get('netPremium')?.value" (click)="viewRisk()" mat-raised-button color="primary" class="mt-2">{{'Shared.Add'|translate}}</button>
+                                    </div>
+                                    <table *ngIf="this.ArrRisk.length>0"  class="table text-center w-75 mt-3">
+                                        <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                                            <th>{{"Offer.Risk"|translate}}</th>
+                                            <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                                            <th class="remove"></th>
+                                        </thead>
+                                        <tbody>
+                                                <tr *ngFor="let item of ArrRisk;let index = index">
+                                                    <td>{{ getRiskNameById(item.riskId) }}</td>
+                                                    <td>{{item.annualMaxLimit}}</td>
+                                                    <td class="remove"><button color="warn" (click)="removeRisk(index)" mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                        </form>
+                        <table *ngIf="this.arrTest.length>0"  class="table text-center mt-2">
+                            <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                                <th>{{"Offer.Plan Name"|translate}}</th>
+                                <th>{{'Offer.NetPremium'|translate}}</th>
+                                <th>Risk</th>
+                                <th class="remove"></th>
+                            </thead>
+                            <tbody>
+                                    <tr *ngFor="let item of arrTest;let index = index" class="align-middle">
+                                        <td>{{item.planName}}</td>
+                                        <td>{{item.netPremium}}</td>
+                                        <td>
+                                            <i (click)="getRiskInfo(item.risksLst)" data-bs-toggle="modal" data-bs-target="#Risk" class="fa-regular fa-eye text-success fs-5 px-3 py-2"></i>
+                                        </td>
+                                        <td class="remove"><button color="warn" (click)="remove(index,item.planName)" mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                                    </tr>
+                            </tbody>
+                        </table> -->
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p class="mt-1 file-name" *ngIf="selectedFile">{{ selectedFile.name }}</p>
+                </div>
+                <!-- Submit -->
+                <div class="d-flex justify-content-between mt-3">
+                    <!-- <button *ngIf="this.arrTest.length>0" [disabled]="this.arrTest.length==0||this.isClickedDocumnet" (click)="SavePlans()" class="w-25 py-2 mt-2 Current-plan"><span *ngIf="this.isClickedDocumnet">Uploading <i class="fa-solid fa-spinner fa-spin"></i></span><span *ngIf="!this.isClickedDocumnet">{{'Shared.Submit'|translate}} <i class="fa-solid fa-floppy-disk"></i></span></button> -->
+                    <button style="display: none;" id="proceesButton" *ngIf="aftersubmit" mat-raised-button
+                        class="w-25 py-2 my-2 Current-plan btn tabeeb_Btn"
+                        routerLink="/UploadGroupFile/{{this.OfferId}}">{{'Shared.Next'|translate}}</button>
+                </div>
+            </div>
+            <!-- Table Of All Currently Plans Of The Policy -->
+        </div>
+    </div>
+    <!--------------------------------------- Current Entered Plans Modal --------------------------->
+    <div class="modal fade" id="ViewPlans" tabindex="-1" aria-labelledby="networkCoding" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="networkCoding">Current Entered Plans</h1>
+                </div>
+
+                <div class="container my-5">
+
+                    <div class="outerItem outerBorder shadow_5 " style="overflow: auto;">
+                        <table class="table table-striped text-center">
+                            <thead class="tableHead">
+                                <th>{{'Offer.Plan Name'|translate}}</th>
+                                <th>Total Sum Insured</th>
+                                <th>{{'Offer.NetPremium'|translate}}</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of AllOfferPlans">
+                                    <td class="align-middle py-3">{{item.planName}}</td>
+                                    <td class="align-middle py-3">{{item.totalSumInsured}}</td>
+                                    <td class="align-middle py-3">{{item.netPremium}}</td>  
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <div id="loading" *ngIf="loading">
+                            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer py-3">
+                    <button type="button" mat-raised-button data-bs-dismiss="modal">
+                        <th>{{'Shared.Close'|translate}}</th>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------- Risk Modal --------------------------->
+<!-- <div class="modal fade" id="Risk" tabindex="-1" aria-labelledby="Risk" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="Risk">Risk</h1>
+            </div>
+            <div class="container my-2">
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <table class="table table-striped text-center w-100">
+                            <thead>
+                                <th>Risk</th>
+                                <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                            </thead>
+                            <tbody>
+                                    <tr *ngFor="let item of AllRisk;let index = index">
+                                        <td>{{ getRiskNameById(item.riskId) }}</td>
+                                        <td>{{item.annualMaxLimit}}</td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer py-3">
+                <button id="close" type="button" mat-raised-button
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="overlay" (click)="closeShowRisk()">
+    <div class="delet" (click)="$event.stopPropagation()">
+        <div class="d-flex justify-content-between delet-details">
+            <h2>Risk ?</h2>
+            <div class="d-flex align-items-center justify-content-center"><i
+                    class="fa-solid fa-xmark text-danger text-center" (click)="closeShowRisk()"
+                    style="cursor: pointer;"></i></div>
+        </div>
+        <hr class="custom-hr w-100">
+        <div>
+            <div class="container-fluid" style="padding: 0 10px;">
+                <div class="row">
+                    <!-- <div class="col-2"></div> -->
+                    <div class="col-12">
+                        <table class="table text-center w-100">
+                            <thead style="background-color: #F2F2F2 !important;">
+                                <th>Risk</th>
+                                <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of AllRisk;let index = index">
+                                    <td>{{ getRiskNameById(item.riskId) }}</td>
+                                    <td>{{item.annualMaxLimit}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <div class="col-2"></div> -->
+                </div>
+            </div>
+
+        </div>
+        <div class="d-flex justify-content-center align-items-center py-5" style="padding: 0 3px 0 3px;">
+            <!-- <button  (click)="view()" [disabled]="this.PlanForm.status=='INVALID'||this.ArrRisk.length==0 || this.totalAnnual < this.PlanForm.get('netPremium')?.value" class="btn _cancel w-50 mx-1">
+                <span *ngIf="!this.isClicked">Add Plan</span>Add Plan
+                <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+            </button> -->
+            <button class="btn _delete w-50 mx-1" (click)="closeShowRisk()">Cancel</button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Add plan -->
+<div class="overlayAddplan" (click)="closeNewAccType()">
+    <div class="addnewplan" (click)="$event.stopPropagation()">
+        <div class="d-flex justify-content-between delet-details">
+            <h2>Add new Plan ?</h2>
+            <div class="d-flex align-items-center justify-content-center"><i
+                    class="fa-solid fa-xmark text-danger text-center" (click)="closeNewAccType()"
+                    style="cursor: pointer;"></i></div>
+        </div>
+        <hr class="custom-hr w-100">
+        <div>
+            <div class="container-fluid" style="padding: 0 25px;">
+                <form [formGroup]="PlanForm">
+                    <div class="row">
+                        <div class="col-md-12 my-2">
+                            <!-- <table class="table table-striped table-bordered text-center mt-2" style="border-radius: 20px;">
+                            <tbody class="align-middle">
+                                <tr>
+                                    <th class="w-30 py-3">{{'Offer.Upload Plans File'|translate}}</th>
+                                    <td class="w-60 py-3">
+                                        <i (click)="fileInput.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#3F51B5;border-radius: 5px;"></i>
+                                        <input accept=".xlsx , .pdf" hidden (change)="uploadPlanFile($event)" #fileInput type="file">
+                                        <span class="file-name">{{selectedPlanFile?.name}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> -->
+                            <div class="uploaded-container mt-1">
+                                <div class="text-center file-upload" (click)="fileInput.click()" role="button"
+                                    aria-label="Upload File">
+                                    <i class="fa-solid fa-cloud-arrow-up fs-4 mt-2 upload-icon"
+                                        style="color: #01909D;"></i>
+                                    <h3 class="mx-4 mt-3">Upload Plans File</h3>
+                                    <p class="mt-1 file-name" *ngIf="selectedFile">{{ selectedFile.name }}</p>
+                                    <input hidden (change)="uploadFile($event)" #fileInput type="file">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100  feo" appearance="outline">
+                                <mat-label>{{'Offer.Plan Name'|translate}}</mat-label>
+                                <mat-select formControlName="planName">
+                                    <mat-option value="A">A</mat-option>
+                                    <mat-option value="B">B</mat-option>
+                                    <mat-option value="C">C</mat-option>
+                                    <mat-option value="D">D</mat-option>
+                                    <mat-option value="E">E</mat-option>
+                                    <mat-option value="F">F</mat-option>
+                                    <mat-option value="G">G</mat-option>
+                                    <mat-option value="H">H</mat-option>
+                                    <mat-option value="I">I</mat-option>
+                                    <mat-option value="J">J</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100  feo" appearance="outline">
+                                <mat-label>{{'Offer.NetPremium'|translate}}</mat-label>
+                                <input formControlName="netPremium" type="number" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100  feo" appearance="outline">
+                                <mat-label>Total Sum insured</mat-label>
+                                <input formControlName="totalSumInsured" type="number" matInput>
+                            </mat-form-field>
+                            <!-- <span style="color: red;" *ngIf="this.totalAnnual < this.PlanForm.get('netPremium')?.value"> Total annual must be more than or equal netPremium</span> -->
+
+                        </div>
+                    </div>
+                </form>
+                <form [formGroup]="RiskForm" class="mt-2">
+                    <div class="row pt-2 shadow_5" style="border-radius: 0.6rem">
+                        <div class="col-md-5">
+                            <mat-form-field class="w-100  feo" appearance="outline">
+                                <mat-label>{{"Offer.Risk"|translate}}</mat-label>
+                                <mat-select formControlName="riskId">
+                                    <mat-option *ngFor="let item of AllRisks"
+                                        [value]="item.id">{{item.englishName}}</mat-option>
+                                    <!-- <mat-option value="B">Risk 2</mat-option> -->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-5">
+                            <mat-form-field class="w-100  feo" appearance="outline" style="margin-bottom: -1em;">
+                                <mat-label>{{'Offer.AnnualMaxLimit'|translate}}</mat-label>
+                                <input formControlName="annualMaxLimit" type="number" matInput>
+                            </mat-form-field>
+                            <span [hidden]="this.RiskForm.get('annualMaxLimit')?.value === ''" style="color: red;"
+                                *ngIf="this.RiskForm.get('annualMaxLimit')?.value >this.PlanForm.get('totalSumInsured')?.value">
+                                Annual Max Limit must be Less or equal than Total Sum insured</span>
+                        </div>
+                        <div class="col-md-2">
+                            <button
+                                [disabled]="this.RiskForm.status=='INVALID' || this.RiskForm.get('annualMaxLimit')?.value > this.PlanForm.get('totalSumInsured')?.value"
+                                (click)="viewRisk()" mat-raised-button
+                                class="mt-2 tabeeb_Btn">{{'Shared.Add'|translate}}</button>
+                        </div>
+                        <table *ngIf="this.ArrRisk.length>0" class="table text-center w-100">
+                            <thead style="background-color: #F2F2F2 !important;">
+                                <th>{{"Offer.Risk"|translate}}</th>
+                                <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                                <th class="remove"></th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of ArrRisk;let index = index">
+                                    <td>{{ getRiskNameById(item.riskId) }}</td>
+                                    <td>{{item.annualMaxLimit}}</td>
+                                    <!-- <td class="remove"><button color="warn" (click)="removeRisk(index)" mat-raised-button>{{'Shared.Remove'|translate}}</button></td> -->
+                                    <td><i (click)="removeRisk(index)" class="fa-regular fa-trash-can fs-5 px-3 py-2"
+                                            style="color:red !important"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="d-flex justify-content-between align-items-center py-5" style="padding: 0 3px 0 3px;">
+            <button (click)="view()" [disabled]="this.PlanForm.status=='INVALID'||this.ArrRisk.length==0"
+                class="btn _cancel w-50 mx-1">
+                <!-- <span *ngIf="!this.isClicked">Add Plan</span> -->Add Plan
+                <!-- <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span> -->
+            </button>
+            <button class="btn _delete w-50 mx-1" (click)="closeNewAccType()">Cancel</button>
+        </div>
+
+    </div>
+</div>

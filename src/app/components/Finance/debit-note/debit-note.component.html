@@ -1,0 +1,163 @@
+<div id="paymentWay">
+    <div class="container-fluid">
+        <div class="outerBorder outerItem shadow_5 py-3">
+            <div>
+    <!-- Depit Entry Note Form -->
+    <form [formGroup]="DepitEntryNoteForm" class="mt-2">
+      <div class="row mt-1">
+        <h2 class="p_3 text-center"> Depit Note Entry</h2>
+        <div class="col-md-10">
+          <mat-radio-group  aria-label="Select an option" class="mt-3" formControlName="entryType">
+            <div class="row mt-3" >
+                <div class="col-2">
+                  <h2 class="p_3">Entry Type</h2>
+                </div>
+                <div class="col-2">
+                    <mat-radio-button [value]="true" name="nn"></mat-radio-button>
+                    <label>Credit</label>
+                </div>
+                <div class="col-2">
+                    <mat-radio-button [value]="false" name="nn"></mat-radio-button>
+                    <label>Depit</label>
+                </div>
+            </div>
+          </mat-radio-group>
+        </div>
+        <div class="col-md-2">
+          <label>Balance</label>
+          <input disabled class="form-control" [(ngModel)]="referncenumber1" [ngModelOptions]="{standalone: true}" type="number">
+        </div>
+      </div>
+      <div class="row py-4">
+        <div class="col-md-3">
+          <label>Main Account</label>
+          <select class="w-100 form-select" formControlName="mainAccountId"  (change)="GetAllSupAccounts($event)">
+            <option selected value="">--</option>
+            <option *ngFor="let item of AllAccountsForRecieptAndPayments" value="{{item.id}}">{{item.name}}</option>
+          </select>
+        </div> 
+        <div class="col-md-3">
+          <label>Sub Account </label>
+          <select class="w-100 form-select" formControlName="subAccountId" (change)="GetAllinsurerss($event)">
+              <option value="">--</option>
+              <option *ngFor="let item of AllSupArr" [value]="item.id">{{item.name}}</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label>Currency</label>
+          <select class="w-100 form-select"  formControlName="currency">
+            <option value="" selected hidden>Select</option>
+            <option *ngFor="let item of AllCurrinces" [value]="item.id">{{item.value}}</option>
+          </select>        
+        </div> 
+        <div class="col-md-3">
+          <label>Amount</label>
+          <input class="form-control" formControlName="amount" type="number">
+        </div>
+        <div class="col-md-3 mt-3">
+          <label>Refrence Number</label>
+          <input class="form-control" formControlName="referenceNumber" type="text">
+        </div>
+         <div class="col-md-3 mt-3">
+          <label>Invoice Date</label>
+          <input class="form-control" formControlName="invoivcedate" type="date">
+        </div> 
+        <div class="col-md-3 mt-3">
+          <label>Due Date</label>
+          <input class="form-control" [min]="DepitEntryNoteForm.get('invoivcedate')?.value" formControlName="duedate" type="date">
+        </div> 
+       
+        <div class="col-md-3 d-flex align-items-center mt-3">
+          <button
+          [disabled]="DepitEntryNoteForm.invalid " (click)="AddDepitEntry()"
+            class="cus_btn mintBtn w-25 mt-4">Add</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div  class="cus_container2">
+    <div class="cus_container3 wrapper mt-2" *ngIf="this.CreditEntryArr1.length>0">
+      <p class="text-muted fs-5 fw-bold py-2">Table Of Credit Entry <i class="fa-solid fa-money-bills"></i></p>
+      <table class="text-center table">
+        <thead class="tableHead align-middle">
+              <th>#</th>
+              <th>Account Name</th>
+              <th>Sup Account Name</th>
+              <th>Currency</th>
+              <th>Amount</th>
+              <th>Refrence Number</th>
+              <th>Due Date</th>
+              <th>Invoice Date</th>
+              <th class="remove"></th>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of CreditEntryArr1;let index = index">
+                  <td>{{index+1}}</td>
+                  <td>{{getaccountNamee(item?.mainAccountId)}}</td>
+                  <td>{{getsupaccountName(item?.subAccountId)|| '--'}}</td>
+                  <td>{{getcurrincyName(item.currency)}}</td>
+                  <td>{{item.amount}}</td>
+                  <td>{{item.referenceNumber || '--'}}</td>
+                  <td>{{item.duedate | date:'MM/dd/YYYY'}}</td>
+                  <td>{{item.invoivcedate | date:'MM/dd/YYYY'}}</td>
+                  <td class="removei"><button color="warn" (click)="removeCreditEntry1(index)"
+                      mat-raised-button>Shared.Remove</button></td>
+              </tr>
+              <tr class="fw-bold">
+                <td colspan="3" class="text-center">Total:</td>
+                <td>{{ getTotalAddCreditEntry1()}}</td>
+                <td colspan="2"></td>
+              </tr>
+          </tbody>
+      </table>
+        <!-- <div class="text-center">
+            <button [disabled]="this.isSubmitted" *ngIf="this.PayedMoney ==  this.CheckForm.get('TotalCheckAmmount')?.value" (click)="AddPayment()" class="w-25 cus_btn greenBtn cusNewBtn mt-2"><span *ngIf="this.isSubmitted"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span>
+                <span *ngIf="!this.isSubmitted">Save <i class="fa-regular fa-floppy-disk"></i></span> 
+            </button>
+        </div> -->
+    </div>
+    <div class="cus_container3 wrapper mt-2" *ngIf="this.DepitEntryArr1.length>0">
+      <p class="text-muted fs-5 fw-bold py-2">Table Of Depit Entry <i class="fa-solid fa-money-bills"></i></p>
+      <table class="text-center table">
+        <thead class="tableHead align-middle">
+              <th>#</th>
+              <th>Account Name</th>
+              <th>Sup Account Name</th>
+              <th>Currency</th>
+              <th>Amount</th>
+              <th>Refrence Number</th>
+              <th>Due Date</th>
+              <th>Invoice Date</th>
+              <th class="remove"></th>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of DepitEntryArr1;let index = index">
+                  <td>{{index+1}}</td>
+                  <td>{{getaccountNamee(item?.mainAccountId)}}</td>
+                  <td>{{getsupaccountName(item?.subAccountId)|| '--'}}</td>
+                  <td>{{item.currency}}</td>
+                  <td>{{item.amount}}</td>
+                  <td>{{item.referenceNumber || '--'}}</td>
+                  <td>{{item.duedate | date:'MM/dd/YYYY'}}</td>
+                  <td>{{item.invoivcedate | date:'MM/dd/YYYY'}}</td>
+                  <td class="removei"><button color="warn" (click)="removeDepitEntry1(index)"
+                      mat-raised-button>Remove</button></td>
+              </tr>
+              <tr class="fw-bold">
+                <td colspan="3" class="text-center">Total:</td>
+                <td>{{ getTotalDepitEntry1()}}</td>
+                <td colspan="2"></td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+    <div class="text-center mt-2" *ngIf="this.DepitEntryArr1.length>0 && this.CreditEntryArr1.length>0">
+      <button [disabled]="this.isSubmitted || this.getTotalAddCreditEntry1()-this.getTotalDepitEntry1()!=0"  (click)="FinalSave()" class="w-25 mintBtn mt-2"><span *ngIf="this.isSubmitted"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span>
+          <span *ngIf="!this.isSubmitted">Save <i class="fa-regular fa-floppy-disk"></i></span> 
+      </button>
+  </div>
+  </div>
+        <div>
+    </div> 
+</div> 
+

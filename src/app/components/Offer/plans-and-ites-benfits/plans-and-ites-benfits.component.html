@@ -1,0 +1,53 @@
+<div id="plan_Its_BenfiTS">
+    <div class="container">
+        <div class="d-flex justify-content-between mx-5 pt-3">
+            <p class="font_Coloered3 text-center my-3">plans And Its Benefits</p>
+            <button  (click)="goBack()" class="mt-3" mat-raised-button color="accent"><i class="fa-solid fa-backward"></i> Go Back</button>
+        </div>
+        <div class="outerBorder shadow_5">
+            <!-- View All Avialable Paln & Its Details -->
+            <div class="row my-2" style=" border-radius: 0.5rem;">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="row w-100" style="margin-left: 0.1rem;">
+                            <div *ngFor="let plan of AllPlans" (click)="getPlanBenefitsDetails(plan.benefits)"
+                                class="col-md-3 illnessInnerBox my-1">
+                                <h2 class="text-center boxTitle">{{plan.planName}}</h2>
+                                <div class="text-center">
+                                    <p class="numOfIllness">{{plan.benefits.length}} Benefit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="details" style="display: none;" class="col-md-6">
+                    <div class="illnessDetails mt-1">
+                        <table class="table table-striped text-center">
+                            <thead class="tableHead">
+                                <th class="py-2">Name</th>
+                                <th class="py-2">Max Limit</th>
+                                <th class="py-2">Type</th>
+                                <th class="py-2">Coverage</th>
+                            </thead>
+                            <tbody>
+
+                                <tr *ngFor="let customer of BenefitsDetails">
+                                    <td class="align-middle">{{customer.name}}</td>
+                                    <td class="align-middle">{{customer.maximumLimit}}</td>
+                                    <td class="align-middle">{{customer.benefitType}}</td>
+                                    <td class="align-middle">{{customer.coverage}}</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+    </div>
+</div>

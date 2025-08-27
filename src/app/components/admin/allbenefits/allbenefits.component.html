@@ -1,0 +1,190 @@
+<div id="allPlans">
+    <div class="container">
+        <div class="d-flex justify-content-between mx-5">
+            <p class="font_Coloered3 text-center my-4">All Benefits</p>
+            <input class="form-control w-25 ml-auto mt-3" style="height: 3rem;" [(ngModel)]='term' placeholder="Search here .." />
+        </div>
+        <div class="outerBorder shadow_5 table-responsive">
+            <table class="table table-striped text-center">
+                <thead class="tableHead">
+                    <th class="py-2">Name</th>
+                    <th class="py-2">Type</th>
+                    <th class="py-2">Coverage</th>
+                    <th class="py-2">Max Limit</th>
+                    <th class="py-2">Arabic Name</th>
+                    <th class="py-2">Notes</th>
+                    <th></th>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let Benefit of AllBenefits|search:term|paginate:{
+                        itemsPerPage:tableSize,
+                        currentPage:page,
+                        totalItems:count}; let i=index">
+                        <td class="align-middle">{{Benefit.name}}</td>
+                        <td class="align-middle">{{Benefit.benefitType}}</td>
+                        <td class="align-middle">{{Benefit.coverage}}</td>
+                        <td class="align-middle">{{Benefit.maximumLimit}}</td>
+                        <td class="align-middle">{{Benefit.arabicName}}</td>
+                        <td class="align-middle">{{Benefit.notes}}</td>
+                        <td><button (click)="getAgesOfTpa(Benefit.customerId,Benefit.name,Benefit.id)" data-bs-toggle="modal" data-bs-target="#Pricing" mat-raised-button color="primary">Add Prices <i class="fa-regular fa-calendar-plus"></i></button></td>
+                        <td><button (click)="getBenefitPrices(Benefit.benefitPrices,Benefit.name)" mat-raised-button color="primary" data-bs-toggle="modal" data-bs-target="#benefitPrices">Prices <i class="fa-solid fa-money-bills"></i></button></td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="loading">
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th><app-spinner class="d-flex justify-content-center m-auto"></app-spinner></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end mt-4">
+                <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                </pagination-controls>
+                <select style="border: solid 2px #4758B8;" (change)="onTableSizeChange($event)" class="tableSize rounded-pill px-1">
+                  <option *ngFor=" let size of tableSizes">{{size}}</option>
+                </select>
+            </div>
+        </div>   
+    </div>
+
+        <!---------------------------------------  Prices Modal --------------------------->
+        <div class="modal fade" id="benefitPrices" tabindex="-1" aria-labelledby="addPlan" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="addPlan">{{BenefitName}} Prices</h1>
+                    </div>
+                    <div class="outerBorder shadow_5 table-responsive my-4">
+                        <table class="table table-striped text-center">
+                            <thead class="tableHead">
+                                <th class="py-2">Name</th>
+                                <th class="py-2">Price</th>
+                                <th class="py-2">Age Period</th>
+                            </thead>
+                            <tbody>
+            
+                                <tr *ngFor="let price of BenefitPrices|paginate:{
+                                    itemsPerPage:tableSize,
+                                    currentPage:page,
+                                    totalItems:count}; let i=index">
+                                    <td class="align-middle">{{price.name}}</td>
+                                    <td class="align-middle">{{price.price}}</td>
+                                    <td class="align-middle">{{price.agePeriod}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="loading">
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                                
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th><app-spinner class="d-flex justify-content-center m-auto"></app-spinner></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                                <tr><th></th></tr>
+                            </tbody>
+                        </table>
+
+                    </div>   
+
+                    <div class="modal-footer py-3">
+                        <button  type="button" mat-raised-button
+                            data-bs-dismiss="modal">Close</button>
+                    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+            <!-------------------------------------- Add Pricing Modal --------------------------->
+    <div class="modal fade" id="Pricing" tabindex="-1" aria-labelledby="Pricing" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="Pricing">Pricing</h1>
+                </div>
+
+                <div class="container my-5">
+                    <div class="row">
+                        <div class="col-md-5 offset-md-1">
+                            
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Plan Name</mat-label>
+                                <input readonly type="text" value="{{planName}}" matInput>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>Select Age Stage</mat-label>
+                                <mat-select [(value)]="ageValue">
+                                    <mat-option *ngFor="let age of AgesOfTpa" value="{{age.id}}">{{age.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+
+                        </div>
+                        <div class="col-md-5">
+
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Benefit Name</mat-label>
+                                <input readonly type="text" value="{{benefitNameAdd}}" matInput>
+                            </mat-form-field>
+
+
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>Price</mat-label>
+                                <input [(ngModel)]="priceValue" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer py-3">
+                    <button id="closeAddPrice" type="button" mat-raised-button
+                        data-bs-dismiss="modal">Close</button>
+                    <button (click)="savePricing()" type="button" mat-raised-button color="primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

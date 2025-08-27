@@ -1,0 +1,34 @@
+<section id="AccountantPi">
+    <div class="container-fluid">
+        <div class="outerBorder outerItem" style="margin:0px 0px !important;">
+            <div class="row" style="padding: 25px 25px 0 25px;">
+                <!-- <h2 class="text-center">Currency Exchange Rate</h2> -->
+                <table class="c table-bordered text-center mt-5" style="border-radius: 20px;">
+                  <tbody class="align-middle" >
+                        <tr>
+                          <th class="w-30 py-3 table_color">Download templete File</th>
+                          <td class="w-60 py-3 table_color">
+                              <i (click)="getTempleteCustomerFile()" class="fa-solid fa-download fs-3 px-2 py-1 mt-3" style="border-radius: 7px; cursor: pointer;color:#01909D;"></i>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="w-30 py-3 table_color">Upload CurrencyExchangeRate File</th>
+                          <td class="w-60 py-3 table_color">
+                              <i (click)="fileInput10.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#01909D;"></i>
+                              <input accept=".xlsx" hidden (change)="uploadCurrencyExchangeRateTemplete($event)" #fileInput10 type="file">
+                              <span>{{CurrencyExchangeRateTempleteFile?.name}}</span>
+                          </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center py-2">
+                    <button [disabled]="this.CurrencyExchangeRateTempleteFile == '' || this.isClicked" (click)="SaveFile()" class="w-25 btn mintBtn">
+                        <span *ngIf="!this.isClicked">Save</span>
+                        <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+                    </button>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</section>       

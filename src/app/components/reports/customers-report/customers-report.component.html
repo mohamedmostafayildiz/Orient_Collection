@@ -1,0 +1,102 @@
+<div id="Customers_report">
+    <div class="container-fluid">
+        <!-- <div class="d-flex justify-content-between mx-5 pt-3">
+            <p class="font_Coloered3 text-center my-2">Customers Reports</p>
+        </div> -->
+        <div class="outerBorder outerItem shadow_5 py-3">
+    <!-------------------- Search Polices ------------------->
+
+            <p class="text-muted fs-5 fw-bold py-2">{{'Shared.SearchHere'|translate}} :</p>
+            <form [formGroup]="SearchForm" class="py-5">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Policy.From'|translate}}</mat-label>
+                            <input formControlName="start"  matInput [matDatepicker]="picker">
+                            <mat-datepicker-toggle class="custom-datepicker-toggle" matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Policy.To'|translate}}</mat-label>
+                            <input formControlName="end" matInput [matDatepicker]="picker2">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+        
+                    <div class="col-md-2">
+                        <!-- Search Now -->
+                        <div class="d-flex align-items-center justify-content-center">
+                            <button id="searchBtn" [disabled]="this.SearchForm.status=='INVALID'||this.isClicked" (click)="Search()"
+                                class="w-75 btn Apply"><span *ngIf="this.isClicked"><i
+                                        class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span
+                                    *ngIf="!this.isClicked">{{'Shared.Search'|translate}} 
+                                    <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+                                    </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+    <!-------------------- Search results ------------------->
+
+    <div style="overflow: auto;display: none;max-width: 1150px;"  id="SearchResults"> 
+        <hr class="my-4" style="width: 80%;margin: auto;">
+        <p class="text-muted fs-5 fw-bold py-2">{{'Shared.Searchresults'|translate}} <i class="fa-solid fa-square-poll-vertical"></i></p>
+        <table class="table text-center">
+            <thead class="tableHead" style="background-color: #F2F2F2 !important;">                
+                <th class="py-2">Name</th>
+                <th class="py-2">Gender</th>       
+                <th class="py-2">Birthday</th> 
+                <th class="py-2">city</th> 
+                <th class="py-2">country</th> 
+                <th class="py-2">customerType</th> 
+                <th class="py-2">Email</th> 
+                <th class="py-2">ExpiredTaxDate</th> 
+                <th class="py-2">Job</th> 
+                <th class="py-2">Group</th> 
+                <th class="py-2">Mobile</th> 
+                <th class="py-2">Mobile2</th> 
+                <th class="py-2">Phone</th> 
+                <th class="py-2">Phone2</th> 
+                <th class="py-2">RegNo</th> 
+                <th class="py-2">TaxNo</th> 
+            </thead>
+            <tbody>
+                
+                <tr *ngFor="let item of this.AllData">
+                    <td class="align-middle">{{item.name}}</td>
+                    <td class="align-middle">{{item.gender}}</td>
+                    <td class="align-middle">{{item.birthday|date:'dd-MM-YYYY'}}</td>
+                    <td class="align-middle">{{item.city}}</td>
+                    <td class="align-middle">{{item.country}}</td>
+                    <td class="align-middle">{{item.customerType}}</td>
+                    <td class="align-middle">{{item.email}}</td>
+                    <td class="align-middle">{{item.expiredTaxDate|date:'dd-MM-YYYY'}}</td>
+                    <td class="align-middle">{{item.job}}</td>
+                    <td class="align-middle">{{item.group}}</td>
+                    <td class="align-middle">{{item.mobile}}</td>
+                    <td class="align-middle">{{item.mobile2}}</td>
+                    <td class="align-middle">{{item.phoneNumber}}</td>
+                    <td class="align-middle">{{item.phoneNumber2}}</td>
+                    <td class="align-middle">{{item.regNo}}</td>
+                    <td class="align-middle">{{item.taxNo}}</td>
+
+                </tr>
+            </tbody>
+
+        </table>
+
+        <!-- Loading -->
+        <div id="loading" *ngIf="isClicked">
+            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+        </div>
+        <button (click)="exportFile()" class=" btn Apply mx-2">Export File</button>
+    </div>
+        </div>
+    </div>
+</div>

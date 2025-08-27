@@ -1,0 +1,64 @@
+.container-fluid{
+    --bs-gutter-x:0rem
+  }
+  .Apply{
+    background-color: #01909D;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+  }
+
+  table thead {
+    --bs-table-bg: #F2F2F2; 
+    --bs-table-hover-bg: #e0e0e0; 
+  }
+  th, td {
+    height: 60px;
+    min-height: 60px; 
+    font-size: 15px !important;
+    vertical-align: middle;
+  } 
+  th{
+    color: #01BACB;
+  }
+  .dropdown {
+    max-width: 50px !important; /* Restricts the width of the ellipsis container */
+  }
+  .dropdown-item:hover{
+    background-color: #01BACB !important;
+    color: white !important;
+    cursor: pointer;
+  }
+
+  .dropdown-item:hover .fa-trash-can{
+    color: white !important;
+  }
+  .dropdown-item:hover .fa-fingerprint{
+    color: white !important;
+  }
+  .dropdown-item:hover i{
+    color: white !important;
+  }
+  .dropdown-item:hover .fa-fingerprint{
+    color: white !important;
+  }
+  .dropdown-item:hover .fgff{
+    color: white;
+  }
+
+  .dropdown.show{
+    display: block;
+    position: absolute;
+    z-index: 1000;
+  }
+  .dropdown-menu{
+    min-width: 50px !important;
+  }
+  
+  .fa-ellipsis-v {
+    cursor: pointer;
+  }
+  
+  .dropdown:hover .fa-ellipsis-v {
+    visibility: visible;
+  }

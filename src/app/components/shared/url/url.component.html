@@ -1,0 +1,17 @@
+<div class="continer">
+    <div class="row py-5">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <mat-form-field class="w-100">
+                <mat-label>Enter Url</mat-label>
+                <input [(ngModel)]="UrlValue" type="text" matInput>
+                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-hashtag"></i></mat-icon>
+            </mat-form-field>
+            <div class="d-flex justify-content-between">
+                <button (click)="saveUrl()" mat-raised-button color="primary" [disabled]="UrlValue==''" class="w-25">Save</button>
+                <button (click)="ReSetUrl()" mat-raised-button color="accent" class="w-25">ReSet</button>
+            </div>
+            <h2 class="mt-5"><strong class="text-danger">Current Url: </strong>{{this.curentUrl}}</h2>
+        </div>
+    </div>
+</div>

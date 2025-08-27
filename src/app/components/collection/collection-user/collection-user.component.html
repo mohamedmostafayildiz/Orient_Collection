@@ -1,0 +1,257 @@
+<div id="CollectionUser" style="width: 100%;">
+    <div class="container" style="padding: 0;">
+        <div class="outerBorder outerItem py-3" style="width: 100%;">
+            <!-------------------- Search Policy ------------------->
+            <div id="filters" style="display: none;">
+                <p class="main_color fs-5 fw-bold py-2">{{'Shared.SearchHere'|translate}} :</p>
+                <form [formGroup]="SearchForm" class="mt-2">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{'Policy.policyNumber'|translate}}</mat-label>
+                                <input formControlName="Code" type="text" matInput>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-hashtag"></i></mat-icon>
+                            </mat-form-field>
+            
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field id="bokerField" appearance="outline">
+                                <mat-label>{{'Offer.Broker'|translate}}</mat-label>
+                                <mat-select formControlName="BrokerId" >
+                                    <mat-option value="">{{'Shared.Null'|translate}}</mat-option>
+                                    <mat-option *ngFor="let type of brokerCustomers" [value]="type.id">{{type.fullName}}</mat-option>
+                                </mat-select>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-people-arrows"></i></mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- <mat-form-field appearance="outline">
+                                <mat-label>{{'Offer.Insured'|translate}}</mat-label>
+                                <input formControlName="Insured" type="Text" matInput>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-user"></i></mat-icon>
+                            </mat-form-field> -->
+                              <mat-form-field appearance="outline">
+                                <mat-label>{{'Offer.Insured'|translate}}</mat-label>
+                                <mat-select formControlName="Insured" >
+                                    <mat-option value="">{{'Shared.Null'|translate}}</mat-option>
+                                    <mat-option *ngFor="let type of AllInsureds" [value]="type.insuredId">{{type.insured}}</mat-option>
+                                </mat-select>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-people-arrows"></i></mat-icon>
+                            </mat-form-field>
+                            
+                        </div>
+                        <!-- <div class="col-md-3">
+                            <mat-form-field id="bokerField" appearance="outline">
+                                <mat-label>{{'Offer.SubCompany'|translate}}</mat-label>
+                                <mat-select>
+                                    <mat-option value="">{{'Shared.Null'|translate}}</mat-option>
+                                    <mat-option *ngFor="let company of subCompanyArr" [value]="company.id">{{company.name}}</mat-option>
+                                </mat-select>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-people-arrows"></i></mat-icon>
+                            </mat-form-field>
+                        </div> -->
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Product</mat-label>
+                                <mat-select formControlName="productId">
+                                    <mat-option value="">{{'Shared.Null'|translate}}</mat-option>
+                                    <mat-option *ngFor="let product of AllProducts" [value]="product.id">{{product.name}}</mat-option>
+                                </mat-select>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-people-arrows"></i></mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{'Policy.From'|translate}}</mat-label>
+                                <input formControlName="From" matInput [matDatepicker]="picker">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{'Policy.To'|translate}}</mat-label>
+                                <input formControlName="To" matInput [matDatepicker]="picker2">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field class="w-100 mt-2" appearance="outline">
+                                <mat-label>Rate status</mat-label>
+                                <mat-select formControlName="rateStatus">
+                                    <mat-option [value]="1" selected>All</mat-option>
+                                    <mat-option [value]="2">Enable</mat-option>
+                                    <mat-option [value]="3">Disabled</mat-option>
+                                </mat-select>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-money-bill"></i></mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-3 mt-2">
+                            <div class="d-flex justify-content-start">
+                                <button [disabled]="this.isClicked" (click)="Search()" mat-raised-button class="w-75 py-2 tabeeb_Btn"><span *ngIf="this.isClicked"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span *ngIf="!this.isClicked">{{'Shared.Search'|translate}} <i class="fa-solid fa-magnifying-glass"></i></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr class="my-3" style="width: 80%;margin: auto;">
+            </div>
+            <!-------------------- Search results ------------------->
+               <mat-accordion class="shadow_5">
+                        <mat-expansion-panel (opened)="false" [expanded]="false">
+                            <mat-expansion-panel-header style="background-color: #f8f9fa;">
+                                <mat-panel-title class="d-flex">
+                                    <i class="fa-regular fa-address-book mx-2 fs-3"></i>
+                                    <h4 class="header-title mt-3">Upload Polices File</h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="w-100 text-center mt-3">
+                                <!-- <label for="excelFile" class="form-label main_color fs-5 fw-bold">Upload Transaction File</label> -->
+                                <input 
+                                (change)="onExcelFileSelected($event)"
+                                type="file" 
+                                id="excelFile" 
+                                accept=".xls,.xlsx" 
+                                class="form-control w-50">
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+            <!-- <div class="mb-3 w-50">
+                <label for="excelFile" class="form-label main_color fs-5 fw-bold">Upload Polices File</label>
+                <input 
+                (change)="onExcelFileSelected($event)"
+                type="file" 
+                id="excelFile" 
+                accept=".xls,.xlsx" 
+                class="form-control">
+            </div> -->
+            <div id="SearchResults mt-4">
+                <p class="main_color fs-5 fw-bold mt-3">{{'Shared.Searchresults'|translate}} <i class="fa-solid fa-square-poll-vertical"></i></p>
+                <!-- Alert save and Total -->
+                <div *ngIf="this.ArrTest.length>0"  class="alert alert-warning mt-3 text-dark row my-2 mx-2" style="background-color: #fdfbe7!important;" role="alert">
+                    <div class="col-md-7 d-flex align-items-center">
+                        <h2 class="fw-bold fs-4 mb-0">{{this.ArrTest.length}} selected</h2>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-8">
+                                <mat-form-field style="margin-bottom:-1.6em;" appearance="outline" class="w-100">
+                                    <input readonly type="number" value="{{this.TotalMony}}"  matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-coins"></i></mat-icon>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-4">
+                                <button [disabled]="this.ArrTest.length==0||isClicked" mat-raised-button (click)="AddPortfolio()" class="w-100 mt-2 tabeeb_Btn">
+                                    <span *ngIf="!isClicked">Go Pay <i class="fa-regular fa-floppy-disk"></i></span>
+                                    <span *ngIf="isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive mt-1 table-wrapper">
+                    <table class="table text-center">
+                        <thead style="background-color: #F2F2F2 !important;">
+                            <th class="py-3">{{'Collections.PolicyCode'|translate}}</th>
+                            <th class="py-3" style="width: 50px !important;">{{'Shared.Type'|translate}}</th>
+                            <th class="py-3" style="width: 50px !important;">Customer</th>
+                            <th class="py-3" style="width: 50px !important;">Product</th>
+                            <th class="py-3">{{'Collections.Broker'|translate}}</th>
+                            <th class="py-3">{{'Collections.remainder'|translate}}</th>
+                            <th class="py-3">{{'Collections.TotalPaid'|translate}}</th>
+                            <th class="py-3">EGP?</th>
+                            <th class="py-3">ForeignPremium</th>
+                            <th class="py-3">LocalPremium</th>
+                            <th class="py-3">Currency</th>
+                            <th class="py-3" >Rate</th>
+                            <!-- <th class="py-3">{{'Collections.Totaldue'|translate}}</th> -->
+                            <!-- <th class="py-3">{{'Collections.installmentDue'|translate}}</th> -->
+                            <th class="py-3">{{'Collections.DueDate'|translate}}</th>
+                            <th class="py-3">Settlement Number</th>
+                        </thead>
+                        <tbody>
+                            
+                            <tr *ngFor="let Policy of AllCollections;let index= index">
+                                <!-- isFirstCollection -->
+                                <td class="align-middle">
+                                        <section class="example-section"  (click)="handleCheckboxClick(Policy)">
+                                            <mat-checkbox [checked]="selectedCollectionIds.has(Policy.collectionId) || isCollectionSelected(Policy.collectionId)" [disabled]="Policy.hasRate==false" color="primary" #checkBtn (change)="getCheckedValues($event,Policy,Policy.collectionId,$event.checked,inputMoney,LaterDate,Policy.policyId,Policy.collectionType,Policy.foreignPremium,Policy.localPremium,Policy.exchangeRate,Policy.insuredId,Policy.brokerId,Policy.isChecked,Policy.currencyOfPolicy)" class="example-margin"><span class="code" style="font-size: .9rem !important;">{{Policy.code}}</span></mat-checkbox>
+                                        </section>
+                                </td>
+                                <td class="align-middle">{{Policy.collectionType}}</td>
+                                <td class="align-middle">{{Policy.insured}}</td>
+                                <td class="align-middle">{{Policy.productName}}</td>
+                                <td class="align-middle">{{Policy.brokerName}} <span *ngIf="Policy.brokerName==''||Policy.brokerName==null">_</span></td>
+                                <td class="align-middle">{{Policy.remainder.toFixed(2)}}</td>
+                                <td class="align-middle">
+                                    <!-- .toFixed(2) -->
+                                    <mat-form-field style="margin-bottom:-1.6em;" appearance="outline" class="w-75">
+                                        <input #inputMoney type="number" [(ngModel)]="Policy.amountOfPremium" (keyup)="checkIfAxceeded($event.target,index,LaterDate,checkBtn,Policy.foreignPremium,Policy.localPremium,Policy.exchangeRate,Policy.isChecked)" [max]="Policy.localPremium"  [disabled]="Policy.hasRate==false || Policy.isCheckBoxCheck==true" matInput>
+                                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-coins"></i></mat-icon>
+                                    </mat-form-field>
+                                    <div id="Remain{{index}}" style="display: none;">
+                                        <label class="text-muted">تاريخ سـداد لباقي</label>
+                                        <input [min]="tomorrow" (change)="getLaterDate(checkBtn)" type="date" #LaterDate class="form-control">
+                                    </div>
+                                </td>
+                                    
+                               <td class="align-middle">
+                                    <mat-icon
+                                        class="big-icon"
+                                        (click)="toggleEGP(Policy,inputMoney)"
+                                        [ngClass]="{
+                                        'text-success': Policy.isChecked,
+                                        'text-muted': !Policy.isChecked,
+                                        'disabled-icon': Policy.currencyOfPolicy === 'EGP' || Policy.DisabeledpayIcon
+                                        }"
+                                        [style.pointer-events]="Policy.currencyOfPolicy === 'EGP' || Policy.DisabeledpayIcon ? 'none' : 'auto'"
+                                        style="cursor: pointer;"
+                                    >
+                                        {{ Policy.isChecked ? 'check_circle' : 'radio_button_unchecked' }}
+                                    </mat-icon>
+                                </td>
+                                <td class="align-middle">{{Policy.foreignPremium.toFixed(2)}}</td>
+                                <td class="align-middle">{{Policy.localPremium.toFixed(2)}}</td>
+                                <td class="align-middle">{{Policy.currencyOfPolicy}}</td>
+                                <td class="align-middle">{{Policy.exchangeRate}}</td>
+                                <!-- <td class="align-middle">{{Policy.totalDue}}</td> -->
+                                <!-- <td class="align-middle">{{Policy.premium}}</td> -->
+                                <td class="align-middle">{{Policy.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                <td class="align-middle">{{Policy.settlementNumber}}</td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                        <!-- <div *ngIf="AllCollections == null && Currencyies.length>0"  class="d-flex justify-content-center align-items-center mt-5">
+                            <div class="alert mt-3 w-75 text-center shadow-sm border-0" 
+                                style="background-color: #b2e2e7; color: #003f5c; font-size: 1.1rem; padding: 1.5rem; border-radius: 12px;">
+                                
+                                <h5 class="fs-4 mb-3">No Collections Found</h5>
+                                
+                                <p class="mb-2">Please enter Exchange Rates for the following currencies:</p>
+                                
+                                <div *ngIf="currencyNotRart" class="d-flex justify-content-center flex-wrap gap-2">
+                                <span *ngFor="let currency of currencyNotRart.split(',')" 
+                                        class="badge bg-danger text-white px-3 py-2 fs-6 rounded-pill">
+                                    {{ currency.trim() }}
+                                </span>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div *ngIf="AllCollections==null"  class="d-flex justify-content-center align-items-center mt-5">
+                            <div class="alert mt-3 w-75 text-center shadow-sm border-0" 
+                                style="background-color: #b2e2e7; color: #003f5c; font-size: 1.1rem; padding: 1.5rem; border-radius: 12px;">
+                                
+                                <h5 class="fs-4 mb-3">No Collections Found</h5>
+                            </div>
+                        </div>
+                
+                    
+                    <div id="loading" *ngIf="loading">
+                        <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                    </div>
+                </div>
+            </div></div>
+    </div>
+</div>

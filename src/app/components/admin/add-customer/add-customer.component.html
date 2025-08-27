@@ -1,0 +1,590 @@
+<div id="addCustomer">
+    <div class="container-fluid" style="margin: 0; padding: 0;">
+        <!-- Start test -->
+        <div>
+            <form [formGroup]="Form">
+                <mat-horizontal-stepper class="py-2 px-1" linear #stepper (animationDone)="selectionChange(stepper)">
+                    <mat-step label="{{'addCustomer.PersonInfo' | translate}}"
+                        [completed]="this.Form.get('name')?.status=='VALID'&&this.Form.get('arabicName')?.status=='VALID'&&
+                            this.Form.get('regNo')?.status=='VALID'&&this.Form.get('taxNo')?.status=='VALID'&&this.Form.get('customerType')?.status=='VALID' 
+                            &&this.Form.get('job')?.status=='VALID'&&this.Form.get('expiredTaxDate')?.status=='VALID'&&this.Form.get('gender')?.status=='VALID'
+                            &&this.Form.get('authorityCode')?.status=='VALID'&&this.Form.get('authorityStart')?.status=='VALID'&&this.Form.get('authorityEnd')?.status=='VALID'">
+                        <div class="row mt-2">
+                            <ng-template matStepLabel>Person Info</ng-template>
+                            <!-- Col 1 -->
+                            <div class="col-md-6">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>{{'addCustomer.ArabicName'|translate}}</mat-label>
+                                    <input (change)="getArabicName()" formControlName="arabicName"
+                                        [class.is-valid]="Form.controls.name.status=='VALID'" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"> <i class="fa-solid fa-user"></i></mat-icon>
+                                </mat-form-field>
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>{{'addCustomer.Type'|translate}}</mat-label>
+                                    <mat-select (selectionChange)="getCustomerTypeValue($event)"
+                                        formControlName="customerType" (selectionChange)="getValidInputs()">
+                                        <mat-option [hidden]="type.id==4" *ngFor="let type of customerTypes"
+                                            [value]="type.id">{{type.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>{{NickName}}</mat-label>
+                                    <input formControlName="nickName" type="text" matInput>
+                                    <!-- <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"> perm_identity</mat-icon> -->
+                                </mat-form-field>
+    
+                                <mat-form-field class="w-100" appearance="outline" style="display: none;" id="gender">
+                                    <mat-label>{{'addCustomer.Sex'|translate}}</mat-label>
+                                    <mat-select formControlName="gender">
+                                        <mat-option [value]="0">{{'Shared.Male'|translate}}</mat-option>
+                                        <mat-option [value]="1">{{'Shared.Female'|translate}}</mat-option>
+                                    </mat-select>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-venus-mars"></i></mat-icon>
+                                </mat-form-field>
+                                <!-- Additional select that appears when customerType is 3 -->
+                                <mat-form-field class="w-100" *ngIf="showAdditionalSelect" appearance="outline">
+                                    <mat-label>Tpa Type</mat-label>
+                                    <mat-select formControlName="TPAType">
+                                        <mat-option *ngFor="let additional of additionalTypes" [value]="additional.id">
+                                            {{ additional.value }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+    
+    
+                                <mat-form-field id="job" style="display: none;" class="w-100" appearance="outline">
+                                    <mat-label>{{'addCustomer.Job'|translate}}</mat-label>
+                                    <input formControlName="job" type="text" matInput>
+                                </mat-form-field>
+    
+                                <mat-form-field id="taxNom" style="display: none;" class="w-100" class="w-100" appearance="outline">
+                                    <mat-label>{{'addCustomer.TaxNo'|translate}}</mat-label>
+                                    <input (keyup)="checkTax()" formControlName="taxNo" type="number" matInput>
+                                </mat-form-field>
+    
+                                <mat-form-field id="code" style="display: none;" class="w-100" appearance="outline">
+                                    <mat-label>{{'addCustomer.AutherityCode'|translate}}</mat-label>
+                                    <input formControlName="authorityCode" type="text" matInput>
+                                </mat-form-field>
+    
+                                <mat-form-field id="start" style="display: none;" class="w-100" appearance="outline">
+                                    <mat-label>{{'addCustomer.Start'|translate}}</mat-label>
+                                    <input (dateChange)="checkStartDate()" formControlName="authorityStart" matInput
+                                        [matDatepicker]="picker6">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker6></mat-datepicker>
+                                </mat-form-field>
+                                <!-- <div *ngIf="inValidStartDate" class="alert alert-danger fs-6">
+                                                Please Enter Correct Autherity Start Date
+                                            </div> -->
+    
+                                <mat-form-field id="end" style="display: none;" class="w-100" appearance="outline">
+                                    <mat-label>{{'addCustomer.End'|translate}}</mat-label>
+                                    <input (dateChange)="checkEndDate()" formControlName="authorityEnd" matInput
+                                        [matDatepicker]="picker7">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker7></mat-datepicker>
+                                </mat-form-field>
+
+                            </div>
+                            <!-- Col 2 -->
+                            <div class="col-md-6">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>{{'addCustomer.EnglishName'|translate}}</mat-label>
+                                    <input formControlName="name" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-user"></i></mat-icon>
+                                </mat-form-field>
+                                
+    
+                                <mat-form-field id="taxExpiryDate" style="display: none;" class="w-100" appearance="outline">
+                                    <mat-label>{{'addCustomer.TaxExpiryDate'|translate}}</mat-label>
+                                    <input (dateChange)="checkTaxDate()" formControlName="expiredTaxDate" matInput
+                                        [matDatepicker]="picker11">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker11"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker11></mat-datepicker>
+                                </mat-form-field>
+    
+                                <mat-form-field id="Newgroup" style="display: none;" class="w-100" appearance="outline">
+                                    <mat-label>{{'addCustomer.Group'|translate}}</mat-label>
+                                    <mat-select [(value)]="groupValue">
+                                        <mat-option value="">{{'Shared.Null'|translate}}</mat-option>
+                                        <mat-option *ngFor="let corporate of listOfCorporare"
+                                            value="{{corporate.id}}">{{corporate.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+    
+    
+    
+                                <mat-form-field class="w-100" color="primary" appearance="outline">
+                                    <mat-label>{{LabelId}}</mat-label>
+                                    <input formControlName="regNo" min="{{CustomMin}}" max="{{CustomMax}}" type="number"
+                                        matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"> <i
+                                            class="fa-regular fa-id-card"></i></mat-icon>
+    
+                                </mat-form-field>
+    
+                                <mat-radio-group id="idOrPassport" (change)="EnterIdOrPassport($event.value)"
+                                    aria-label="Select an option">
+                                    <mat-radio-button [checked]="idOrpassportStatus"
+                                        value="id">{{'addCustomer.Id'|translate}}</mat-radio-button>
+                                    <mat-radio-button
+                                        value="passport">{{'addCustomer.Passport'|translate}}</mat-radio-button>
+                                </mat-radio-group>
+    
+                            </div>
+                            <!-- <hr style="width:80%; margin:auto;border-top:1px solid;color:#000" class="my-1"> -->
+                        </div>
+    
+                        <div class="d-flex justify-content-end mt-5 stepFooter"> 
+                            
+                            <button type="button" class="mintBtn mx-4" matStepperNext>
+                                {{'Shared.Next'|translate}} <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </mat-step>
+                    <mat-step label="{{'addCustomer.ContactInfo'|translate}}" [completed]="this.Form.get('mobile')?.status=='VALID'&&
+                            this.Form.get('email')?.status=='VALID'&&this.Form.get('address')?.status=='VALID'&&this.Form.get('governorateName')?.status=='VALID'
+                            &&this.Form.get('birthday')?.status=='VALID'">
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.Mobile'|translate}}</mat-label>
+                                    <input formControlName="mobile" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-mobile-screen"></i></mat-icon>
+                                </mat-form-field>
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.Phone'|translate}}</mat-label>
+                                    <input formControlName="phoneNumber" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-phone"></i></mat-icon>
+    
+                                </mat-form-field>
+                                <!-- <i class="fa-solid fa-phone"></i> -->
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.Email'|translate}}</mat-label>
+                                    <input formControlName="email" type="email" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-regular fa-envelope"></i></mat-icon>
+                                </mat-form-field>
+    
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.Country'|translate}}</mat-label>
+                                    <mat-select [(value)]="contryValue" (selectionChange)="getCountryValue($event)"
+                                        (selectionChange)="getValidInputs()">
+                                        <mat-option *ngFor="let country of Contries"
+                                            value="{{country.id}}">{{country.value}}</mat-option>
+                                    </mat-select>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-earth-americas"></i></mat-icon>
+                                </mat-form-field>
+    
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.ContactPersonName'|translate}}</mat-label>
+                                    <input [(ngModel)]="contactPersonName" [ngModelOptions]="{standalone: true}" type="text"
+                                        matInput>
+                                </mat-form-field>
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.ContactPersonMobile'|translate}}</mat-label>
+                                    <input [(ngModel)]="contactPersonMobile" [ngModelOptions]="{standalone: true}"
+                                        type="text" matInput>
+                                </mat-form-field>
+    
+                                <!-- New Governmnet -->
+                                <mat-form-field style="display: none;" id="ForginCountryInput" class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.Government'|translate}}</mat-label>
+                                    <input formControlName="governorateName" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-mountain-city"></i></mat-icon>
+                                </mat-form-field>
+                                <mat-form-field id="LocalCountryInput" class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.Government'|translate}}</mat-label>
+                                    <mat-select formControlName="governorateName">
+                                        <mat-option *ngFor="let governmnet of AllItems"
+                                            [value]="governmnet.name">{{governmnet.name}}</mat-option>
+                                    </mat-select>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-mountain-city"></i></mat-icon>
+                                </mat-form-field>
+    
+                            </div>
+    
+                            <div class="col-md-6">
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.Mobile2'|translate}}</mat-label>
+                                    <input formControlName="mobile2" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-mobile-screen"></i></mat-icon>
+                                </mat-form-field>
+    
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.Phone2'|translate}}</mat-label>
+                                    <input formControlName="phoneNumber2" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-phone"></i></mat-icon>
+                                </mat-form-field>
+    
+    
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.Website'|translate}}</mat-label>
+                                    <input formControlName="website" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-brands fa-internet-explorer"></i></mat-icon>
+    
+                                </mat-form-field>
+    
+    
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.Notes'|translate}}</mat-label>
+                                    <textarea formControlName="notes" matInput></textarea>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-regular fa-note-sticky"></i></mat-icon>
+                                </mat-form-field>
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>{{'addCustomer.Address'|translate}}</mat-label>
+                                    <textarea formControlName="address" matInput></textarea>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-location-dot"></i></mat-icon>
+    
+                                </mat-form-field>
+    
+                                <mat-form-field class="formFieldMb" appearance="outline">
+                                    <mat-label>
+                                        <span *ngIf="this.SwitDOBOrIssueDate=='DateOfEstablishmnet'">Date Of
+                                            Establishmnet</span>
+                                        <span
+                                            *ngIf="this.SwitDOBOrIssueDate=='D.O.B'">{{'addCustomer.D.O.B'|translate}}</span>
+                                        <span
+                                            *ngIf="this.SwitDOBOrIssueDate=='Issue Date'">{{'Policy.InceptionDate'|translate}}</span></mat-label>
+                                    <input matInput formControlName="birthday" (dateChange)="checkBirthDate()"
+                                        [matDatepicker]="picker10">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker10"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker10></mat-datepicker>
+                                </mat-form-field>
+    
+    
+    
+                                <div class="my-3 d-flex">
+                                    <label class="cus_label mx-3 mt-2">{{'addCustomer.Notification'|translate}} :</label>
+                                    <mat-checkbox formControlName="smsNotification" color="primary"
+                                        class="example-margin mx-2">{{'addCustomer.SMS'|translate}}</mat-checkbox>
+                                    <mat-checkbox formControlName="emailNotification" color="primary"
+                                        class="example-margin">{{'addCustomer.Email'|translate}}</mat-checkbox>
+                                </div>
+                            </div>
+    
+                        </div>
+                        <!-- <hr style="width:80%; margin:auto;border-top:1px solid;color:#000"> -->
+                        <div class="d-flex justify-content-between mt-5 stepFooter"> 
+                            <!-- <button mat-raised-button data-bs-dismiss="modal" class="mx-2">Cancel</button> -->
+                            <button matStepperPrevious type="button" class="mintBtn mx-4"><i class="fa-solid fa-chevron-left"></i> {{'Shared.Previous'|translate}}
+                            </button>
+                            <button type="button" class="mintBtn mx-4" matStepperNext>
+                                {{'Shared.Next'|translate}} <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </mat-step>
+    
+                    <mat-step label="{{'addCustomer.AccountInfo'|translate}}">
+                        <div class="row mt-2">
+                            <p class="font_Coloered2 my-4">{{'addCustomer.AccountInfo'|translate}}</p>
+                            <div class="col-md-6">
+                                <mat-form-field class="w-100">
+                                    <mat-label>{{'addCustomer.BankName'|translate}}</mat-label>
+                                    <input formControlName="bankName" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-building-columns"></i></mat-icon>
+                                </mat-form-field>
+    
+                                <mat-form-field class="w-100">
+                                    <mat-label>{{'addCustomer.AccountNo.'|translate}}</mat-label>
+                                    <input formControlName="accountNO" type="text" matInput>
+                                    <mat-icon matIconSuffix
+                                        style="color: rgba(0, 0, 0, 0.6);">account_balance_wallet</mat-icon>
+    
+                                </mat-form-field>
+    
+                                <mat-form-field class="w-100">
+                                    <mat-label>{{'addCustomer.Currency'|translate}}</mat-label>
+                                    <mat-select [(value)]="CurrencyValue" (selectionChange)="getCurrencyValue($event)"
+                                        (selectionChange)="getValidInputs()">
+                                        <mat-option *ngFor="let item of Currency"
+                                            value="{{item.id}}">{{item.value}}</mat-option>
+                                    </mat-select>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-coins"></i></mat-icon>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+    
+                                <mat-form-field class="w-100">
+                                    <mat-label>{{'addCustomer.BankCountry'|translate}}</mat-label>
+                                    <mat-select [(value)]="bankCountryValue" (selectionChange)="getBankCountryValue($event)"
+                                        (selectionChange)="getValidInputs()">
+                                        <mat-option *ngFor="let country of Contries"
+                                            value="{{country.id}}">{{country.value}}</mat-option>
+                                    </mat-select>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-earth-americas"></i></mat-icon>
+    
+                                </mat-form-field>
+    
+                                <mat-form-field class="w-100">
+                                    <mat-label>{{'addCustomer.IBan'|translate}}</mat-label>
+                                    <input formControlName="iban" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-solid fa-money-check-dollar"></i></mat-icon>
+                                </mat-form-field>
+    
+                                <mat-form-field class="w-100">
+                                    <mat-label>{{'addCustomer.SwiftCode'|translate}}</mat-label>
+                                    <input formControlName="swiftCode" type="text" matInput>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                            class="fa-regular fa-file"></i></mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        
+
+                        <div class="d-flex justify-content-between mt-5 stepFooter"> 
+                            <!-- <button mat-raised-button data-bs-dismiss="modal" class="mx-2">Cancel</button> -->
+                            <button matStepperPrevious type="button" class="mintBtn mx-4"><i class="fa-solid fa-chevron-left"></i> {{'Shared.Previous'|translate}}
+                            </button>
+                            <button class="mintBtn" [disabled]="this.Form.status=='INVALID'||!this.isValid||this.isClicked" (click)="SubmitCustomer()">
+                                    <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                                    <span *ngIf="!this.isClicked">{{'Shared.Submit'|translate}}</span>
+                            </button>
+                        </div>
+                    </mat-step>
+    
+                    <!-- Status -->
+                    <!-- <mat-step label="{{'addCustomer.Status'|translate}}">
+                                <label class="cus_label fs-5 my-2">{{'addCustomer.Notification'|translate}}</label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <mat-checkbox formControlName="onHold" (click)="onHoldToggle()" color="warm" class="example-margin d-block">{{'addCustomer.OnHold'|translate}}</mat-checkbox>
+                                        <mat-form-field style="display: none;" id="onhold" >
+                                            <mat-label>{{'Shared.ChooseADate'|translate}}</mat-label>
+                                            <input formControlName="onHoldDate" matInput [matDatepicker]="picker2">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                        </mat-form-field>
+        
+                                        <mat-form-field style="display:none;" id="holdNotes" class="w-100">
+                                            <mat-label>{{'addCustomer.HoldReason'|translate}}</mat-label>
+                                            <textarea formControlName="onHoldReason" matInput></textarea>
+                                        </mat-form-field>
+    
+                                        <mat-form-field style="display: none;" id="HoldLevel" class="w-100">
+                                            <mat-label>{{'addCustomer.HoldDangerLevel'|translate}}</mat-label>
+                                            <mat-select formControlName="onHoldDangerLevel">
+                                            <mat-option *ngFor="let level of AllDangerLevels" [value]="level.id">{{level.value}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-checkbox formControlName="block" (click)="onHoldToggle()" color="warm" class="example-margin d-block">{{'addCustomer.Block'|translate}}</mat-checkbox>
+                                        <mat-form-field style="display: none;" id="block" >
+                                            <mat-label>{{'Shared.ChooseADate'|translate}}</mat-label>
+                                            <input formControlName="blockDate" matInput [matDatepicker]="picker1">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+        
+                                        <mat-form-field style="display:none;" id="blockNotes" class="w-100">
+                                            <mat-label>{{'addCustomer.BlockReason'|translate}}</mat-label>
+                                            <textarea formControlName="blockReason" matInput></textarea>
+                                        </mat-form-field>
+    
+                                        <mat-form-field style="display: none;" id="BlockLevel" class="w-100">
+                                            <mat-label>{{'addCustomer.BlockDangerLevel'|translate}}</mat-label>
+                                            <mat-select formControlName="blockDangerLevel">
+                                            <mat-option *ngFor="let level of AllDangerLevels" [value]="level.id">{{level.value}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        
+                                    </div>
+    
+                                    
+    
+                                </div>
+                                 
+                        <hr style="width:80%; margin:auto;border-top:2px solid;color:#000" class="my-4">
+                        <div *ngIf="errorExist" class="alert alert-danger w-50 m-auto" >
+                            <strong class="text-center">{{errorMsg}}</strong>
+                        </div>
+    
+                        <div class="d-flex justify-content-between">
+                            <div>
+                              <button mat-raised-button matStepperPrevious>{{'Shared.Previous'|translate}}</button>
+                            </div>
+                            <div>
+                              
+                              <button [disabled]="this.Form.status=='INVALID'||!this.isValid " color="primary" (click)="SubmitCustomer()"  mat-raised-button matStepperNext ><span *ngIf="this.isClicked">Waiting...</span><span *ngIf="!this.isClicked">{{'Shared.Submit'|translate}}</span></button>
+                            </div>
+                        </div>
+                            </mat-step> -->
+    
+                </mat-horizontal-stepper>
+            </form>
+        </div>
+
+
+    </div>
+    <!--------------------------------------- اضافه فايل او صوره ؟ --------------------------->
+    <!-- <div class="modal fade" id="addDoument" tabindex="-1" aria-labelledby="addDoument" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addDoument">{{'Shared.Documents'|translate}} </h1>
+                    <button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="outerBorder shadow_5">
+                    <h2 class="fs-4">1- <span class="text-muted">{{'Shared.AddFiles'|translate}}</span> ?</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-striped table-bordered text-center mt-2"
+                                style="border-radius: 20px;">
+                                <tbody class="align-middle">
+                                    <tr>
+                                        <th class="w-30 py-2">{{'addCustomer.RegFile'|translate}}</th>
+                                        <td class="w-60 py-2">
+                                            <i (click)="fileInput1.click()"
+                                                class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2"
+                                                style="color:#3F51B5;border-radius: 5px;"></i>
+                                            <input accept=".PDF, .JPEG, .PNG, .JPG, .SVG" hidden
+                                                (change)="uploadFile1($event)" #fileInput1 type="file">
+                                            <span class="file-name">{{selectedFile1?.name}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="w-30 py-2">{{'addCustomer.TaxiesFile'|translate}}</th>
+                                        <td class="w-60 py-2">
+                                            <i (click)="fileInput2.click()"
+                                                class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2"
+                                                style="color:#3F51B5;border-radius: 5px;"></i>
+                                            <input accept=".PDF, .JPEG, .PNG, .JPG, .SVG" hidden
+                                                (change)="uploadFile2($event)" #fileInput2 type="file">
+                                            <span class="file-name">{{selectedFile2?.name}}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped table-bordered text-center mt-2"
+                                style="border-radius: 20px;">
+                                <tbody class="align-middle">
+                                    <tr>
+                                        <th class="w-30 py-2"><span
+                                                *ngIf="this.CustomeType!=3">{{'addCustomer.KYC'|translate}}</span> <span
+                                                *ngIf="this.CustomeType==3">{{'addCustomer.FRA'|translate}}</span></th>
+                                        <td class="w-60 py-2">
+                                            <i (click)="fileInput3.click()"
+                                                class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2"
+                                                style="color:#3F51B5;border-radius: 5px;"></i>
+                                            <input accept=".PDF, .JPEG, .PNG, .JPG, .SVG" hidden
+                                                (change)="uploadFile3($event)" #fileInput3 type="file">
+                                            <span class="file-name">{{selectedFile3?.name}}</span>
+                                        </td>
+                                    </tr>
+                                 
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <hr>
+                <div class="container">
+                    <div class="d-flex justify-content-between mb-3 mx-3">
+                        <button (click)="SaveDocument()" mat-raised-button color="primary">
+                            <span *ngIf="this.isClickedDocumnet"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span>
+                            <span *ngIf="!this.isClickedDocumnet">{{'Shared.Save'|translate}}</span>
+                        </button>
+                        <button routerLink="/CustomerDetails/{{this.CustomerId}}" type="button" mat-raised-button
+                            data-bs-dismiss="modal">{{'Shared.Close'|translate}}
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div> -->
+    <div class="overlayEdit" (click)="closeEditgovenmantee()">
+        <div class="Editgovernmant" (click)="$event.stopPropagation()">
+            <div class="d-flex justify-content-between delet-details">
+                <h2>{{'Shared.AddFiles'|translate}} ?</h2>
+                <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeEditgovenmantee()" style="cursor: pointer;"></i></div>
+            </div>
+           <hr class="custom-hr w-100"> 
+           <div class="outerBorder shadow_5">
+            <!-- <h2 class="fs-4">1- <span class="text-muted">{{'Shared.AddFiles'|translate}}</span> ?</h2> -->
+            <!-- File Upload -->  
+            <div class="row" >
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered text-center mt-2" style="border-radius: 20px;">
+                        <table class="table table-striped table-bordered text-center mt-2"
+                                style="border-radius: 20px;">
+                                <tbody class="align-middle">
+                                    <tr>
+                                        <th class="w-30 py-2">{{'addCustomer.RegFile'|translate}}</th>
+                                        <td class="w-60 py-2">
+                                            <i (click)="fileInput1.click()"
+                                                class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2"
+                                                style="color:#01909d !important;border-radius: 5px;"></i>
+                                            <input accept=".PDF, .JPEG, .PNG, .JPG, .SVG" hidden
+                                                (change)="uploadFile1($event)" #fileInput1 type="file">
+                                            <span class="file-name">{{selectedFile1?.name}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="w-30 py-2">{{'addCustomer.TaxiesFile'|translate}}</th>
+                                        <td class="w-60 py-2">
+                                            <i (click)="fileInput2.click()"
+                                                class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2"
+                                                style="color:#01909d !important;border-radius: 5px;"></i>
+                                            <input accept=".PDF, .JPEG, .PNG, .JPG, .SVG" hidden
+                                                (change)="uploadFile2($event)" #fileInput2 type="file">
+                                            <span class="file-name">{{selectedFile2?.name}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="w-30 py-2"><span
+                                                *ngIf="this.CustomeType!=3">{{'addCustomer.KYC'|translate}}</span> <span
+                                                *ngIf="this.CustomeType==3">{{'addCustomer.FRA'|translate}}</span></th>
+                                        <td class="w-60 py-2">
+                                            <i (click)="fileInput3.click()"
+                                                class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2"
+                                                style="color:#01909d !important;border-radius: 5px;"></i>
+                                            <input accept=".PDF, .JPEG, .PNG, .JPG, .SVG" hidden
+                                                (change)="uploadFile3($event)" #fileInput3 type="file">
+                                            <span class="file-name">{{selectedFile3?.name}}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                    </table>
+                    <div class="d-flex justify-content-between align-items-center" style="padding: 3rem 3px 0 3px;">
+                        <button class="btn _cancel w-50 mx-1" (click)="SaveDocument()">
+                          <span *ngIf="!this.isClicked">Save</span>
+                          <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                        </button>
+                        <button routerLink="/CustomerDetails/{{this.CustomerId}}" type="button" class="btn _delete w-50 mx-1"
+                        data-bs-dismiss="modal">{{'Shared.Close'|translate}}
+                        </button>
+                        <!-- <button class="btn _delete w-50 mx-1" (click)="closeEditgovenmantee()">Cancel</button> -->
+                      </div>
+                </div>
+            </div>  
+        </div>
+        </div>
+    </div>
+</div>

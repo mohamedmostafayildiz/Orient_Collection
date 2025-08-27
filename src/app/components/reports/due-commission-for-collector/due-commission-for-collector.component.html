@@ -1,0 +1,72 @@
+<div id="due-commission-for-collector">
+    <div class="container-fluid">
+        <div class="outerBorder outerItem shadow_5 py-3">
+            <div class="d-flex justify-content-between">
+                <p class="font_Coloered3 text-center my-2">Due Commission For Under Collector Report</p>
+            </div>
+        <!-------------------- Search Polices ------------------->
+
+            <p class="text-muted fs-5 fw-bold mt-4">{{'Shared.SearchHere'|translate}} :</p>
+            <form [formGroup]="SearchForm" class="py-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100  feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>Policy Code</mat-label>
+                            <input formControlName="PolicyCode" type="text" matInput>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100  feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Policy.To'|translate}}</mat-label>
+                            <input formControlName="To" matInput [matDatepicker]="picker3">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100  feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>Client Name</mat-label>
+                            <input formControlName="ClientName" type="text" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100  feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label >{{'Offer.Broker'|translate}}</mat-label>
+                            <mat-select formControlName="BrokerId">
+                                <mat-option *ngFor="let type of brokerCustomers" [value]="type.id">{{type.arabicName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    
+                    
+                    
+                    
+                    <!-- <div class="col-md-4">
+                        <mat-form-field class="w-100">
+                            <mat-label>{{'Policy.From'|translate}}</mat-label>
+                            <input formControlName="from" matInput [matDatepicker]="picker2">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div> -->
+        
+                    <!-- <div class="col-md-2"> -->
+                        <!-- Search Now -->
+                        <div class="d-flex align-items-center justify-content-center">
+                            <button id="searchBtn" [disabled]="this.SearchForm.status=='INVALID'||this.isClicked" (click)="Search()"
+                                class="w-25 btn Apply mt-5"><span *ngIf="this.isClicked"><i
+                                        class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span
+                                    *ngIf="!this.isClicked">{{'Shared.Search'|translate}} 
+                                    <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+                                </span>
+                            </button>
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>

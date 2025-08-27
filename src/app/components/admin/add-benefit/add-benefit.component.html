@@ -1,0 +1,64 @@
+<div id="AddBenefit">
+    <div class="container">
+        <p class="font_Coloered3 text-center mt-4" data-aos-duration="1000" data-aos="zoom-in">Add benefit <span *ngIf="this.planName!=null">to</span> {{planName}}</p>
+        <div class="outerBorder shadow_5 mt-5 py-4">
+           <form [formGroup]="Form">
+            <div class="row">
+                <!-- Col 1 -->
+                <div class="col-md-5 offset-md-1 mt-2">
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label><span class="text-danger mx-1">*</span>Benefit Type</mat-label>
+                        <mat-select [(value)]="benefitTypeValue">
+                            <mat-option *ngFor="let type of BenefitsTypes" value="{{type.id}}">{{type.value}}</mat-option>
+                            <!-- <mat-option value="0">value</mat-option> -->
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Name In Arabic</mat-label>
+                        <input formControlName="arabicName" type="text" matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label><span class="text-danger mx-1">*</span>Coverage condition</mat-label>
+                        <mat-select (selectionChange)="coverageCondition($event)">
+                            <mat-option value="0">Totally covered</mat-option>
+                            <mat-option value="1">Partially covered</mat-option>
+                            <mat-option value="2">Not covered</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- Col 2 -->
+                <div class="col-md-5 mt-2">
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Name In English</mat-label>
+                        <input formControlName="name" type="text" matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Maximum coverage</mat-label>
+                        <input formControlName="maximumLimit" type="number" matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Additional data</mat-label>
+                        <input formControlName="notes" type="text"  matInput>
+                    </mat-form-field>
+
+                    <mat-form-field style="display: none;" id="coverageRadio" class="w-100"
+                        appearance="outline">
+                        <mat-label>Coverage ratio !</mat-label>
+                        <input formControlName="coverage" type="number" matInput>
+                    </mat-form-field>
+                </div>
+                <hr>
+                <div class="col-md-11">
+                    <div class="d-flex justify-content-end" data-aos-duration="1000" data-aos="zoom-in">
+                        <button [disabled]="this.Form.status=='INVALID' || benefitTypeValue==''" (click)="submitAddBenefitForm()" type="button" mat-raised-button color="primary" class="w-25 mt-3">Save</button>
+                    </div>
+                </div>
+            </div>
+           </form>
+        </div>
+    </div>
+</div>

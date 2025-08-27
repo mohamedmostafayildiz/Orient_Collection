@@ -1,0 +1,193 @@
+<div id="tpa_Fees">
+    <div class="container-fluid">        
+        
+        <!-- <div class="d-flex justify-content-between mx-5">
+            <div class="d-flex align-items-center">
+                <p class="font_Coloered3 text-center my-4 mx-3">Tpa Fees</p> -->
+                <!-- <button (click)="openAddModal()" data-bs-toggle="modal" data-bs-target="#AddTpaFees" mat-raised-button color="primary">Add Tpa</button> -->
+            <!-- </div> -->
+            <!-- <input class="form-control w-25 ml-auto mt-3" style="height: 3rem;" [(ngModel)]='term' placeholder="{{'Shared.SearchHere'|translate}}" /> -->
+        <!-- </d`iv> -->
+        <div class="row">
+            <div class="col-md-3" id="filters" style="display: none;">
+                <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+                    <mat-label>{{'Shared.SearchHere'|translate}}</mat-label>
+                    <input class="ssss" [(ngModel)]='term' type="text" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="outerBorder outerItem  table-responsive" style="margin:0px 0px !important;">
+
+            <table class="table text-center">
+                <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                    <th class="py-2">#</th>
+                    <th class="py-2">TPA Name</th>
+                    <th class="py-2">Fees</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tpa of TpaCustomersFees|search:term|paginate:{
+                        itemsPerPage:tableSize,
+                        currentPage:page,
+                        totalItems:count}; let i=index">
+                        <td class="align-middle">{{i+1}}</td>
+                        <td class="align-middle">{{tpa.tpaName}}</td>
+                        <td class="align-middle">{{tpa.fees}}</td>
+                        <td class="align-middle" (mouseenter)="hoverRow = tpa.id" (mouseleave)="hoverRow = null" style="vertical-align: middle; width: 30px;">
+                            <div class="dropdown">
+                              <!-- Ellipsis icon always visible -->
+                              <i class="fa-solid fa-ellipsis-v fs-5 px-3 py-2 text-secondary"></i>
+                              
+                              <!-- Dropdown menu, visible only when the row is hovered -->
+                              <div class="dropdown-menu text-center" [ngClass]="{'show': hoverRow === tpa.id}">
+                                <a class="dropdown-item" (click)="Editgovenmante(tpa)">
+                                    <i class="fa-solid fa-pencil fs-5 px-3 py-2 mx-1" style="color:#01BACB;"></i>
+                                    <!-- <img class="mx-3" src="../../../../assets/imgs/forgot.png" alt="Forgot" style="width: 20px; height: auto;" /> -->
+                                    <!-- <span style="vertical-align: middle;">Forgot Password</span> -->
+                                  </a>
+                                
+                              </div>
+                            </div>
+                          </td>
+                        <!-- <td><i (click)="getDetailsToEdit(tpa)" data-bs-toggle="modal" data-bs-target="#editFees" class="fa-solid fa-pencil fs-5 px-3 py-2 mx-1" style="color:#01BACB;"></i></td> -->
+                        <!-- <td><button mat-raised-button color="accent" data-bs-toggle="modal" data-bs-target="#edit">Edit <i class="fa-solid fa-user-pen"></i></button></td> -->
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end mt-4">
+                <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                </pagination-controls>
+                <select (change)="onTableSizeChange($event)" class="tableSize rounded-pill px-1">
+                  <option *ngFor=" let size of tableSizes">{{size}}</option>
+                </select>
+            </div>
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+<!--------------------------------------- Add Commission Modal --------------------------->
+<!-- <div class="modal fade" id="AddTpaFees" tabindex="-1" aria-labelledby="networkCoding" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="networkCoding" >Add Tpa Fees</h1>
+            </div>
+
+            <div class="container">
+                <form [formGroup]="comisionForm">
+                    <div class="outerBorder shadow_5 mt-5">
+                        <div class="row my-4 mx-2">
+                            <div class="col-md-5 offset-md-1">
+                                
+                                <mat-form-field class="w-100" appearance="outline" >
+                                    <mat-label><span class="text-danger mx-1">*</span>Select TPA</mat-label>
+                                    <mat-select formControlName="customerId">
+                                    <mat-option *ngFor="let customer of brokerCustomers" [value]="customer.id">{{customer.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                    
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label><span class="text-danger mx-1">*</span>Business Type</mat-label>
+                                    <mat-select formControlName="businessType">
+                                    <mat-option value="{{type.value}}" *ngFor="let type of BusinessTypes">{{type.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field> 
+                                
+                    
+                            </div>
+                            <div class="col-md-5">
+                                <mat-form-field class="w-100" appearance="outline" >
+                                    <mat-label><span class="text-danger mx-1">*</span>Insurance Class</mat-label>
+                                    <mat-select formControlName="insuranceClass">
+                                    <mat-option *ngFor="let type of InsuranceClasses" value="{{type.value}}">{{type.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field  class="w-100" appearance="outline">
+                                    <mat-label><span class="text-danger mx-1">*</span>Commission Pct</mat-label>
+                                    <input formControlName="pct" min="0" max="100" (keyup)="check1($event)" type="number" matInput>
+                                </mat-form-field>
+                             
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer py-3">
+                
+                <button [disabled]="(this.pct==0 && this.amount ==0) ||this.comisionForm.status=='INVALID'||this.isClicked"
+                                    (click)="submitCommissionToCustomerForm()" type="button" mat-raised-button color="primary" class="w-25">
+                                    <span *ngIf="!this.isClicked">Save</span>
+                                    <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                                </button>
+                <button type="button" mat-raised-button
+                    data-bs-dismiss="modal" id="close">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!--------------------------------------- Edit Commission Modal --------------------------->
+<!-- <div class="modal fade" id="editFees" tabindex="-1" aria-labelledby="networkCoding" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="networkCoding">Edit Tpa Commission</h1>
+            </div>
+
+            <div class="container my-5">
+
+                <form [formGroup]="comisionForm">
+                    <div class="outerBorder shadow_5 mt-5">
+                        <div class="row my-4 mx-2">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <mat-form-field  class="w-100" appearance="outline">
+                                    <mat-label>Fees</mat-label>
+                                    <input formControlName="fees" min="0" max="100" type="number" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3"></div>
+
+                           
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer py-3">
+                <button [disabled]="this.comisionForm.status=='INVALID'||this.isClicked"(click)='SubmitEdit()' class="btn addModal">
+                    <span *ngIf="!this.isClicked">Save</span>
+                    <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                </button>
+                <button type="button" class="btn cancelModal"
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div> -->
+  <!-- Edit new modal -->
+  <div class="overlayEdit" (click)="closeEditgovenmantee()">
+    <div class="Editgovernmant" (click)="$event.stopPropagation()">
+        <div class="d-flex justify-content-between delet-details">
+            <h2>Edit tpa ?</h2>
+            <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeEditgovenmantee()" style="cursor: pointer;"></i></div>
+        </div>
+       <hr class="custom-hr w-100">
+       <div class="container">
+        <form [formGroup]="comisionForm" class="mt-5">
+            <mat-form-field  class="w-100" appearance="outline">
+                <mat-label>Fees</mat-label>
+                <input formControlName="fees" min="0" max="100" type="number" matInput>
+            </mat-form-field>
+            <div class="d-flex justify-content-between align-items-center" style="padding: 20rem 3px 0 3px;">
+              <button [disabled]="this.comisionForm.status=='INVALID'||this.isClicked" class="btn _cancel w-50 mx-1" (click)="SubmitEdit()">
+                <span *ngIf="!this.isClicked">Save</span>
+                <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+              </button>
+              <button class="btn _delete w-50 mx-1" (click)="closeEditgovenmantee()">Cancel</button>
+             </div>
+        </form>
+       </div>    
+      </div>
+  </div>

@@ -1,0 +1,179 @@
+<div class="cus_container2">
+    <!-- <div class="row mt-3">
+        <div class="col-md-7 d-flex">
+            <div class="mt-2 w-50">
+                <label >Account type</label>
+                <input placeholder="Enter account name" type="text" class="w-100">
+            </div>
+        </div>
+        <div class="col-md-5 main_routing_icons d-flex justify-content-end align-items-center">
+            <button (click)="AddNewAccDetails()" class="cus_btn greenBtn cusNewBtn mt-4" style="border-radius: 0.2rem;">Create account details</button>
+        </div>
+    </div> -->
+    <div class="row">
+        <div class="col-md-3" id="filters" style="display: none;">
+          <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+            <mat-label>{{'Shared.SearchHere'|translate}}</mat-label>
+            <input class="ssss" [(ngModel)]='term' type="text" matInput>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="outerBorder outerItem shadow_5 table-responsive">
+          <p class="font_Coloered3 my-3">Account Details</p>
+                <!-- table -->
+          <div class="wrapper mt-5">
+            <table class="text-center table"  style="background-color: #F2F2F2 !important;">
+                <thead class="tableHead align-middle">
+                    <th class="py-2">#</th>
+                    <th class="py-2">NAME</th>
+                    <th class="py-2">Details</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of AccountType|search:term|paginate:{
+                    itemsPerPage:tableSize,
+                    currentPage:page,
+                    totalItems:count}; let i=index"
+                    [hidden]="!item?.details || item.details.length === 0">
+                        <td class="align-middle">{{ i + 1 }}</td>
+                        <td class="align-middle">
+                            {{item.name}}
+                        </td>
+                        <td class="align-middle">
+                          <i (click)="showDetails(item.details)" class="fa-solid fa-eye fs-5 text-success px-3 py-2"  style="color:#01909d !important;"></i>
+                        </td>
+                        <!-- <td class="align-middle">
+                          <i (click)="openEditDetailsModal(item)" class="fa-solid fa-pencil fs-5 px-3 py-2 mx-1" style="color:#3F51B5;"></i>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
+            <select (change)="onTableSizeChange($event)" class="tableSize rounded-pill px-1">
+              <option *ngFor=" let size of tableSizes">{{size}}</option>
+            </select>
+          </div>
+      </div>
+    
+</div>
+<!-- Show Details of Type -->
+<div class="overlayTypeDetails" (click)="closeshowDetails()">
+    <div class="showtypeDetails" (click)="$event.stopPropagation()">
+        <p class="text-center subPageTitle mt-2">Type details</p>
+        <i (click)="closeshowDetails()" class="fa-solid fa-xmark fs-3 "></i>
+        <div class="wrapper mt-5">
+          <table class="text-center table">
+              <thead class="tableHead align-middle">
+                  <th class="py-2">Discription</th>
+                  <th class="py-2">ACTION</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of TypeDetails|search:term; let i=index">
+                      <td class="align-middle">
+                          {{item.discription}}
+                      </td>
+                      <td class="align-middle">
+                              <i (click)="open(item)" class="fa-solid fa-pencil fs-5 px-3 py-2 mx-1" style="color:#3F51B5;"></i>
+                      </td>
+                  </tr>
+              </tbody>
+            </table>
+            <!-- <div class="d-flex justify-content-end mt-4">
+              <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onModalTableDataChange($event)">
+              </pagination-controls>
+              <select (change)="onModalTableSizeChange($event)" class="tableSize rounded-pill px-1">
+                <option *ngFor=" let size of modalTableSizes">{{size}}</option>
+              </select>
+          </div> -->
+      </div>
+      <div class="row py-3" style="display: none;" id="details">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <form [formGroup]="AccDetailsForm">
+            <div>
+              <label>Description Name</label>
+              <br>
+              <input formControlName="details" type="text" class="form-control w-100">
+            </div>
+          </form>
+        </div>
+        <div class="col-2"></div>
+      </div>
+       <!-- footer Add New  -->
+       <div id="AddNewfooter" class="px-3 py-4">
+        <div class="row d-flex justify-content-between" style="margin: 0 10px;">
+            <button (click)="closeshowDetails()" class=" w-25 cus_btn outerBtn">Cancel</button>
+            <button [disabled]="this.AccDetailsForm.status == 'INVALID' || this.isClicked" (click)="EditAccountTpeDetails()" class="w-25 cus_btn greenBtn cusNewBtn">
+              <span *ngIf="!this.isClicked">Save</span>
+              <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+            </button>
+        </div>
+       </div>
+    </div>
+</div>
+<!-- Add Account Type Details-->
+<div class="overlayAccountDetails" (click)="closeNewAccDetails()">
+    <div class="AddNewAccountDetails" (click)="$event.stopPropagation()">
+        <p class="text-center subPageTitle mt-2">New account details</p>
+        <i (click)="closeNewAccDetails()" class="fa-solid fa-xmark fs-3 "></i>
+        <div class="row mt-5">
+          <div class="col-12">
+            <label >Account type</label>
+            <select class="form-select w-100" [(ngModel)]="selectedAccountType">
+              <option selected hidden>Select account type</option>
+              <option *ngFor="let item of AccountType" [value]="item.id" [hidden]="item.details || item.details?.length > 0">{{item.name}}</option>
+            </select>
+          </div>
+          <div class="col-8">
+            <form [formGroup]="AccDetailsForm">
+              <div>
+                <label>Details</label>
+                <br>
+                <input formControlName="details" type="text" class="form-control w-100">
+              </div>
+            </form>
+          </div>
+          <div class="col-2">
+            <button (click)="View()" [disabled]="this.AccDetailsForm.status=='INVALID'||this.selectedAccountType==''" class="btn btn-success mt-3">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+          <!-- Table -->
+          <div class="wrapper mt-5" *ngIf="this.arrTest.length>0">
+            <table  class="custom_table text-center bordered">
+                <thead>
+                    <th>#</th>
+                    <th>DETAILS</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of arrTest;let index = index" style="vertical-align: middle;">
+                        <td>{{index+1}}</td>
+                        <td>{{item.discription}}</td>
+                        <td ><button color="warn" (click)="remove(index)" mat-raised-button><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+                   
+        </div>
+        <!-- footer Add New  -->
+         <div id="AddNewfooter" class="px-3 py-4">
+          <div class="row d-flex justify-content-between" style="margin: 0 10px;">
+            <!-- <div class="col-6">
+              <a href=""><i class="fa-solid fa-play"></i> Video tutorials</a>
+            </div>
+            <div class="col-6"> -->
+              <button (click)="closeNewAccDetails()" class="w-25 cus_btn outerBtn">Cancel</button>
+              <button [disabled]="this.arrTest.length==0" (click)="AddAccountTpeDetails()" class="w-25 mintBtn">
+                <span *ngIf="!this.isClicked">Save</span>
+                <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+              </button>
+              <!-- <button class="cus_btn greenBtn cusNewArrow"><i class="fa-solid fa-chevron-down"></i></button> -->
+            <!-- </div> -->
+          </div>
+         </div>
+    </div>
+  </div>

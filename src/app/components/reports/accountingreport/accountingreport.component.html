@@ -1,0 +1,49 @@
+<div id="policy_creation_report">
+    <div class="container-fluid">
+        <div class="outerBorder outerItem shadow_5 py-3">
+    <!-------------------- Search Polices ------------------->
+            <p class="text-muted fs-5 fw-bold py-2">SearchHere:</p>
+            <form [formGroup]="SearchForm">
+                <div class="row mt-3">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                            <mat-label>From</mat-label>
+                            <input formControlName="from" matInput [matDatepicker]="picker">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <!-- <div class="formGroup mt-2">
+                          <label>From<span style="color: red;">*</span></label>
+                          <input formControlName="from" class="form-control" type="date">
+                        </div> -->
+                    </div>
+                    <div class="col-md-4">
+                        <!-- <div class="formGroup mt-2">
+                          <label>To<span style="color: red;">*</span></label>
+                          <input formControlName="to" class="form-control" type="date">
+                        </div> -->
+                         <mat-form-field appearance="outline">
+                            <mat-label>To</mat-label>
+                            <input formControlName="to" matInput [matDatepicker]="picker1">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <div *ngIf="SearchForm.get('from')?.value && SearchForm.get('to')?.value && SearchForm.get('from')?.value > SearchForm.get('to')?.value">
+                            <p class="error" style="color: red;">The "To Date" must be greater than or equal to the "From Date".</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class=" d-flex justify-content-center py-3">
+                      <button [disabled]="fromToDateInvalid()" (click)="Search()" type="button" class="mintBtn my-4 w-25" style="border-radius: 5px;">
+                        <!-- <button [disabled]="fromToDateInvalid()||(SearchForm.get('from')?.value==''&&SearchForm.get('to')?.value=='')" (click)="Search()" type="button"  class="cus_btn greenBtn cusNewBtn mt-4 my-3 w-25" style="border-radius: 5px;"> -->
+                          <span *ngIf="!this.isClicked">Search</span>
+                          <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+                        </button>
+                      
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

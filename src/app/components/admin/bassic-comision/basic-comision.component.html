@@ -1,0 +1,74 @@
+<div id="basicComission">
+    <div class="container-fluid">
+        <form [formGroup]="comisionForm">
+            <div class="outerBorder shadow_5">
+                <!-- <p class="font_Coloered3 text-center" data-aos-duration="1000" data-aos="zoom-in">Add Basic Comission</p> -->
+                <div class="row mx-2 mt-4">
+                    <div class="col-md-5 offset-md-1">
+                        
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Select Broker</mat-label>
+                            <mat-select [(value)]="brokerIdValue">
+                            <mat-option *ngFor="let broker of brokerCustomers" value="{{broker.id}}">{{broker.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+            
+                        <mat-form-field class="w-100 mt-2" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Business Type</mat-label>
+                            <mat-select [(value)]="BusinessTypeValue">
+                            <mat-option value="{{type.id}}" *ngFor="let type of BusinessTypes">{{type.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field> 
+                           <!-- Commission -->
+                        <mat-form-field  class="w-100 mt-2" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Commission Pct</mat-label>
+                            <input formControlName="per" min="0" max="100" (keyup)="check1($event)" type="number" matInput>
+                        </mat-form-field>
+            
+                    </div>
+                    <div class="col-md-5">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Insurance Class</mat-label>
+                            <mat-select [(value)]="insuranceClassValue" (selectionChange)="CommissionSelectValidation()">
+                            <mat-option *ngFor="let type of InsuranceClasses" value="{{type.id}}">{{type.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+            
+                        <mat-form-field class="w-100 mt-2" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Commission Type</mat-label>
+                            <mat-select [(value)]="commissionTypeValue" (selectionChange)="getCommissionTypeValue($event)" (selectionChange)="CommissionSelectValidation()">
+                            <mat-option  *ngFor="let type of CommisionTypes"  value="{{type.id}}"(selectionChange)="CommissionSelectValidation()">{{type.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- Amount -->
+                        <mat-form-field class="w-100 mt-2" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Commission Amount</mat-label>
+                            <input (keyup)="check2($event)" type="text" matInput>
+                        </mat-form-field>
+            
+                        <mat-form-field id="wayOfPayment" style="display: none;" class="w-100" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Paymeny Way</mat-label>
+                            <mat-select [(value)]="paymentWayValue">
+                            <mat-option *ngFor="let type of paymentWays" value="{{type.id}}">{{type.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-11">
+                        <div class="d-flex justify-content-end">
+                            <button [disabled]="(this.pct==0 && this.amount ==0) ||this.comisionForm.status=='INVALID'|| !validCommistionSelects||this.loading"
+                            (click)="submitCommissionToCustomerForm()"type="button"  class=" btn activate w-25 mt-3">
+                                <span *ngIf="!this.loading">Save</span>
+                                <span *ngIf="this.loading"><i class="fa-solid fa-fan fa-spin"></i></span>
+                            </button>
+                        </div>
+                    </div>
+        
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>

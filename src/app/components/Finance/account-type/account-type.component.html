@@ -1,0 +1,244 @@
+<div class="all-account-type">
+    <div class="container-fluide">
+      <div class="row">
+        <div class="col-md-3" id="filters" style="display: none;">
+          <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+            <mat-label>{{'Shared.SearchHere'|translate}}</mat-label>
+            <input class="ssss" [(ngModel)]='term' type="text" matInput>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="outerBorder outerItem shadow_5 table-responsive">
+        <p class="font_Coloered3 my-3">Account type</p>
+        <table class="text-center table">
+            <thead class="tableHead align-middle" style="background-color: #F2F2F2 !important;">
+                <th class="py-2">#</th>
+                <th class="py-2">NAME</th>
+                <th class="py-2">Details</th>
+                <th class="py-2">ACTION</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of AccountType|search:term|paginate:{
+                itemsPerPage:tableSize,
+                currentPage:page,
+                totalItems:count}; let i=index">
+                    <td class="align-middle">{{ i + 1 }}</td>
+                    <td class="align-middle">
+                        {{item.name}}
+                    </td>
+                    <td class="align-middle">
+                      <ng-container *ngIf="item?.details && item.details.length > 0; else noDetails">
+                        <i (click)="showDetails(item.details)" class="fa-solid fa-eye fs-5 text-success px-3 py-2" style="color:#01909d !important;"></i>
+                      </ng-container>
+                      <ng-template #noDetails>
+                        ---
+                      </ng-template>
+                    </td>
+                  
+                    <td class="align-middle">
+                      <i (click)="openEditDetailsModal(item)" class="fa-solid fa-pencil fs-5 px-3 py-2 mx-1" style="color:#01909d !important;"></i>
+                      <!-- <button (click)="openEditDetailsModal(item)"  type="button" mat-raised-button  color="accent">Edit</button> -->
+                      <!-- [disabled]="item.accountingDetails==false" (click)="openEditDetailsModal(item)" [routerLink]="['/MachineDetails', item.id]" -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+  
+        <!-- Pagination controls -->
+        <div class="d-flex justify-content-end mt-4">
+          <pagination-controls 
+            previousLabel="Prev" 
+            nextLabel="Next" 
+            (pageChange)="onTableDataChange($event)">
+          </pagination-controls>
+          <select 
+            style="border: solid 2px #4758B8;" 
+            (change)="onTableSizeChange($event)" 
+            class="tableSize rounded-pill px-1">
+            <option *ngFor="let size of tableSizes">{{ size }}</option>
+          </select>
+        </div>
+  
+        <!-- Add new modal -->
+         <div class="overlayAccountType" (click)="closeNewAccType()">
+            <div class="AddNewAccountType" (click)="$event.stopPropagation()">
+                <div class="d-flex justify-content-between delet-details">
+                  <h2>New Account Type</h2>
+                  <div class="d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-xmark text-danger text-center" (click)="closeNewAccType()" style="cursor: pointer;"></i>
+                  </div>
+                </div>
+                <hr>
+                <div class="row mt-5">
+                  <div class="col-12">
+                    <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+                        <mat-label>Account Type</mat-label>
+                        <input class="ssss" [(ngModel)]="TypeName" [ngModelOptions]="{standalone: true}" type="text" matInput>
+                    </mat-form-field>
+                  </div>     
+                </div>
+                <!-- footer Add New  -->
+                <div id="AddNewfooter" class="px-3 py-4">
+                  <div class="row d-flex justify-content-between" style="margin: 0 10px;">
+                      <button (click)="closeNewAccType()" class=" w-25 cus_btn outerBtn">Cancel</button>
+                      <button [disabled]="this.TypeName == '' || this.TypeName == null ||  this.isClicked" (click)="AddTypeName()" class="w-25 mintBtn">
+                        <span *ngIf="!this.isClicked">Save</span>
+                        <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+                      </button>
+                  </div>
+                </div>
+            </div>
+          </div>
+        <!-- Edit Modal -->
+         <div class="overlayEditAccountType" (click)="closeEditAccType()">
+            <div class="EditAccountType" (click)="$event.stopPropagation()">
+                <p class="text-center subPageTitle mt-2">Edit account Type</p>
+                <i (click)="closeEditAccType()" class="fa-solid fa-xmark fs-3 "></i>
+                <div class="row mt-5">
+                  <div class="col-12">
+                    <div>
+                      <label >Account Type</label>
+                      <br>
+                      <input type="text" class="form-control w-100" [(ngModel)]="TypeName" [ngModelOptions]="{standalone: true}">
+                    </div>
+                  </div>       
+                </div>
+                  <div class="row">
+                    <form [formGroup]="EditDetailsForm">
+                    
+                      <div class="col-8">
+                        <label >Details</label>
+                        <br>
+                        <input formControlName="discription" type="text" class="form-control w-100">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-2">
+                    <button [disabled]="this.EditDetailsForm.status == 'INVALID'|| this.TypeName==''" (click)="EditAdd()" class="btn btn-success mt-3">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                  </div>
+                  <div class="wrapper mt-5" *ngIf="this.ArrofTypyes.length>0">
+                    <table  class="custom_table text-center bordered">
+                        <thead>
+                            <th>#</th>
+                            <th>Accoun Type</th>
+                            <th>Discription</th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of ArrofTypyes;let index = index" style="vertical-align: middle;">
+                                <td>{{index+1}}</td>
+                                <td>{{gettypename(item.accounTypeId)}}</td>
+                                <td>{{item.discription}}</td>
+                                <td ><button [disabled]="item.id !=null" color="warn" (click)="removee(index)" mat-raised-button><i class="fa-solid fa-trash"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>        
+                <div id="AddNewfooter" class="px-3 py-4">
+                  <div class="row d-flex justify-content-between" style="margin: 0 10px;">
+                      <button (click)="closeEditAccType()" class="cus_btn outerBtn w-25">Cancel</button>
+                      <button [disabled]="this.isClicked"  (click)="EditTypeName()" class="w-25 mintBtn">
+                        <span *ngIf="!this.isClicked">Save</span>
+                        <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+                      </button>
+                  </div>
+                </div>
+            </div>
+          </div>
+        <!-- <div class="overlayEdit" (click)="closeEditModal()">
+          <div class="Editgovernmant" (click)="$event.stopPropagation()">
+            <div class="d-flex justify-content-between delet-details">
+              <h2>Edit Account Type</h2>
+              <div class="d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-xmark text-danger text-center" (click)="closeEditModal()" style="cursor: pointer;"></i>
+              </div>
+            </div>
+            <hr class="custom-hr w-100">
+            <div class="container">
+              <form [formGroup]="EditAccountTypeForm" class="mt-5">
+                <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: 1em;">
+                  <mat-label>Account Type</mat-label>
+                  <input formControlName="AccountType" type="text" matInput placeholder="Enter Account Type" required>
+                  <mat-error *ngIf="EditAccountTypeForm.get('AccountType')?.invalid && EditAccountTypeForm.get('AccountType')?.touched">
+                    Account Type is required.
+                  </mat-error>
+                </mat-form-field>
+  
+                <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: 1em;">
+                  <mat-label>Details</mat-label>
+                  <input formControlName="Details" type="text" matInput placeholder="Enter Details" required>
+                  <mat-error *ngIf="EditAccountTypeForm.get('Details')?.invalid && EditAccountTypeForm.get('Details')?.touched">
+                    Details are required.
+                  </mat-error>
+                </mat-form-field>
+  
+                <div class="d-flex justify-content-end mt-4">
+                  <button class="btn _delete mx-1" (click)="closeEditModal()">Cancel</button>
+                  <button 
+                    type="submit" 
+                    class="btn _cancel mx-1" 
+                    (click)="saveChanges()"
+                    [disabled]="EditAccountTypeForm.invalid"
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div> -->
+  
+        <!-- View Details Modal -->
+
+        <div class="overlayTypeDetails" (click)="closeshowDetails()">
+          <div class="showtypeDetails" (click)="$event.stopPropagation()">
+              <p class="text-center subPageTitle mt-2">Type details</p>
+              <i (click)="closeshowDetails()" class="fa-solid fa-xmark fs-3 "></i>
+              <div class="wrapper mt-5">
+                <table class="text-center table">
+                    <thead class="tableHead align-middle">
+                        <th class="py-2">Discription</th>
+                        <th class="py-2">ACTION</th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of TypeDetails|search:term; let i=index">
+                            <td class="align-middle">
+                                {{item.discription}}
+                            </td>
+                            <td class="align-middle">
+                                    <i (click)="open(item)" class="fa-solid fa-pencil fs-5 px-3 py-2 mx-1" style="color:#01909d !important;"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+            </div>
+            <div class="row py-3" style="display: none;" id="details">
+              <div class="col-2"></div>
+              <div class="col-8">
+                <form [formGroup]="AccDetailsForm">
+                  <div>
+                    <label>Description Name</label>
+                    <br>
+                    <input formControlName="details" type="text" class="form-control w-100">
+                  </div>
+                </form>
+              </div>
+              <div class="col-2"></div>
+            </div>
+            <!-- footer Add New  -->
+            <div id="AddNewfooter" class="px-3 py-4">
+              <div class="row d-flex justify-content-between" style="margin: 0 10px;">
+                  <button (click)="closeshowDetails()" class=" w-25 cus_btn outerBtn">Cancel</button>
+                  <button [disabled]="this.AccDetailsForm.status == 'INVALID' || this.isClicked" (click)="EditAccountTpeDetails()" class="w-25 mintBtn">
+                    <span *ngIf="!this.isClicked">Save</span>
+                    <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+                  </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,407 @@
+<div class="all-account-type">
+    <div class="container-fluide">
+      <div class="row">
+        <div class="col-md-3" id="filters" style="display: none;">
+          <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+            <mat-label>{{'Shared.SearchHere'|translate}}</mat-label>
+            <input class="ssss" [(ngModel)]='term' type="text" matInput>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="outerBorder outerItem shadow_5 table-responsive">
+         <p class="font_Coloered3 my-3">New Supplier</p>
+         <table class="text-center table">
+            <thead class="tableHead align-middle" style="background-color: #F2F2F2 !important;">
+                <th class="py-2">Company Name<i class="fa-solid fa-arrows-up-down" style="color: gray;"></i></th>
+                <th class="py-2">mobile Number</th>
+                <th class="py-2">Email</th>
+                <th class="py-2">Balance<i class="fa-solid fa-arrows-up-down" style="color: gray;"></i></th>
+                <!-- <th class="py-2">Action</th> -->
+            </thead>
+            <tbody>
+                  <tr *ngFor="let item of AllSupplierArr|search:term|paginate:{
+                        itemsPerPage:tableSize,
+                        currentPage:page,
+                        totalItems:count};let index = index">
+                        <td class="align-middle">
+                            {{item.name}}
+                        </td>
+                        <td class="align-middle">
+                            {{item.mobileNumber}}
+                        </td>
+                        <td class="align-middle">
+                            {{item.email}}
+                        </td>
+                        <td class="align-middle">
+                            {{item.openingBalance==null?'--':item.openingBalance}}
+                        </td>
+                        <!-- <td class="align-middle">
+                            <i (click)="openModalToEdit(item)"  class="fa-solid fa-pencil fs-5 px-3 py-2 mx-1" style="color:#3F51B5;"></i>
+                        </td> -->
+                    </tr>
+            </tbody>
+         </table>
+         <!-- Pagination controls -->
+         <div class="d-flex justify-content-end mt-4">
+        <pagination-controls 
+            previousLabel="Prev" 
+            nextLabel="Next" 
+            (pageChange)="onTableDataChange($event)">
+        </pagination-controls>
+        <select 
+            style="border: solid 2px #4758B8;" 
+            (change)="onTableSizeChange($event)" 
+            class="tableSize rounded-pill px-1">
+            <option *ngFor="let size of tableSizes">{{ size }}</option>
+        </select>
+         </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+   <!-- Add new modal -->
+         <div class="overlayAccountType" (click)="closeNewAccType()">
+            <div class="AddNewAccountType" (click)="$event.stopPropagation()">
+                <div class="d-flex justify-content-between delet-details">
+                  <h2>New Supplier</h2>
+                  <div class="d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-xmark text-danger text-center" (click)="closeNewAccType()" style="cursor: pointer;"></i>
+                  </div>
+                </div>
+                <hr>
+                <div>
+                    <mat-accordion class="shadow_5">
+                        <mat-expansion-panel (opened)="true" [expanded]="true">
+                            <mat-expansion-panel-header style="background-color: #f8f9fa;">
+                                <mat-panel-title class="d-flex">`
+                                    <i class="fa-regular fa-address-book mx-2 fs-3"></i>
+                                    <h4 class="header-title mt-3">Name and contact </h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <Form [formGroup]="SupplierForm">
+                            <div class="row mt-4">
+                                <div class="col-md-12 mt-3">
+                                <label>Company Name</label>
+                                <br>
+                                <input type="text" formControlName="Name" class="w-100 form-control"
+                                [class.is-valid]="this.SupplierForm.get('Name')?.status=='VALID'"
+                                [class.is-invalid]="this.SupplierForm.get('Name')?.status=='INVALID'&&this.SupplierForm.get('Name')?.touched">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                <label >Main account*</label>
+                                <select class="w-100 form-select" formControlName="AccountId"
+                                [class.is-valid]="this.SupplierForm.get('AccountId')?.status=='VALID'"
+                                [class.is-invalid]="this.SupplierForm.get('AccountId')?.status=='INVALID'&&this.SupplierForm.get('AccountId')?.touched"
+                                >
+                                    <option selected hidden>Select account</option>
+                                    <option *ngFor="let item of AllAccounts" [value]="item.id">{{item.name}}</option>
+                                </select>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                <label > Customer Type*</label>
+                                <select class="w-100 form-select" formControlName="CustomerType"
+                                [class.is-valid]="this.SupplierForm.get('CustomerType')?.status=='VALID'"
+                                [class.is-invalid]="this.SupplierForm.get('CustomerType')?.status=='INVALID'&&this.SupplierForm.get('CustomerType')?.touched"
+                                >
+                                    <option *ngFor="let item of AllCustomersTypesArr2" [value]="item.id">{{item.value}}</option>
+                                </select>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                <label >Email</label>
+                                <br>
+                                <input type="text" formControlName="Email" class="w-100 form-control"
+                                [class.is-valid]="this.SupplierForm.get('Email')?.status=='VALID'"
+                                [class.is-invalid]="this.SupplierForm.get('Email')?.status=='INVALID'&&this.SupplierForm.get('Email')?.touched">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                <label>Phone Number</label>
+                                <br>
+                                <input type="number" formControlName="PhoneNumber" class="w-100 form-control"
+                                [class.is-valid]="this.SupplierForm.get('PhoneNumber')?.status=='VALID'" min="0"
+                                [class.is-invalid]="this.SupplierForm.get('PhoneNumber')?.status=='INVALID'&&this.SupplierForm.get('PhoneNumber')?.touched">
+                                <div *ngIf="SupplierForm.get('PhoneNumber')?.hasError('negativeNumber')">
+                                    <small class="text-danger">Negative numbers are not allowed.</small>
+                                </div>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                <label >Mobile Number</label>
+                                <br>
+                                <input type="number" formControlName="MobileNumber" class="w-100 form-control"
+                                [class.is-valid]="this.SupplierForm.get('MobileNumber')?.status=='VALID'" min="0"
+                                [class.is-invalid]="this.SupplierForm.get('MobileNumber')?.status=='INVALID'&&this.SupplierForm.get('MobileNumber')?.touched"
+                                >
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                <label >Fax</label>
+                                <br>
+                                <input type="number" formControlName="Fax" class="w-100 form-control" min="0"
+                                [class.is-valid]="this.SupplierForm.get('Fax')?.status=='VALID'" 
+                                [class.is-invalid]="this.SupplierForm.get('Fax')?.status=='INVALID'&&this.SupplierForm.get('Fax')?.touched">
+                                <div *ngIf="SupplierForm.get('Fax')?.hasError('negativeNumber')">
+                                    <small class="text-danger">Negative numbers are not allowed.</small>
+                                </div>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                <label >Other</label>
+                                <br>
+                                <input type="text" formControlName="Other" class="w-100 form-control"
+                                [class.is-valid]="this.SupplierForm.get('Other')?.status=='VALID'" 
+                                [class.is-invalid]="this.SupplierForm.get('Other')?.status=='INVALID'">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                <label >Website</label>
+                                <br>
+                                <input type="text" formControlName="WebSite" class="w-100 form-control"
+                                [class.is-valid]="this.SupplierForm.get('WebSite')?.status=='VALID'" 
+                                [class.is-invalid]="this.SupplierForm.get('WebSite')?.status=='INVALID'">
+                                </div>
+                            </div>
+                            </Form>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                    <mat-accordion class="shadow_5">
+                        <mat-expansion-panel (opened)="true" [expanded]="true" style="margin-top: 25px !important;">
+                            <mat-expansion-panel-header style="background-color: #f8f9fa;">
+                                <mat-panel-title class="d-flex">`
+                                <i class="fa-solid fa-location-dot mx-2 fs-3"></i>
+                                    <h4 class="header-title mt-3">Address </h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <Form [formGroup]="SupplierForm">
+                            <div class="row mt-5">
+                                <div class="col-md-12">
+                                <label >Street address</label>
+                                <br>
+                                <textarea formControlName="StreetAdress" class="form-control py-4 w-100"
+                                [class.is-valid]="this.SupplierForm.get('StreetAdress')?.status=='VALID'" 
+                                [class.is-invalid]="this.SupplierForm.get('StreetAdress')?.status=='INVALID'&&this.SupplierForm.get('StreetAdress')?.touched">
+                                </textarea>                 
+                                </div>
+                            </div>    
+                            <div class="row mt-3">
+                                <div class="col-md-6 mt-3">
+                                    <label>City</label>
+                                    <br>
+                                    <input formControlName="City" class="form-control w-100" type="text"
+                                    [class.is-valid]="this.SupplierForm.get('City')?.status=='VALID'" 
+                                    [class.is-invalid]="this.SupplierForm.get('City')?.status=='INVALID'&&this.SupplierForm.get('City')?.touched">                 </div>
+                                <div class="col-md-6 mt-3">
+                                    <label>Province</label>
+                                    <br>
+                                    <input formControlName="Province" class="form-control w-100" type="text"
+                                    [class.is-valid]="this.SupplierForm.get('Province')?.status=='VALID'" 
+                                    [class.is-invalid]="this.SupplierForm.get('Province')?.status=='INVALID'&&this.SupplierForm.get('Province')?.touched">
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label>Postal code</label>
+                                    <br>
+                                    <input formControlName="PostalCode" class="form-control w-100" type="number" min="0"
+                                    [class.is-valid]="this.SupplierForm.get('PostalCode')?.status=='VALID'" 
+                                    [class.is-invalid]="this.SupplierForm.get('PostalCode')?.status=='INVALID'&&this.SupplierForm.get('PostalCode')?.touched">
+                                    <div *ngIf="SupplierForm.get('PostalCode')?.hasError('negativeNumber')">
+                                        <small class="text-danger">Negative numbers are not allowed.</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label>Country</label>
+                                    <br>
+                                    <select class="w-100 form-select" formControlName="Country"  (change)="OnEmrateSelected($event)"
+                                    [class.is-valid]="this.SupplierForm.get('Country')?.status=='VALID'" 
+                                    [class.is-invalid]="this.SupplierForm.get('Country')?.status=='INVALID'&&this.SupplierForm.get('Country')?.touched">
+                                        <option value="" selected hidden>Select Country</option>
+                                        <option *ngFor="let item of AllCountriesArr" [value]="item.id">{{item.value}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mt-3" id="Emirateds" style="display: none;">
+                                    <label>Emirates</label>
+                                    <br>
+                                    <select class="w-100 form-select" formControlName="Emirates"
+                                    [class.is-valid]="this.SupplierForm.get('Emirates')?.status=='VALID'" 
+                                    [class.is-invalid]="this.SupplierForm.get('Emirates')?.status=='INVALID'&&this.SupplierForm.get('Emirates')?.touched">
+                                        <option value="" selected hidden>Select Emirate</option>
+                                        <option *ngFor="let item of AllEmiratesArr" [value]="item.id">{{item.value}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </Form>
+                            
+                        
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                    <mat-accordion class="shadow_5">
+                        <mat-expansion-panel (opened)="true" [expanded]="true" style="margin-top: 25px !important;">
+                            <mat-expansion-panel-header style="background-color: #f8f9fa;">
+                                <mat-panel-title class="d-flex">`
+                                <i class="fa-regular fa-message mx-2 fs-3"></i>
+                                    <h4 class="header-title mt-3">Notes and attachment </h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <Form [formGroup]="SupplierForm">
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                <label>Notes</label>
+                                <br>
+                                <textarea formControlName="Notes" class="form-control w-100" style="height: 5rem; border-color: gray;"
+                                [class.is-valid]="this.SupplierForm.get('Notes')?.status=='VALID'" 
+                                [class.is-invalid]="this.SupplierForm.get('Notes')?.status=='INVALID'&&this.SupplierForm.get('Notes')?.touched"
+                                ></textarea>              </div>
+                                <div class="col-md-12 mt-3">
+                                <label>Attachments</label>
+                                <div class="selected-files">
+                                    <div *ngFor="let file of selectedFiles" class="file-item d-flex justify-content-between">
+                                        <p class="bg-info file-name" *ngIf="file.name; else fileString">
+                                            {{ file.name }}
+                                            <span *ngIf="file.size">({{ getFileSize(file.size) }})</span>
+                                        </p>
+                                        <ng-template #fileString>
+                                            <p class="bg-info file-name">{{ file }}</p>
+                                        </ng-template> 
+                                    <button *ngIf="file.name;" (click)="removeFile(file)" class="btn btn-danger btn-sm ms-2">
+                                        <i class="fa-solid fa-xmark"></i> Remove
+                                    </button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div
+                                class="file-drop-area"
+                                (dragover)="onDragOver($event)"
+                                (dragleave)="onDragLeave($event)"
+                                (drop)="onDrop($event)"
+                                [ngClass]="{'dragging': isDragging}"
+                                >
+                                <div class="attach-file">
+                                    <a (click)="fileInput.click()" class="href-link2">Add attachment</a> <br>
+                                    <input class="form-control" hidden accept=".pdf, .xlsx, .xlsm, .xlsb, .xltx, .jpeg, .png, .jpg, .svg" (change)="uploadFile($event)" #fileInput type="file">
+                                    <p style="color: grey;position: relative; bottom: 15px;">Max file size: 20 MB</p>
+                                    <div *ngFor="let file of selectedFiles"></div>
+                                </div>
+                                </div>   
+                                </div>
+                            </div>
+                            </Form>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                    <mat-accordion class="shadow_5">
+                        <mat-expansion-panel (opened)="true" [expanded]="true" style="margin-top: 25px !important; margin-bottom: 25px !important;">
+                            <mat-expansion-panel-header style="background-color: #f8f9fa;">
+                                <mat-panel-title class="d-flex">`
+                                <i class="fa-regular fa-file-lines mx-2 fs-3"></i>
+                                    <h4 class="header-title mt-3">Additional info </h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <Form [formGroup]="SupplierForm">
+                            <div class="row mt-4">
+                                <div class="col-6">
+                                <h3 class="mt-3" style="font-weight: bold;">Taxes</h3>
+                                <label>Bussiness ID No./Social Insurance No.</label>
+                                <br>
+                                <input formControlName="BusinessId_SocialInsuranceNo" type="number" class="w-100 form-control" min="0"
+                                [class.is-valid]="this.SupplierForm.get('BusinessId_SocialInsuranceNo')?.status=='VALID'" 
+                                [class.is-invalid]="this.SupplierForm.get('BusinessId_SocialInsuranceNo')?.status=='INVALID'&&this.SupplierForm.get('BusinessId_SocialInsuranceNo')?.touched">
+                                <div *ngIf="SupplierForm.get('BusinessId_SocialInsuranceNo')?.hasError('negativeNumber')">
+                                    <small class="text-danger">Negative numbers are not allowed.</small>
+                                </div>
+                                </div>
+                                <div class="col-6"></div>
+                            </div>
+                        
+                            <div class="row mt-4">
+                                <div class="col-6">
+                                <h3 class="mt-3" style="font-weight: bold;">Payments</h3>
+                                <label>Terms</label>
+                                <br>
+                                <input type="text" class="form-control w-100" formControlName="Terms"
+                                [class.is-valid]="this.SupplierForm.get('Terms')?.status=='VALID'" 
+                                [class.is-invalid]="this.SupplierForm.get('Terms')?.status=='INVALID'&&this.SupplierForm.get('Terms')?.touched">              </div>
+                                <div class="col-6 align-middle Account_no">
+                                <label style="position: relative; top: 3.7rem !important;">Account no.</label>
+                                <br>
+                                <input min="0"  formControlName="AccountNumber" type="number" class="form-control w-100" style="margin-top: 3.8rem !important;"
+                                [class.is-valid]="this.SupplierForm.get('AccountNumber')?.status=='VALID'"
+                                [class.is-invalid]="this.SupplierForm.get('AccountNumber')?.status=='INVALID'&&this.SupplierForm.get('AccountNumber')?.touched"
+                                >
+                                <div *ngIf="SupplierForm.get('AccountNumber')?.hasError('negativeNumber')">
+                                    <small class="text-danger">Negative numbers are not allowed.</small>
+                                </div>
+                                </div>
+                            </div> 
+                            <div class="col-md-12 mt-4">
+                                <h3 class="mt-3" style="font-weight: bold;">Accounting</h3>
+                                <label>Default expenses category</label>
+                                <!-- <select class="form-select w-100" formControlName="DefaultExpenseCategory">
+                                <option value="" hidden disabled selected>Choose account</option>
+                                <option class="con" value="addNew">+ Add New</option>
+                                <option class="con1" *ngFor="let item of items" [value]="item.id">
+                                    {{ item.name }}
+                                </option>
+                                </select> -->
+                                <input  formControlName="DefaultExpenseCategory" type="text" class="form-control w-100"
+                                [class.is-valid]="this.SupplierForm.get('DefaultExpenseCategory')?.status=='VALID'"
+                                [class.is-invalid]="this.SupplierForm.get('DefaultExpenseCategory')?.status=='INVALID'&&this.SupplierForm.get('DefaultExpenseCategory')?.touched">
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <label>Cedent TRN</label>
+                                    <br>
+                                    <input min="0" class="w-100 form-control" type="number" formControlName="CedantTRN"
+                                    [class.is-valid]="this.SupplierForm.get('CedantTRN')?.status=='VALID'"
+                                [class.is-invalid]="this.SupplierForm.get('CedantTRN')?.status=='INVALID'&&this.SupplierForm.get('CedantTRN')?.touched">
+                                <div *ngIf="SupplierForm.get('CedantTRN')?.hasError('negativeNumber')">
+                                <small class="text-danger">Negative numbers are not allowed.</small>
+                            </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>P_O_Box</label>
+                                    <br>
+                                    <input min="0" class="w-100 form-control" type="number" formControlName="P_O_Box"
+                                    [class.is-valid]="this.SupplierForm.get('P_O_Box')?.status=='VALID'"
+                                    [class.is-invalid]="this.SupplierForm.get('P_O_Box')?.status=='INVALID'&&this.SupplierForm.get('P_O_Box')?.touched">
+                                    <div *ngIf="SupplierForm.get('P_O_Box')?.hasError('negativeNumber')">
+                                    <small class="text-danger">Negative numbers are not allowed.</small>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-6">
+                                <h3 class="mt-3" style="font-weight: bold;">Opening balance</h3>
+                                <label>Balance</label>
+                                <br>
+                                <input min="0" formControlName="OpeningBalance" type="number" class="w-100 form-control"
+                                [class.is-valid]="this.SupplierForm.get('OpeningBalance')?.status=='VALID'"
+                                    [class.is-invalid]="this.SupplierForm.get('OpeningBalance')?.status=='INVALID'&&this.SupplierForm.get('OpeningBalance')?.touched">
+                                    <!-- <div *ngIf="SupplierForm.get('OpeningBalance')?.hasError('negativeNumber')">
+                                    <small class="text-danger">Negative numbers are not allowed.</small>
+                                </div> -->
+                                </div>
+                                <div class="col-6 align-middle As_OF">
+                                <label style="position: relative; top: 3.7rem !important;">As of</label>
+                                <br>
+                                <input formControlName="AsOf" type="date" class="form-control w-100" style="margin-top: 3.8rem !important;"
+                                [class.is-valid]="this.SupplierForm.get('AsOf')?.status=='VALID'"
+                                [class.is-invalid]="this.SupplierForm.get('AsOf')?.status=='INVALID'&&this.SupplierForm.get('AsOf')?.touched">
+                                </div>
+                            </div> 
+                            
+                            
+                            </Form>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+               
+                <!-- footer Add New  -->
+                <div id="AddNewfooter" class="px-3 py-4">
+                  <div class="row d-flex justify-content-between" style="margin: 0 10px;">
+                      <button (click)="closeNewAccType()" class=" w-25 cus_btn outerBtn">Cancel</button>
+                      <button [disabled]="this.isClicked || SupplierForm.status=='INVALID'" (click)="SupmitOrEditSupplier()" class="w-25 mintBtn">
+                        <span *ngIf="!this.isClicked">Save</span>
+                        <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+                      </button>
+                  </div>
+                </div>
+            </div>
+          </div>

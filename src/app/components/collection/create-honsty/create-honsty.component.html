@@ -1,0 +1,201 @@
+<div id="honstyCreation">
+    <div class="container-fluid">
+        <div class="outerBorder outerItem shadow_5 py-3">
+            <div class="d-flex justify-content-between pt-3">
+                <p class="font_Coloered3 text-center my-2">Create Honsty</p>
+            </div>
+            <form [formGroup]="HonstyForm" class="py-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Customer Name</mat-label>
+                            <mat-select formControlName="customerId">
+                                <mat-option *ngFor="let item of AllCustomers" [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-people-arrows"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Money</mat-label>
+                            <input formControlName="amount" type="number"  matInput>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-coins"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Date</mat-label>
+                            <input formControlName="paymentDateTime" matInput [matDatepicker]="picker">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 mt-2">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>{{'Payment.PaymentWay'|translate}}</mat-label>
+                            <mat-select (selectionChange)="getPaymentWay($event.value)">
+                                <mat-option [value]="1">شيــك</mat-option>
+                                <mat-option [value]="2">تحويل بنكـي</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                    class="fa-solid fa-coins"></i></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <!-- <div class="col-md-6"> -->
+                       
+                       
+                      
+                        
+                        <!-- شيــك -->
+                        <div class="row mt-4" id="Check" style="display: none;">
+                            <form [formGroup]="CheckForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>رقم الشيـك</mat-label>
+                                            <input formControlName="checkNumber" type="number" matInput>
+                                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                                    class="fa-solid fa-hashtag"></i></mat-icon>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>اسم البنك المسحوب عليه</mat-label>
+                                            <input formControlName="bankName" type="text" matInput>
+                                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                                    class="fa-solid fa-building-columns"></i></mat-icon>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-5 mt-2">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>مبلـغ الشيـك</mat-label>
+                                            <input formControlName="amount" type="number" matInput>
+                                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                                    class="fa-solid fa-money-bills"></i></mat-icon>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-5 mt-2">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>تاريـخ الشيـك</mat-label>
+                                            <input formControlName="paymentDate" [min]="this.CurrentDate" matInput [matDatepicker]="picker4">
+                                            <mat-datepicker-toggle matIconSuffix
+                                                [for]="picker4"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker4></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                        <button [disabled]="this.CheckForm.status=='INVALID'" (click)="viewCheck()" class="btn Add"
+                                           >{{'Shared.Add'|translate}}</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        
+                        <!--  تحويل بنكي -->
+                        <form [formGroup]="TrasferForm" class="mt-4" id="BankTransfer" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>رقـم التحويـل</mat-label>
+                                        <input formControlName="transferNumber" type="number" matInput>
+                                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                                class="fa-solid fa-hashtag"></i></mat-icon>
+                                    </mat-form-field>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>اسـم البنك</mat-label>
+                                        <input formControlName="bankName" type="text" matInput>
+                                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                                class="fa-solid fa-building-columns"></i></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-5 mt-2">
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>مبلـغ التحويـل</mat-label>
+                                        <input formControlName="amount" type="number" matInput>
+                                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                                class="fa-solid fa-money-bills"></i></mat-icon>
+                                    </mat-form-field>
+                                    
+                                </div>
+                                <div class="col-md-5 mt-2">
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>التاريـخ </mat-label>
+                                        <input formControlName="paymentDate" [min]="this.CurrentDate" matInput [matDatepicker]="picker8">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker8"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker8></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                    <button [disabled]="this.TrasferForm.status=='INVALID'" (click)="viewTransfer()" class="btn Add"
+                                        >{{'Shared.Add'|translate}}</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- /Table Check -->
+                        <div class="outerBorder shadow_5" *ngIf="this.ArrCheck.length>0">
+                            <p class="text-muted fs-5 fw-bold py-2">Table Of Check <i class="fa-solid fa-money-bills"></i>
+                            </p>
+
+                            <table class="table text-center">
+                                <thead style="background-color: #F2F2F2 !important;">
+                                    <th>#</th>
+                                    <th>رقم الشيك </th>
+                                    <th>اسم البنك</th>
+                                    <th>المبلغ</th>
+                                    <th>تاريخ الشيك</th>
+                                    <th class="remove"></th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of ArrCheck;let index = index">
+                                        <td>{{index+1}}</td>
+                                        <td>{{item.checkNumber}}</td>
+                                        <td>{{item.bankName}}</td>
+                                        <td>{{item.amount}}</td>
+                                        <td>{{item.paymentDate}}</td>
+                                        <td class="remove"><button color="warn" (click)="removeCheck(index,item.amount)"
+                                                mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /Table Trasfer -->
+                        <div class="outerBorder shadow_5" *ngIf="this.ArrTransfer.length>0">
+                            <p class="text-muted fs-5 fw-bold py-2">Table Of Trasfer </p>
+                            <table class="table text-center">
+                                <thead style="background-color: #F2F2F2 !important;">
+                                    <th>#</th>
+                                    <th>رقم التحويل</th>
+                                    <th>اسم البنك </th>
+                                    <th> مبلغ التحويل</th>
+                                    <th>التاريخ </th>
+                                    <th class="remove"></th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of ArrTransfer;let index = index">
+                                        <td>{{index+1}}</td>
+                                        <td>{{item.transferNumber}}</td>
+                                        <td>{{item.bankName}}</td>
+                                        <td>{{item.amount}}</td>
+                                        <td>{{item.paymentDate}}</td>
+                                        <td class="remove"><button color="warn" (click)="removeTrasfer(index,item.amount)"
+                                            mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center py-3">
+                            <button id="FinalSave" (click)="saveHonsteyCreation()" [disabled]="this.HonstyForm.status=='INVALID'
+                            ||this.isClicked||this.PayedMoney!=this.HonstyForm.get('amount')?.value||this.PayedMoney==0" class="w-50 btn save">Save </button>
+                            <button (click)="newHonsty()" id="NewHonsty" style="display: none;" class="w-50 btn save">New Secretrat</button>
+                        </div>
+                    <!-- </div> -->
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

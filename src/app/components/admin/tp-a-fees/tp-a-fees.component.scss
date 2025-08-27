@@ -1,0 +1,63 @@
+.modal{
+    --bs-modal-width: 50%;
+  }
+.container_custom{
+  width: 80%;
+  margin: auto;
+}
+table thead {
+  --bs-table-bg: #F2F2F2; 
+  --bs-table-hover-bg: #e0e0e0; 
+}
+th, td {
+  height: 60px;
+  min-height: 60px; 
+  vertical-align: middle;
+} 
+th{
+  color: #01BACB;
+}
+.container-fluid{
+  --bs-gutter-x:0rem
+}
+// .fa-pencil:hover ,.fa-cloud-arrow-up:hover,.fa-upload:hover {
+//     // background-color:#01909d;
+//     color:#01BACB!important;
+//   }
+
+
+  // dropdown
+  .dropdown {
+    max-width: 25px; /* Restricts the width of the ellipsis container */
+  }
+.dropdown-item:hover{
+    background-color: #01BACB !important;
+    color: white !important;
+    cursor: pointer;
+  }
+  .dropdown-item:hover .fa-pencil {
+    color: white !important;
+  }
+  .dropdown-item:hover .fa-trash-can  {
+    color: white !important;
+  }
+  
+  .dropdown.show{
+    display: block;
+    position: absolute;
+    z-index: 1000001;
+  }
+  .dropdown-menu{
+    min-width: 50px;
+  }
+  
+  .fa-ellipsis-v {
+    cursor: pointer;
+  }
+  // img:hover{
+  // color: white !important;
+  // }
+  
+  .dropdown:hover .fa-ellipsis-v {
+    visibility: visible;
+  }

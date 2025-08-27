@@ -1,0 +1,143 @@
+<div id="policy_creation_report">
+    <div class="container-fluid">
+        <!-------------------- Search Polices ------------------->
+        <div class="outerBorder outerItem shadow_5 py-3">
+            <div class="d-flex justify-content-between pt-1">
+                <p class="font_Coloered3 text-center">Rejected Claims</p>
+            </div>
+
+            <p class="text-muted fs-5 fw-bold mt-3">{{'Shared.SearchHere'|translate}} :</p>
+            <form [formGroup]="SearchForm" class="mt-4">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100 feo" appearance="outline">
+                            <mat-label>{{'Policy.From'|translate}}</mat-label>
+                            <input formControlName="From"  matInput [matDatepicker]="picker">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100 feo" appearance="outline">
+                            <mat-label>{{'Policy.To'|translate}}</mat-label>
+                            <input formControlName="To" matInput [matDatepicker]="picker2">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100 feo" appearance="outline">
+                            <mat-label>Policy Code</mat-label>
+                            <input formControlName="PolicyCode" matInput>
+                            <!-- <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle> -->
+                            <!-- <mat-datepicker #picker2></mat-datepicker> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100 feo" appearance="outline">
+                            <mat-label>Tpa Type</mat-label>
+                            <mat-select formControlName="TPAType">
+                            <mat-option *ngFor="let additional of additionalTypes" [value]="additional.id">
+                            {{ additional.value }}
+                            </mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                    </div>
+        
+                    <div>
+                        <!-- Search Now -->
+                        <div class="d-flex justify-content-center align-items-center mt-3">
+                            <button id="searchBtn" [disabled]="this.SearchForm.status=='INVALID'||this.isClicked" (click)="Search()"
+                                class="w-25 py-2 btn searchfilter"><span *ngIf="this.isClicked"><i
+                                        class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span
+                                    *ngIf="!this.isClicked">{{'Shared.Search'|translate}} <i
+                                        class="fa-solid fa-magnifying-glass"></i></span>
+                            </button>
+                            <button (click)="ResetForm()" mat-raised-button color="accent" class="w-25 py-3 mx-2" style="border-radius: 10px !important;">
+                                <span>Reset</span>
+                              </button>                            <!-- <button (click)="ResetForm()" class="btn btn-danger mt-1 mx-1 resetBtn">Reset <i class="fa-solid fa-backward-step"></i></button> -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="wrapper mt-5">
+                <table class="text-center table">
+                    <thead class="headtable" style="background-color: #F2F2F2 !important;">
+                        <th class="py-1">policyHolder</th>
+                        <th class="py-1">Invoice Nbr</th>
+                        <th class="py-1">Invoice Received Date</th>
+                        <th class="py-1">Status</th>
+                        <th class="py-1">Member Name</th>
+                        <th class="py-1">Amount</th>
+                        <th class="py-1">Plan Type</th>
+                        <!-- <th class="py-1">Pending Note</th> -->
+                        <th class="py-1">Reason Of Rejection</th>
+                        <th class="py-1">Amount Approved By Orient</th>
+                        <th class="py-1">Amount Rejected By Orient</th>
+                        <th class="py-1"><button (click)="SelectAll()" mat-stroked-button color="primary"
+                            class="mt-2 mx-2">Select All</button>
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of AllRejectedArr;let index = index;">
+                            <td class="py-2">{{item?.policyHolder}}</td>
+                            <td class="py-2">{{item?.invoiceNbr}}</td>
+                            <td>{{item?.invoiceReceivedDate|date:'dd/MM/YYYY'}}</td>
+                            <td>{{item?.status}}</td>
+                            <td>{{item?.memberName}}</td>
+                            <td>{{item?.claimedAmount}}</td>
+                            <!-- <td>{{item?.provider}}</td> -->
+                            <td>{{item?.planType}}</td>
+                            <!-- <td>{{item?.pendingNote}}</td> -->
+                            <td>{{item?.reasonOfRejection}}</td>
+                            <td>{{item?.amountApprovedByOrient}}</td>
+                            <td>{{item?.amountRejectedByOrient}}</td>
+                            <td>
+                                <!-- <span *ngIf="item.status=='Reject'||item.status=='rejected'"><i class="fa-solid fa-x text-danger"></i> Rejected</span> -->
+                                <span *ngIf="item.status=='Confirm'||item.status=='confirmed'||item.status=='confirm'"><i class="fa-solid fa-check text-success"></i> Confirmed</span>
+                                <section class="example-section">
+                                    <mat-checkbox (change)="getItemId($event.checked,index,item.id,item.status)" [(ngModel)]="values[index]"
+                                       color="primary" class="example-margin">
+                                    </mat-checkbox>
+                                </section>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="AllRejectedArr?.length === 0 && !loading" class="text-center d-flex align-items-center justify-content-center">
+                    <div class="alert alert-warning  w-50 mt-5" role="alert">
+                      <span>No Rejected Claims found</span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end mt-4" *ngIf="AllRejectedArr.length > 0">
+                <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                </pagination-controls>
+                <select style="border: solid 2px #4758B8;" (change)="onTableSizeChange($event)" class="tableSize rounded-pill px-1">
+                  <option *ngFor=" let size of tableSizes">{{size}}</option>
+                </select>
+            </div>
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+            <div id="FinalBtns">
+                <div>
+                    <button  [disabled]="IndexesArr.length==0" (click)="SubmitItems()"  class="mt-2 mx-1 btn searchfilter"><span
+                            *ngIf="this.isClicked">{{'Shared.Uploading'|translate}} <i
+                                class="fa-solid fa-spinner fa-spin"></i></span> <span *ngIf="!this.isClicked">Confirm <i
+                                class="fa-solid fa-check"></i></span> </button>
+                    <!-- <button [disabled]="ConRejBtns" (click)="SubmitItems(2,FinalBtn)" mat-raised-button color="accent" class="mt-2"><span
+                            *ngIf="this.isClicked">{{'Shared.Uploading'|translate}} <i
+                                class="fa-solid fa-spinner fa-spin"></i></span> <span *ngIf="!this.isClicked">Reject <i
+                                class="fa-solid fa-x"></i></span> </button> -->
+                </div>
+                <div>
+                    <!-- <button [disabled]="EnableFinalBtn" (click)="finalSave()" id="FinalBtn" #FinalBtn mat-raised-button color="primary" class="mt-2 w-25">Final Save</button> -->
+    
+                </div>
+            </div>
+        </div>
+      
+    </div>
+</div>

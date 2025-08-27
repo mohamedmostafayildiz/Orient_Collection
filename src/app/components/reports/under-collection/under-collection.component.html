@@ -1,0 +1,31 @@
+<div id="under-collection" class="Prentable" dir="rtl">
+    <div class="container Non-prentable">
+        <!-- Form -->
+        <form [formGroup]="Form">
+            <div class="row pt-5">
+                <div class="col-md-4">
+                    <mat-form-field id="start" class="w-100">
+                        <mat-label>مـن</mat-label>
+                        <input formControlName="start" matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field id="start" class="w-100">
+                        <mat-label>الــي</mat-label>
+                        <input formControlName="end" matInput [matDatepicker]="picker1">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 d-flex align-items-center">
+                    <button [disabled]="this.Form.status=='INVALID'||this.loading" (click)="SubmitForm()" mat-raised-button color="primary" class="w-50">
+                        <span *ngIf="!loading">تحميـل</span> 
+                        <span *ngIf="loading"><i class="fa-solid fa-fan fa-spin"></i></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

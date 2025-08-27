@@ -1,0 +1,38 @@
+     <!-- Navbar -->
+
+<nav class="navbar navbar-expand-lg w-100 py-2 Non-prentable">
+  <div class="container">
+    <div class="d-flex w-50">
+      <a href><img src="assets/imgs/yildiz-removebg-preview (2).png" class="ml-auto mx-4" alt="logo"></a>
+
+      <div *ngIf="this._AuthService.isLoggedIn()" id="menu" class="d-flex align-items-center mx-5">
+        <div (click)="handleSideBar()" style="cursor: pointer;">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav  mb-2 mb-lg-0">
+          <!-- <li class="nav-item">
+            <a class="nav-link text_nav mx-2" aria-current="page" routerLink="/Exam">Exam</a>
+          </li> -->
+        </ul>
+        <!-- <a class="nav-link text_nav mx-2" routerLink="/addCustomer">{{'UserInfo.AddCustomer'|translate}}</a> -->
+        <!-- <p>{{'UserInfo.FirstName' | translate}}</p> -->
+        <button *ngIf="!this._AuthService.isLoggedIn()" class="btn btn_test mx-2" routerLink="/login">{{'Shared.Login'|translate}}</button>
+        <button *ngIf="this._AuthService.isLoggedIn()" (click)="logOut()" class="btn btn_test mx-2">{{'Shared.Logout'|translate}}</button>  
+        <select (change)="getLanguage($event)" [(ngModel)]="val">
+          <option value="en">English</option>
+          <option value="ar">العربيه</option>
+        </select>
+      </div>
+  </div>
+</nav>
+
+

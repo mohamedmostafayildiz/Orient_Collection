@@ -1,0 +1,286 @@
+<div id="activateGroup">
+    <div class="container">
+        <div class="d-flex justify-content-between mx-5">
+            <p class="font_Coloered3 text-center my-3">{{'SideBar.Claims'|translate}}</p>
+        </div>
+        <!-- <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown button
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div> -->
+        <div class="outerBorder shadow_5 ">
+            <form [formGroup]="ClaimForm">
+
+                <div class="row">
+                    <!-- Col 1 -->
+                    <div class="col-md-6" data-aos="fade-left" data-aos-duration="700">
+                        <table class="table table-striped table-bordered text-center mt-2" style="border-radius: 20px;">
+                            <tbody class="align-middle">
+
+                                <tr>
+                                    <th class="w-30 py-2">تاريخ ادخال المطالبه</th>
+                                    <td class="w-60 py-2">
+                                        <mat-form-field style="margin-bottom: -1.4em;">
+                                            <input [value]="this.CurrentDate" disabled matInput
+                                                [matDatepicker]="picker6">
+                                            <mat-datepicker-toggle matIconSuffix
+                                                [for]="picker6"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker6></mat-datepicker>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="w-30 py-2">تاريخ استلام المطالبه</th>
+                                    <td class="w-60 py-2">
+                                        <mat-form-field style="margin-bottom: -1.4em;">
+                                            <!-- <mat-label>تاريخ استلام المطالبه</mat-label> -->
+                                            <input (dateChange)="ReceivingTheClaim($event)"
+                                                formControlName="DateOfReceiptOfTheClaim" matInput
+                                                [matDatepicker]="picker5">
+                                            <mat-datepicker-toggle matIconSuffix
+                                                [for]="picker5"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker5></mat-datepicker>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="w-30 py-2">تاريخ المطالبه عن شهر</th>
+                                    <td class="w-60 py-2">
+                                        <mat-form-field style="margin-bottom: -1.4em;">
+                                            <mat-select formControlName="ClaimForMonth">
+                                            <mat-option [value]="0">يناير</mat-option>
+                                            <mat-option [value]="1">فبراير</mat-option>
+                                            <mat-option [value]="2">مارس</mat-option>
+                                            <mat-option [value]="3">أبريل</mat-option>
+                                            <mat-option [value]="4">مايو</mat-option>
+                                            <mat-option [value]="5">يونيو</mat-option>
+                                            <mat-option [value]="6">يوليو</mat-option>
+                                            <mat-option [value]="7">أغسطس</mat-option>
+                                            <mat-option [value]="8">سبتمبر</mat-option>
+                                            <mat-option [value]="9">أكتوبر</mat-option>
+                                            <mat-option [value]="10">نوفمبر</mat-option>
+                                            <mat-option [value]="11">ديسمبر</mat-option>
+                                            </mat-select>
+                                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-house-flood-water-circle-arrow-right"></i></mat-icon>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="w-30 py-2">{{'Shared.downloadTemplete'|translate}}</th>
+                                    <td class="w-60 py-2">
+                                        <div class="Download">
+                                            <i (click)="getTempleteFile()"
+                                                class="text-success fa-solid fa-download fs-3 px-2 py-1 mt-3"
+                                                style="border-radius: 7px;"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <button (click)="SubmitClaim()" id="AddClaimBtn"
+                            [disabled]="this.ClaimForm.status=='INVALID'||this.selectedMainFile==''" mat-raised-button
+                            color="primary" class="w-50 mt-2"><span
+                                *ngIf="this.isClicked">{{'Shared.Uploading'|translate}} <i
+                                    class="fa-solid fa-spinner fa-spin"></i></span> <span
+                                *ngIf="!this.isClicked">{{'Shared.Save'|translate}} <i
+                                    class="fa-regular fa-floppy-disk"></i></span> </button>
+
+                    </div>
+                    <!-- Col 2 -->
+                    <div class="col-md-6" data-aos="fade-right" data-aos-duration="700">
+                        <table class="table table-striped table-bordered text-center mt-2" style="border-radius: 20px;">
+                            <tbody class="align-middle">
+                                <tr>
+                                    <th class="w-30 py-2">{{'Shared.Upload'|translate}}</th>
+                                    <td class="w-60 py-2">
+                                        <div>
+                                            <i (click)="fileInput.click()"
+                                                class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2"
+                                                style="color:#3F51B5;border-radius: 5px;"></i>
+                                            <input accept=".xlsx " hidden (change)="uploadMainFile($event)" #fileInput
+                                                type="file">
+                                            <span class="file-name">{{selectedMainFile?.name}}</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="w-30 py-2">Gross Amount </th>
+                                    <td class="w-60 py-2">
+                                        <mat-form-field style="margin-bottom: -1.4em;">
+                                            <input formControlName="GrossAmount" type="number" matInput>
+                                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                                    class="fa-solid fa-money-check-dollar"></i></mat-icon>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="w-30 py-2">الخصــم</th>
+                                    <td class="w-60 py-2">
+                                        <mat-form-field style="margin-bottom: -1.4em;">
+                                            <input formControlName="Discount" type="number" matInput>
+                                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i
+                                                    class="fa-solid fa-tag"></i></mat-icon>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+
+                                <!---->
+                                <tr >
+                                    <th class="w-30 py-2">تاريخ الدفع
+                                    </th>
+                                    <td class="w-60 py-2">
+                                        <mat-form-field style="margin-bottom: -1.8em;">
+                                            <input formControlName="paymentDate" matInput [matDatepicker]="picker7">
+                                            <mat-datepicker-toggle matIconSuffix
+                                                [for]="picker7"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker7></mat-datepicker>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+
+            <div id="claimTable" *ngIf="this.AllFiles!=null" class="outerItem my-2">
+                <hr>
+
+                <table class="table table-striped text-center">
+                    <thead>
+                        <th class="py-1">{{'Claims.PinCode'|translate}}</th>
+                        <th class="py-1">{{'Claims.MemberName'|translate}}</th>
+                        <th class="py-1">{{'Claims.BenefitType'|translate}}</th>
+                        <th class="py-1">Pending Note</th>
+                        <th class="py-1">{{'Claims.Status'|translate}}</th>
+                        <th class="py-1">{{'Claims.ProviderName'|translate}}</th>
+                        <th class="py-1"><button (click)="SelectAll()" mat-stroked-button color="primary"
+                                class="mt-2 mx-2">Select All</button></th>
+                    </thead>
+                    <tbody>
+                        <tr class="align-middle" *ngFor="let item of AllFiles;let index = index;">
+                            <td class="py-2"> {{item?.pinCode}}</td>
+                            <td>{{item?.memberName}}</td>
+                            <td>{{item?.benefitType}}</td>
+                            <td>{{item?.pendingNote}}</td>
+                            <td>{{item?.status}}</td>
+                            <td>{{item?.providerName}}</td>
+                            <td>
+                                <span *ngIf="item.status=='Reject'||item.status=='rejected'"><i class="fa-solid fa-x text-danger"></i> Rejected</span>
+                                <span *ngIf="item.status=='Confirm'||item.status=='confirmed'"><i class="fa-solid fa-check text-success"></i> Confirmed</span>
+                                <section class="example-section" *ngIf="item.status=='pending'">
+                                    <mat-checkbox (change)="getItemId($event.checked,index)" [(ngModel)]="values[index]"
+                                        class="example-margin"></mat-checkbox>
+                                </section>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Loading -->
+                <div id="loading" *ngIf="loading">
+                    <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="outerBorder shadow_5" *ngIf="this.AllFiles.length>0">
+            <!-- Upload Multiple File -->
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <table id="uploadFilesTap" class="table table-striped table-bordered text-center" style="border-radius: 20px;">
+                        <tbody class="align-middle">
+                            <tr>
+                                <th class="w-30 py-2">{{'Shared.Upload'|translate}} File / Files</th>
+                                <td class="w-60 py-2">
+                                    <div>
+                                        <i (click)="fileInput2.click()"
+                                            class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2"
+                                            style="color:#3F51B5;border-radius: 5px;"></i>
+                                        <input accept=".pdf , .xlsx, .xlsm, .xlsb ,.xltx" hidden (change)="uploadComfirmedFiles($event)" #fileInput2 type="file">
+                                        <span class="file-name">{{selectedComfirmedFile?.name}}</span>
+                                    </div>
+                                </td>
+                                <td class="30 py-2">
+                                    <select [(ngModel)]="FileNoteStatus" class="form-select"
+                                        aria-label="Default select example">
+                                        <option value="Confirm">Confirm</option>
+                                        <option value="Reject">Reject</option>
+                                    </select>
+                                </td>
+                                <td class=" py-2">
+                                    <button (click)="viewFile()"
+                                        [disabled]="this.selectedComfirmedFile==''||this.FileNoteStatus==''"
+                                        mat-stroked-button color="primary">Add <i class="fa-solid fa-plus"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button (click)="NewClaim()" id="newClaimBtn" style="display: none;" mat-stroked-button class="primary" class="w-25">New Claim </button>
+                </div>
+                <div class="col-md-6" *ngIf="this.ExcelFileId!=''">
+                    <table class="table table-striped table-bordered text-center">
+                        <tbody>
+                            <tr>
+                                <th class="w-30 align-middle fs-6 py-3">File Code </th>
+                                <td class="w-60 align-middle py-3 text-danger fs-5">
+                                    {{this.ExcelFileId}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- /Table Files -->
+                    <div class="outerBorder shadow_5" *ngIf="this.FilesArr.length>0">
+                        <table class="table table-striped text-center">
+                            <thead>
+                                <th>#</th>
+                                <th>File Name</th>
+                                <th>Status</th>
+                                <th class="remove"></th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of FilesArr;let index = index">
+                                    <td>{{index+1}}</td>
+                                    <td>{{item.FileNote.name}}</td>
+                                    <td>{{item.status}}</td>
+                                    <td class="remove"><button color="warn" (click)="remove(index)"
+                                            mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- Submit Comfirmed Items -->
+            <div id="FinalBtns">
+                <div>
+                    <button (click)="SubmitItems(1,FinalBtn)" mat-raised-button color="primary" class="mt-2 mx-1"><span
+                            *ngIf="this.isClicked">{{'Shared.Uploading'|translate}} <i
+                                class="fa-solid fa-spinner fa-spin"></i></span> <span *ngIf="!this.isClicked">Confirm <i
+                                class="fa-solid fa-check"></i></span> </button>
+                    <button (click)="SubmitItems(2,FinalBtn)" mat-raised-button color="accent" class="mt-2"><span
+                            *ngIf="this.isClicked">{{'Shared.Uploading'|translate}} <i
+                                class="fa-solid fa-spinner fa-spin"></i></span> <span *ngIf="!this.isClicked">Reject <i
+                                class="fa-solid fa-x"></i></span> </button>
+                </div>
+                <div>
+                    <button [disabled]="EnableFinalBtn" (click)="finalSave()" id="FinalBtn" #FinalBtn mat-raised-button color="primary" class="mt-2 w-25">Final Save</button>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

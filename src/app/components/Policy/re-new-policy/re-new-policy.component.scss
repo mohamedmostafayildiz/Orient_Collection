@@ -1,0 +1,86 @@
+table tbody{
+    font-family: 'El Messiri', sans-serif!important;
+}
+.container-fluid{
+    --bs-gutter-x:0rem
+  }
+.upload{
+background-color: #FFFFFF;
+color: #01909D;
+border: 1px solid #01909D;
+border-radius: 5px;
+padding: 6px 10px;
+}
+.uploaded-container{
+    background-color: #F7F7F7;
+    padding: 15px 0px 15px 15px;
+    border: 2px dashed #01909D;
+}
+.fa-cloud-arrow-up:hover{
+    color: #01909D !important;
+  }
+.fa-download:hover{
+    color: #01909D !important;
+  }
+  .next{
+    background-color: #01909D;
+    border: none;
+    color: white;
+  }
+
+  
+.w-15{
+  width: 15%;
+}
+.w-85{
+  width: 85%;
+}
+.file-upload {
+  cursor: pointer;
+  color: #01909D;
+}
+
+.upload-icon {
+  color: #01909D !important;
+}
+
+.file-name {
+  color: #01909D;
+}
+.gray-circle {
+  width: 10px;         
+  height: 10px;        
+  background-color: #E9E9E9;
+  border-radius: 50%;  
+}
+.step-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.vertical-arrow {
+  width: 2px;
+  height: 50px; /* Adjust height as needed */
+  border-left: 2px dashed #01909D;
+  position: relative;
+  margin: 10px 0;
+}
+
+.vertical-arrow::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 8px solid #01909D;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  position: absolute;
+  bottom: -8px; /* Position arrowhead at the bottom */
+  left: -5px; /* Center arrowhead horizontally */
+}

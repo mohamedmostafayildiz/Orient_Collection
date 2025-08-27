@@ -1,0 +1,200 @@
+<div id="SelectPlanToPolicy">
+    <div class="container">
+        <div class="d-flex justify-content-between mx-5 pt-3">
+            <p class="font_Coloered3 text-center my-3">Assign Plans To Group</p>
+        </div>
+        <!-- <div class="outerBorder shadow_5"> -->
+        <!-- <button routerLink="/Plans&ItsBenfits/{{this.CustomerId}}" class="mx-3" mat-raised-button color="primary"> View Plans</button> -->
+
+            <!-- View All Avialable Paln & Its Details -->
+                <!-- <div class="row my-2" style=" border-radius: 0.5rem;">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="row w-100" style="margin-left: 0.1rem;">
+                                <div *ngFor="let plan of AllPlans" (click)="getPlanBenefitsDetails(plan.benefits)" class="col-md-3 illnessInnerBox my-1">
+                                    <h2 class="text-center boxTitle">{{plan.planName}}</h2>
+                                    <div class="text-center">
+                                        <p class="numOfIllness">{{plan.benefits.length}} Benefit</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div id="details" style="display: none;" class="col-md-6">
+                        <div  class="illnessDetails mt-1">
+                            <table class="table table-striped text-center">
+                                <thead class="tableHead">
+                                    <th class="py-2">Name</th>
+                                    <th class="py-2">Max Limit</th>
+                                    <th class="py-2">Type</th>
+                                    <th class="py-2">Coverage</th>
+                                </thead>
+                                <tbody>
+                                    
+                                    <tr *ngFor="let customer of BenefitsDetails">
+                                        <td class="align-middle">{{customer.name}}</td>
+                                        <td class="align-middle">{{customer.maximumLimit}}</td>
+                                        <td class="align-middle">{{customer.benefitType}}</td>
+                                        <td class="align-middle">{{customer.coverage}}</td>
+                                    </tr>
+                                </tbody>
+                
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="loading">
+                    <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                </div> -->
+                <!-- <hr style="width: 85%;margin: auto;" class="my-3"> -->
+                
+            <!-- Assign the Plan To Inividual -->
+            <!-- <div *ngIf="this.Type=='individual'" id="individual">
+                <div class="row my-5 d-flex align-items-center">
+                    <div class="col-md-4">
+                        <div class="outerBorder shadow_5">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Select Plan</mat-label>
+                                <mat-select [(value)]="PlanId">
+                                    <mat-option *ngFor="let Plan of AllPlans" (click)="getPlanBenefitsDetails(Plan.benefits)"
+                                        value="{{Plan.id}}">{{Plan.planName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <button [disabled]="this.PlanId==''" (click)="SubmitAssignPlanToCustomer()"
+                                mat-raised-button color="primary" class="w-100">Save</button>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div id="details" style="display: none;">
+                            <div class="illnessDetails mt-1">
+                                <table class="table table-striped text-center">
+                                    <thead class="tableHead">
+                                        <th class="py-2">Name</th>
+                                        <th class="py-2">Max Limit</th>
+                                        <th class="py-2">Type</th>
+                                        <th class="py-2">Coverage</th>
+                                    </thead>
+                                    <tbody>
+        
+                                        <tr *ngFor="let customer of BenefitsDetails">
+                                            <td class="align-middle">{{customer.name}}</td>
+                                            <td class="align-middle">{{customer.maximumLimit}}</td>
+                                            <td class="align-middle">{{customer.benefitType}}</td>
+                                            <td class="align-middle">{{customer.coverage}}</td>
+                                        </tr>
+                                    </tbody>
+        
+                                </table>
+        
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button  routerLink="/CustomPlan/individual/{{this.CustomerId}}/{{this.PolicyId}}"
+                            class="w-100 mx-3 btn btn-primary">Customize Plan</button>
+                    </div>
+                </div>
+            </div> -->
+            <!-- Assign the Plan To Family -->
+            <!-- <div *ngIf="this.Type=='family'" id="Family">
+                <div class="row outerItem">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6" *ngFor="let person of FamilyPersons">
+                                <div class="outerBorder shadow_5">
+                                    <p>{{person.name}}</p>
+                                    <mat-form-field class="w-100" appearance="outline" color="accent">
+                                        <mat-label>Assign Plan</mat-label>
+                                        <mat-select (selectionChange)="getPlanSelectedAndPersonIdTest($event.value,person.id)">
+                                            <mat-option *ngFor="let type of AllPlans" (click)="getPlanBenefitsDetails(type.benefits)"
+                                                value="{{type.id}}">{{type.planName}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <button (click)="SubmitAssignPlanToFamily()" mat-raised-button color="accent" class=" mb-5">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="details" style="display: none;">
+                            <div class="illnessDetails mt-1">
+                                <table class="table table-striped text-center">
+                                    <thead class="tableHead">
+                                        <th class="py-2">Name</th>
+                                        <th class="py-2">Max Limit</th>
+                                        <th class="py-2">Type</th>
+                                        <th class="py-2">Coverage</th>
+                                    </thead>
+                                    <tbody>
+        
+                                        <tr *ngFor="let customer of BenefitsDetails">
+                                            <td class="align-middle">{{customer.name}}</td>
+                                            <td class="align-middle">{{customer.maximumLimit}}</td>
+                                            <td class="align-middle">{{customer.benefitType}}</td>
+                                            <td class="align-middle">{{customer.coverage}}</td>
+                                        </tr>
+                                    </tbody>
+        
+                                </table>
+        
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading">
+                        <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-end">
+                    <button class="mx-3" routerLink="/CustomPlan/family/{{this.CustomerId}}/{{this.PolicyId}}"
+                    class=" mx-3 btn btn-primary">Customize Plan</button>
+                </div>
+
+            </div> -->
+        <!-- </div> -->
+    <!-- </div> -->
+
+
+        <!-- Body -->
+        <div class="outerItem outerBorder shadow_5" style="overflow: auto;">
+            <table class="table table-striped text-center">
+                <thead class="tableHead">
+                    <th class="py-2">Name</th>
+                    <th class="py-2">Gender</th>
+                    <th class="py-2">Group Relation</th>
+                    <th class="py-2">D.O.B</th>
+                    <th class="py-2">Current Plan</th>
+                    <th class="py-2">Choose/Override Plan</th>
+                </thead>
+                <tbody>
+                    
+                    <tr *ngFor="let Person of PolicyGroup">
+                        <td class="align-middle py-2">{{Person.name}}</td>
+                        <td class="align-middle">{{Person.gender}}</td>
+                        <td class="align-middle">{{Person.groupRel}}</td>
+                        <td class="align-middle">{{Person.dateOfBirth |date:'shortDate'}}</td>
+                        <td class="align-middle"><span *ngIf="Person.plan?.planName==null">_</span>{{Person.plan?.planName}}</td>
+                        <td class="align-middle">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Plan</mat-label>
+                                <mat-select (selectionChange)="getPlanSelectedAndPersonIdTest($event.value , Person.id)">
+                                    <mat-option *ngFor="let Plan Of PolicyPlans" [value]="Plan.id">{{Plan.planName}}</mat-option>
+                                </mat-select>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-hand-holding-droplet fs-5"></i></mat-icon>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <button *ngIf="!loading"(click)="AssignPlanToGroup()" [disabled]="this.FianlArr.length != this.PolicyGroup.length||this.isClicked"  mat-raised-button color="primary" class="w-25"><span *ngIf="this.isClicked">Waiting <i class="fa-solid fa-spinner fa-spin"></i></span><span *ngIf="!this.isClicked">Save <i class="fa-solid fa-floppy-disk"></i></span></button>
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+</div>
+<!-- [disabled]="this.FianlArr.length != this.PolicyGroup.length"  -->

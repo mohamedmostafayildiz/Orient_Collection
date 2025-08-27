@@ -1,0 +1,85 @@
+@page {
+    size: landscape;
+}
+@media print {
+    body {
+        transform: rotate(90deg)!important;
+        // transform-origin: left top!important;
+        // width: 100vw!important;
+        // height: 100vh!important;
+        // overflow: hidden!important;
+        // page-break-after: always!important;
+      }
+    .Prentable{
+        visibility:visible;
+    }
+    .Non-prentable{
+        // visibility:hidden;
+        display: none;
+    }
+}
+.BodderCustom{
+    border: dashed 3px gray;
+    background-color: #FFF;
+    border-radius: 5px;
+}
+
+table ,th,td{
+    border: 1px solid gray;
+}
+.foot{
+    font-family: 'El Messiri', sans-serif!important;
+    font-weight: 500;
+}
+.ParentWhaterMark{ 
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.WhaterMark{
+    position: absolute;
+    font-size: 8rem;
+    font-weight: 900;
+    opacity: 0.2;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    transform: rotate(17deg);
+    
+}
+.NoneBrdTable{
+    border: none!important;
+}
+.stamp{
+    height:8rem;
+    width: 8rem;    
+    border: solid 1px gray;
+    border-radius: 50%;
+    margin-left: 1.5rem;
+}
+.footTotal{
+    text-align: end;
+}
+.bg_gray{
+    background-color: rgb(224, 224, 224);
+}
+.bg_Open_Red{
+    background-color: #fce4d6;
+}
+.bg_Open_Blue{
+    background-color: #d9e1f2;
+}
+.bg_Open_Yellow{
+    background-color: #ffd966;
+}
+.titles{    
+    font-size: 0.9rem!important;
+    // font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'El Messiri', sans-serif!important;
+    font-weight: 600;
+}
+.Apply{
+    background-color: #01909D;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+  }

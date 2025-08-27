@@ -1,0 +1,32 @@
+<div id="reinsurerData">
+    <div class="container">
+        <div class="d-flex justify-content-between mx-5 pt-3">
+            <p class="font_Coloered3 text-center my-2">{{"ReInsurerData.ReInsurerData"|translate}}</p>
+        </div> 
+        <div class="outerBorder shadow_5">
+            <div class="d-flex justify-content-center py-4">
+                <div class="w-50">
+                    <form [formGroup]="ReInsurerForm">
+                        <mat-form-field class="w-100" color="accent">
+                            <mat-label>{{"ReInsurerData.Reten"|translate}}</mat-label>  
+                            <input formControlName="reten" max="100" type="number" matInput>
+                            <!-- <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"> perm_identity</mat-icon> -->
+                        </mat-form-field>
+                        <mat-form-field class="w-100" color="accent">
+                            <mat-label>{{"ReInsurerData.AddReten"|translate}}</mat-label>
+                            <input formControlName="addReten" max="100" type="number" matInput>
+                            <!-- <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"> perm_identity</mat-icon> -->
+                        </mat-form-field>
+                        <mat-form-field class="w-100" color="accent">
+                            <mat-label>{{"ReInsurerData.Distribution"|translate}}</mat-label>
+                            <input formControlName="distribution" max="100" type="number" matInput>
+                            <!-- <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"> perm_identity</mat-icon> -->
+                        </mat-form-field>
+                        <button (click)="SubmitReInsurerForm()" mat-raised-button color="primary" class="w-50">{{"Shared.Submit"|translate}} <i class="fa-regular fa-floppy-disk"></i></button>
+                    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

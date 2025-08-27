@@ -1,0 +1,398 @@
+<div class="journal-entry">
+    <div class="container-fluide">
+        <div class="row">
+            <div class="col-md-3" id="filters" style="display: none;">
+                <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+                    <mat-label>{{'Shared.SearchHere'|translate}}</mat-label>
+                    <input class="ssss" [(ngModel)]='term' type="text" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="outerBorder outerItem shadow_5 table-responsive">  
+            <div class="Expenses_title container-fluid py-3">
+                <div>
+                <!-- Main Data -->
+                <div class="row">
+                    <div class="col-4">
+                        <mat-form-field appearance="outline">
+                        <mat-label>Entry Date</mat-label>
+                        <input [(ngModel)]="cashEntryDate" [ngModelOptions]="{standalone: true}" matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    <!-- <label>Entry Date</label> -->
+                    <!-- <input [(ngModel)]="cashEntryDate" [ngModelOptions]="{standalone: true}" class="form-control w-100"  type="date"> -->
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field appearance="outline">
+                        <mat-label>Total Check Amount</mat-label>
+                        <input [(ngModel)]="cashTotalAmmount" [ngModelOptions]="{standalone: true}" type="number" matInput>
+                        </mat-form-field>
+                    <!-- <label>Total Check Amount</label> -->
+                    <!-- <input [(ngModel)]="cashTotalAmmount" [ngModelOptions]="{standalone: true}" class="form-control w-100" type="number" min="0"> -->
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field appearance="outline">
+                        <mat-label>Payee</mat-label>
+                        <input [(ngModel)]="cashPayee" [ngModelOptions]="{standalone: true}" type="text" matInput>
+                        </mat-form-field>
+                    <!-- <label>Payee</label> -->
+                    <!-- <input [(ngModel)]="cashPayee" [ngModelOptions]="{standalone: true}" class="form-control w-100"  type="text"> -->
+                    </div>
+                </div>
+                <!-- Payments Ways -->
+                <div class="row mt-2">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline">
+                        <mat-label>Payments Ways</mat-label>
+                        <mat-select (selectionChange)="getPaymentWay1($event)"   [(ngModel)]="selectedPayment" [ngModelOptions]="{standalone: true}">
+                            <mat-option *ngFor="let item of paymentsWayArr" value="{{item.id}}">{{item.value}}</mat-option>
+                        </mat-select>
+                        </mat-form-field>
+                    <!-- <label>Payments Ways</label>
+                    <select class="form-select w-100" (change)="getPaymentWay1($event)"  [(ngModel)]="selectedPayment" [ngModelOptions]="{standalone: true}">
+                        <option value="" >--</option>
+                        <option *ngFor="let item of paymentsWayArr" value="{{item.id}}">{{item.value}}</option>
+                    </select> -->
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <!-- Forms -->
+                    <div>
+                    <!-- Check Transfer -->
+                    <form [formGroup]="CheckForm" id="Check1" style="display: none;">
+                    <div class="row">
+                    <div class="col-md-4">
+                        <!-- <label>Check Number</label>
+                        <input class="form-control w-100" formControlName="checkNumber" type="number" min="0"> -->
+                        <mat-form-field appearance="outline">
+                        <mat-label>Check Number</mat-label>
+                        <input formControlName="checkNumber" type="number" min="0" matInput>
+                        </mat-form-field>
+                    </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Payment Date</mat-label>
+                                <input formControlName="paymentDate" matInput [matDatepicker]="picker1">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        <!-- <label>Payment Date</label>
+                        <input class="form-control w-100" formControlName="paymentDate" type="date"> -->
+                        </div>
+                        <div class="col-md-4">
+                        <!-- <label>Bank Name</label>
+                        <select class="w-100 form-select"  [(ngModel)]="BankNametest" [ngModelOptions]="{standalone: true}">
+                            <option selected hidden>Select Bank</option>
+                            <option *ngFor="let item of AllBanksToPayArr" value="{{item.id}}">{{item.name}}</option>
+                        </select> -->
+                        <mat-form-field appearance="outline">
+                        <mat-label>Bank Name</mat-label>
+                        <mat-select (selectionChange)="getPaymentWay1($event)"   [(ngModel)]="BankNametest" [ngModelOptions]="{standalone: true}">
+                            <mat-option *ngFor="let item of AllBanksToPayArr" value="{{item.id}}">{{item.name}}</mat-option>
+                        </mat-select>
+                        </mat-form-field>
+                        </div> 
+                        <div class="col-md-6">
+                        <!-- <label>Remarks</label>
+                        <input class="form-control w-100" formControlName="remarks" type="text" min="0"> -->
+                        <mat-form-field appearance="outline">
+                        <mat-label>Remarks</mat-label>
+                        <input formControlName="remarks" type="text" min="0" matInput>
+                        </mat-form-field>
+                    </div>
+                        <div class="col-md-3 d-flex align-items-center">
+                        <button *ngIf="this.ArrCheck.length==0" [disabled]="this.CheckForm.status=='INVALID'" class="cus_btn mintBtn w-25 mt-2" (click)="viewCheck()">Add</button>
+                        </div>             
+                    </div>
+                    </form>
+                    <!-- Bank Transfer -->
+                    <form [formGroup]="TrasferForm" id="BankTransfer1" style="display: none;">
+                    <div class="row">
+                    <div class="col-md-4">
+                        <!-- <label>Payment Date</label>
+                        <input class="form-control w-100" formControlName="paymentDate" type="date"> -->
+                        <mat-form-field appearance="outline">
+                                <mat-label>Payment Date</mat-label>
+                                <input formControlName="paymentDate" matInput [matDatepicker]="picker1">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <!-- <label>Transfer Number</label>
+                        <input class="form-control w-100" formControlName="transferNumber" type="text"> -->
+                        <mat-form-field appearance="outline">
+                        <mat-label>Transfer Number</mat-label>
+                        <input formControlName="transferNumber" type="text" min="0" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                        <mat-label>Bank Name</mat-label>
+                        <mat-select (selectionChange)="getPaymentWay1($event)"   [(ngModel)]="BankNametest" [ngModelOptions]="{standalone: true}">
+                            <mat-option *ngFor="let item of AllBanksToPayArr" value="{{item.id}}">{{item.name}}</mat-option>
+                        </mat-select>
+                        </mat-form-field>
+                        <!-- <label>Bank Name</label>
+                        <select class="w-100 form-select"  [(ngModel)]="BankNametest" [ngModelOptions]="{standalone: true}">
+                        <option selected hidden>Select Bank</option>
+                        <option *ngFor="let item of AllBanksToPayArr" value="{{item.id}}">{{item.name}}</option>
+                        </select> -->
+                    </div>
+                    <!-- <div class="col-md-3">
+                        <label>Ammount</label>
+                        <input disabled [(ngModel)]="cashTotalAmmount" [ngModelOptions]="{standalone: true}" class="form-control w-100" type="number" min="0">
+                    </div> -->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline">
+                        <mat-label>Remarks</mat-label>
+                        <input formControlName="remarks" type="text" min="0" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-center">
+                        <button *ngIf="this.ArrTransfer.length==0" [disabled]="this.TrasferForm.status=='INVALID'" class="cus_btn mintBtn w-25 mt-2" (click)="viewTransfer()">Add</button>
+                    </div>              
+                    </div>
+                </form>
+                    <!-- Cash  -->
+                    <form [formGroup]="CashForm" id="CashTransfer1" style="display: none;">
+                    <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                                <mat-label>Payment Date</mat-label>
+                                <input formControlName="paymentDate" matInput [matDatepicker]="picker2">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- <div class="col-md-3">
+                        <label>Ammount</label>
+                        <input [(ngModel)]="cashTotalAmmount" [ngModelOptions]="{standalone: true}" class="form-control w-100" type="number" min="0">
+                    </div> -->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline">
+                        <mat-label>Remarks</mat-label>
+                        <input formControlName="remarks" type="text" min="0" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-center">
+                        <button *ngIf="this.ArrCash.length==0" [disabled]="this.CashForm.status=='INVALID'" class="cus_btn mintBtn w-25 mt-2" (click)="viewCash()">Add</button>
+                    </div>              
+                    </div>
+                </form>
+                    </div>
+                </div>
+            </div>
+            <div  class="cus_container2">
+                <div class="cus_container3 wrapper mt-2" *ngIf="this.ArrCheck.length>0">
+                    <p class="text-muted fs-5 fw-bold py-2">Table Of Check <i class="fa-solid fa-money-bills"></i></p>
+                    <table class="text-center table">
+                    <thead class="tableHead align-middle">
+                            <th>#</th>
+                            <th>Check Number</th>
+                            <th>Banke Name</th>
+                            <th>Payment Date</th>
+                            <th>Remarks</th>
+                            <th class="remove"></th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of ArrCheck;let index = index">
+                                <td>{{index+1}}</td>
+                                <td>{{item.checkNumber}}</td>
+                                <td>{{getBankName(item.bankId)}}</td>
+                                <td>{{item.paymentDate}}</td>
+                                <td>{{item.remarks}}</td>
+                                <td class="removei"><button color="warn" (click)="removeCheck(index)"
+                                    mat-raised-button>Shared.Remove</button></td>
+                            </tr>
+                            <!-- <tr class="fw-bold">
+                            <td colspan="4" class="text-end">Total:</td>
+                            <td>{{ getTotalAmountForCheck()}}</td>
+                            <td colspan="2"></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                    <!-- <div class="text-center">
+                        <button [disabled]="this.isSubmitted" *ngIf="this.PayedMoney ==  this.CheckForm.get('TotalCheckAmmount')?.value" (click)="AddPayment()" class="w-25 cus_btn greenBtn cusNewBtn mt-2"><span *ngIf="this.isSubmitted"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span>
+                            <span *ngIf="!this.isSubmitted">Save <i class="fa-regular fa-floppy-disk"></i></span> 
+                        </button>
+                    </div> -->
+                </div>
+                <div class="cus_container3 wrapper mt-2" *ngIf="this.ArrTransfer.length>0">
+                    <p class="text-muted fs-5 fw-bold py-2">Table Of Trasfer <i class="fa-solid fa-money-bills"></i></p>
+                    <table class="text-center table">
+                    <thead class="tableHead align-middle">
+                            <th>#</th>
+                            <th>Transfer Number</th>
+                            <th>Banke Name</th>
+                            <th>Payment Date</th>
+                            <th>Remarks</th>
+                            <th class="remove"></th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of ArrTransfer;let index = index">
+                                <td>{{index+1}}</td>
+                                <td>{{item.transferNumber}}</td>
+                                <td>{{getBankName(item.bankId)}}</td>
+                                <td>{{item.paymentDate}}</td>
+                                <td>{{item.remarks}}</td>
+                                <td class="removei"><button color="warn" (click)="removeTrasfer(index)"
+                                    mat-raised-button>Shared.Remove</button></td>
+                            </tr>
+                            <!-- <tr class="fw-bold">
+                            <td colspan="4" class="text-end">Total:</td>
+                            <td>{{ getTotalAmountForTransfer()}}</td>
+                            <td colspan="2"></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                    <!-- <div class="text-center">
+                        <button [disabled]="this.isSubmitted" *ngIf="this.PayedMoney ==  this.TrasferForm.get('TotalCheckAmmount')?.value" (click)="AddPayment()" class="w-25 cus_btn greenBtn cusNewBtn mt-2"><span *ngIf="this.isSubmitted"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span>
+                            <span *ngIf="!this.isSubmitted">Save <i class="fa-regular fa-floppy-disk"></i></span> 
+                        </button>
+                    </div> -->
+                </div>
+                <div class="cus_container3 wrapper mt-2" *ngIf="this.ArrCash.length>0">
+                    <p class="text-muted fs-5 fw-bold py-2">Table Of Cash <i class="fa-solid fa-money-bills"></i></p>
+                    <table class="text-center table">
+                    <thead class="tableHead align-middle">
+                            <th>#</th>
+                            <th>Remarks</th>
+                            <th>Payment Date</th>
+                            <th class="remove"></th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of ArrCash;let index = index">
+                                <td>{{index+1}}</td>
+                                <td>{{item.remarks}}</td>
+                                <td>{{item.paymentDate}}</td>
+                                <td class="removei"><button color="warn" (click)="removeCash(index)"
+                                    mat-raised-button>Remove</button></td>
+                            </tr>
+                            <!-- <tr class="fw-bold">
+                            <td colspan="4" class="text-end">Total:</td>
+                            <td>{{ getTotalAmountForTransfer()}}</td>
+                            <td colspan="2"></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="Expenses_title container-fluid py-3 mt-3">
+                <form [formGroup]="accountsToRecieptForm">
+                    <div class="row">
+                    <div class="col-md-4">
+                        <!-- <label>Main Account</label>
+                        <select class="w-100 form-select" formControlName="mainAccountrId"  (change)="GetAllSupAccounts($event)">
+                        <option selected value="">--</option>
+                        <option *ngFor="let item of AllAccountsForRecieptAndPayments" value="{{item.id}}">{{item.name}}</option>
+                        </select> -->
+                        <mat-form-field appearance="outline">
+                            <mat-label>Main Account</mat-label>
+                            <mat-select (selectionChange)="GetAllSupAccounts($event)" formControlName="mainAccountrId">
+                                <mat-option *ngFor="let item of AllAccountsForRecieptAndPayments" value="{{item.id}}">{{item.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div> 
+                    <div class="col-md-4">
+                        <!-- <label>Sub Account </label>
+                        <select class="w-100 form-select" formControlName="subAccountId" (change)="GetAllinsurerss($event)">
+                            <option value="">--</option>
+                            <option *ngFor="let item of AllSupArr" [value]="item.id">{{item.name}}</option>
+                        </select> -->
+                        <mat-form-field appearance="outline">
+                            <mat-label>Sub Account</mat-label>
+                            <mat-select (selectionChange)="GetAllinsurerss($event)" formControlName="subAccountId">
+                                <mat-option *ngFor="let item of AllSupArr" value="{{item.id}}">{{item.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div> 
+                    <div class="col-md-4">
+                        <!-- <label>Insurer Name</label>
+                        <select class="w-100 form-select" formControlName="insurerId">
+                            <option value="">--</option>
+                            <option *ngFor="let item of AllInsurars" [value]="item.id">{{item.name}}</option>
+                        </select> -->
+                        <mat-form-field appearance="outline">
+                            <mat-label>Insurer Name</mat-label>
+                            <mat-select  formControlName="insurerId">
+                                <mat-option *ngFor="let item of AllInsurars" value="{{item.id}}">{{item.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div> 
+                    <div class="col-md-4">
+                        <!-- <label>Credit</label>
+                        <input class="form-control" formControlName="creditAmount" type="number"> -->
+                        <mat-form-field appearance="outline">
+                            <mat-label>Credit</mat-label>
+                            <input formControlName="creditAmount" type="number" min="0" matInput>
+                        </mat-form-field>
+                        <div *ngIf="accountsToRecieptForm.get('creditAmount')?.hasError('negativeNumber')">
+                        <small class="text-danger">Negative numbers are not allowed.</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <!-- <label>Debit</label>
+                        <input class="form-control" formControlName="debitAmount" type="number"> -->
+                        <mat-form-field appearance="outline">
+                            <mat-label>Debit</mat-label>
+                            <input formControlName="debitAmount" type="number" min="0" matInput>
+                        </mat-form-field>
+                        <div *ngIf="accountsToRecieptForm.get('debitAmount')?.hasError('negativeNumber')">
+                        <small class="text-danger">Negative numbers are not allowed.</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button
+                        [disabled]="
+                        accountsToRecieptForm.invalid || 
+                        (!accountsToRecieptForm.get('debitAmount')?.value && !accountsToRecieptForm.get('creditAmount')?.value)||(accountsToRecieptForm.get('debitAmount')?.value && accountsToRecieptForm.get('creditAmount')?.value)"
+                        class="cus_btn mintBtn w-25 mt-4" (click)="AddaccountsToRecieptForm()">Add</button>
+                    </div>
+                    </div>
+                </form>
+            </div>
+            <!-- <div  class="cus_container2"> -->
+            <div class="wrapper mt-5" *ngIf="this.ArrAddaccountsToReciept.length>0">
+                <p class="text-muted fs-5 fw-bold py-2">Table Of Account To Recepit <i class="fa-solid fa-money-bills"></i></p>
+                <table class="custom_table text-center bordered">
+                    <thead>
+                            <th>#</th>
+                            <th>Account Name</th>
+                            <th>Sup Account Name</th>
+                            <th>Insured Name</th>
+                            <th>Credit</th>
+                            <th>Depit</th>
+                            <th class="remove"></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of ArrAddaccountsToReciept;let index = index">
+                            <td>{{index+1}}</td>
+                            <td>{{getaccountNamee(item?.mainAccountrId)}}</td>
+                            <td>{{getsupaccountName(item?.subAccountId)|| '--'}}</td>
+                            <td>{{getinsurerName(item?.insurerId)|| '--'}}</td>
+                            <td>{{item.creditAmount || '--'}}</td>
+                            <td>{{item.debitAmount || '--'}}</td>
+                            <td class="removei"><button color="warn" (click)="accountsToReciept(index)"
+                                mat-raised-button>Remove</button></td>
+                        </tr>
+                        <!-- <tr class="fw-bold">
+                        <td colspan="4" class="text-end">Total:</td>
+                        <td>{{ getTotalAmountForCheck()}}</td>
+                        <td colspan="2"></td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- </div> -->
+            <div class="text-center">
+                <button [disabled]="this.isSubmitted ||  this.cashTotalAmmount != getAbsoluteDifference()
+                || this.cashPayee=='' || this.cashTotalAmmount=='' || this.cashEntryDate==''"  (click)="AddPayment()" class="w-25 cus_btn mintBtn mt-2"><span *ngIf="this.isSubmitted"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span>
+                    <span *ngIf="!this.isSubmitted">Save<i class="fa-regular fa-floppy-disk"></i></span> 
+                </button>
+            </div>
+        </div>
+    </div>       
+</div>

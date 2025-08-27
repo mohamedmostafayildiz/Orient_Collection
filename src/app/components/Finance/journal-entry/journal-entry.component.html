@@ -1,0 +1,410 @@
+<div class="journal-entry">
+    <div class="container-fluide">
+        <div class="row">
+            <div class="col-md-3" id="filters" style="display: none;">
+                <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+                    <mat-label>{{'Shared.SearchHere'|translate}}</mat-label>
+                    <input class="ssss" [(ngModel)]='term' type="text" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="outerBorder outerItem shadow_5 table-responsive">
+            <div class="pageTile d-flex align-items-center justify-content-between mt-3">
+                <p class="font_Coloered3 my-3">Journal_Voucher</p>
+                <div class="dropdown" (mouseenter)="showDropdown()" (mouseleave)="hideDropdown()">
+                  <button (click)="toggleDropdown()" [disabled]="hasError" class="cus_btn mintBtn">
+                    New Journal Voucher<i style="color: white;" class="fa-solid fa-chevron-down mx-2"></i>
+                  </button>
+                  <div class="dropdown-menu" [ngClass]="{'show': isDropdownOpen}">
+                    <a (click)="AddNewInvoiceJournal_Voucher()" class="dropdown-item">Application</a>
+                    <a (click)="AddNewInvoiceJournal_VoucherByFile()" class="dropdown-item">File</a>
+                  </div>
+                </div>
+            </div>
+            <table class="text-center table">
+              <thead class="tableHead align-middle">
+                  <th>Journal Code</th>
+                  <th>EntryDate</th>
+                  <th>Currency</th>
+                  <th>Details</th>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let item of AllJournalVoucherArr|search:term|paginate:{
+                      itemsPerPage:tableSize,
+                      currentPage:page,
+                      totalItems:count};let index = index">
+                      <td>{{ item?.jvCode}}</td>
+                      <td>{{ item?.entryDate | date:'MM/dd/YYYY'}}</td>
+                      <td>{{ item?.currency}}</td>
+                      <td>
+                          <i (click)="showaccountjournalvoucherdetails(item.accountTransactions)"  class="fa-solid fa-eye fs-5 text-success px-3 py-2" style="color: #01909D !important;"></i>
+                      </td>
+                      
+                  </tr>
+              </tbody>
+            </table>
+          <div *ngIf="AllJournalVoucherArr.length === 0 && !loading && hasError==false" class="text-center d-flex align-items-center justify-content-center">
+            <div class="alert alert-warning  w-50 mt-5" role="alert">
+                <span>No Journal Voucher invoices found</span>
+            </div>
+          </div>
+          <div *ngIf="AllJournalVoucherArr.length === 0 && !loading && hasError==true" class="text-center d-flex align-items-center justify-content-center">
+            <div class="alert alert-warning  w-50 mt-5" role="alert">
+                <span>You should enter Cash and Bank Account To Add Journal Voucher</span>
+            </div>
+          </div>
+          <!-- Pagination controls -->
+          <div class="d-flex justify-content-end mt-4">
+            <pagination-controls 
+              previousLabel="Prev" 
+              nextLabel="Next" 
+              (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
+            <select 
+              style="border: solid 2px #4758B8;" 
+              (change)="onTableSizeChange($event)" 
+              class="tableSize rounded-pill px-1">
+              <option *ngFor="let size of tableSizes">{{ size }}</option>
+            </select>
+          </div>
+          <div id="loading" *ngIf="loading">
+            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+          </div>  
+        </div>
+    </div>
+</div>
+
+<!-- Show Account Transactions -->
+<div class="modal fade" style="margin-top:5rem !important ;" id="ShowAccountTransactions" tabindex="-1" aria-labelledby="ShowAccountTransactions" aria-hidden="true">
+    <div class="modal-dialog custom-modal-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="ShowAccountTransactions">Account Transactions</h1>
+            </div>
+            <div class="container_Custom my-3 mx-3">
+                <!-- Show Products Table -->
+                <div class="wrapper mt-5">
+                    <table  class="custom_table text-center bordered">
+                    <thead>
+                        <tr>
+                        <th>description</th>
+                        <th>Credit</th>
+                        <th>Debit</th>
+                        <th>Main Account</th>
+                        <th>Sup Account</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of accountTransactionArrr">
+                            <td>{{item.description}}</td>
+                            <td>{{item.credit||'--'}}</td>
+                            <td>{{item.debit||'--'}}</td>
+                            <td>{{getName(item.mainAccountId)}}</td>
+                            <td>{{getName(item.mainAccountId)||'--'}}</td>
+                        </tr>
+                    </tbody>
+                        
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer py-3">
+                <button  id="close" type="button" mat-raised-button
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Journal Voucher -->
+<div class="AddNewJournal_Voucher newInvoiceBody">
+    <!-- title -->
+      <div class="d-flex justify-content-end mt-3 px-2">
+          <div class="main_routing_icons">
+              <div>
+                  <i class="fa-solid fa-gear fs-4"></i>
+                  <i class="fa-solid fa-question fs-4"></i>
+                  <i (click)="closeAddNewTapJournal_Voucher()" class="fa-solid fa-xmark fs-4"></i>
+              </div>
+          </div>
+      </div>
+      <!-- File Journal Voucher -->
+      <div id="File_Form" class="cus_container2">
+        <div class="row" style="margin-top: 2rem;">
+          <div class="col-1"></div>
+          <div class="col-8 my-2">
+              <table class="table table-bordered text-center mt-2" style="border-radius: 20px;">
+                  <tbody class="align-middle" >
+                      <tr style="background-color: white !important;">
+                          <th  style="background-color: white !important;" class="w-30 py-3">Download Journal Voucher File</th>
+                          <td  style="background-color: white !important;" class="w-60 py-3">
+                              <i (click)="getTempleteFile()" class="fa-solid fa-download fs-3 px-2 py-1 mt-3" style="border-radius: 7px; cursor: pointer;color:#01909D !important;"></i>
+                          </td>
+                      </tr>
+                      <tr style="background-color: white !important;">
+                          <th  style="background-color: white !important;" class="w-30 py-3">Uploade Journal Voucher File</th>
+                          <td  style="background-color: white !important;" class="w-60 py-3">
+                              <i (click)="fileInput5.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#01909D !important;"></i>
+                              <input accept=".xlsx" hidden (change)="uploadJournalVoucherFile($event)" #fileInput5 type="file">
+                              <span>{{selectedJournalVoucherFile?.name}}</span>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+          <div class="col-3 d-flex align-items-center">
+              <button (click)="Save()" [disabled]="this.selectedJournalVoucherFile==''" style="cursor: pointer;" class="cus_btn mintBtn">
+                  <span *ngIf="!this.isClickedDocumnet">Upload File</span>
+                  <span *ngIf="this.isClickedDocumnet"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+              </button>
+          </div>
+      </div>
+      <div class="row JournalAccountTransactionDetails"  style="display: none;">
+        <div class="wrapper mt-5">
+          <table class="custom_table text-center bordered">
+              <thead>
+                  <th>Journal Code</th>
+                  <th>EntryDate</th>
+                  <th>Currency</th>
+                  <th>Details</th>
+              </thead>
+              <tbody>
+                  <tr style="vertical-align: middle;">
+                      <td>{{ FileDetails?.jvCode}}</td>
+                      <td>{{ FileDetails?.entryDate | date:'MM/dd/YYYY'}}</td>
+                      <td>{{ FileDetails?.currency}}</td>
+                      <td>
+                        <i (click)="showaccountjournalvoucherdetails(FileDetails.accountTransactions)"  class="fa-solid fa-eye fs-5 text-success px-3 py-2"></i>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      </div>
+      </div>
+      <!-- Application Journal Voucher -->
+      <div id="Application_Form" class="cus_container2 newInvoiceBody">
+          <div class="row">
+            <div class="col-6">
+              <label>Entry Date </label>
+              <input [(ngModel)]="entryDate" [disabled]="isSuccess" [ngModelOptions]="{standalone: true}" type="date" class="form-control w-100">
+            </div>
+            <div class="col-md-6">
+              <div>
+                  <label >Currency</label>
+                  <select class="w-100 form-select" [(ngModel)]="journalVoucherCurrency" [disabled]="isSuccess"  [ngModelOptions]="{standalone: true}">
+                      <option value="" selected hidden>Select account</option>
+                      <option *ngFor="let item of AllCurrinces" [value]="item.id">{{item.value}}</option>
+                  </select>
+              </div>
+            </div>
+            <!-- <div class="col-6">
+                <div >
+                    <label>Due Amount.</label>
+                    <input disabled [(ngModel)]="dueAmount" [ngModelOptions]="{standalone: true}" type="text" class="form-control w-100">
+                </div>
+            </div> -->
+          </div>
+          <!-- row -->
+          <div class="services px-2 py-4 mt-3 mb-5">
+            <!-- Form -->
+            <form [formGroup]="accountTransactionsForm">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div>
+                            <label>Description</label>
+                            <input formControlName="description" type="text" class="form-control w-100"
+                            [class.is-valid]="this.accountTransactionsForm.get('description')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('description')?.status=='INVALID'&&this.accountTransactionsForm.get('description')?.touched">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label>Description 2</label>
+                            <input formControlName="description2" type="text" class="form-control w-100"
+                            [class.is-valid]="this.accountTransactionsForm.get('description2')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('description2')?.status=='INVALID'&&this.accountTransactionsForm.get('description2')?.touched">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label >Main Account*</label>
+                            <select class="w-100 form-select" formControlName="mainAccountId" (change)="GetAllSupAccounts($event)"
+                            [class.is-valid]="this.accountTransactionsForm.get('mainAccountId')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('mainAccountId')?.status=='INVALID'&&this.accountTransactionsForm.get('mainAccountId')?.touched"
+                            >
+                                <option value="" selected hidden>Select account</option>
+                                <option *ngFor="let item of AllAccounts" [value]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label>Sub Account </label>
+                            <select class="w-100 form-select" formControlName="subAccountId" (change)="GetAllSupSupAccounts($event)"
+                            [class.is-valid]="this.accountTransactionsForm.get('subAccountId')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('subAccountId')?.status=='INVALID'&&this.accountTransactionsForm.get('subAccountId')?.touched">
+                                <!-- <option disabled hidden selected>Select ..</option> -->
+                                <option value="">--</option>
+                                <option *ngFor="let item of AllSupArr" [value]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label>Sub Sub Account </label>
+                            <select class="w-100 form-select" formControlName="subOfSubAccountId"
+                            [class.is-valid]="this.accountTransactionsForm.get('subOfSubAccountId')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('subOfSubAccountId')?.status=='INVALID'&&this.accountTransactionsForm.get('subOfSubAccountId')?.touched">
+                                <!-- <option disabled hidden selected>Select ..</option> -->
+                                <option value="">--</option>
+                                <option *ngFor="let item of AllSupSupArr" [value]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label>Debit </label>
+                            <input formControlName="debit" type="number" class="w-100 form-control" (keyup)="checkone()"
+                            [class.is-valid]="this.accountTransactionsForm.get('debit')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('debit')?.status=='INVALID'&&this.accountTransactionsForm.get('debit')?.touched">
+                            <div *ngIf="accountTransactionsForm.get('debit')?.hasError('negativeNumber')">
+                                <small class="text-danger">Negative numbers are not allowed.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label>Credit</label>
+                            <input formControlName="credit" type="number" class="w-100 form-control" (keyup)="checkone()"
+                            [class.is-valid]="this.accountTransactionsForm.get('credit')?.status=='VALID'"
+                            [class.is-invalid]="this.accountTransactionsForm.get('credit')?.status=='INVALID'&&this.accountTransactionsForm.get('credit')?.touched">
+                            <div *ngIf="accountTransactionsForm.get('credit')?.hasError('negativeNumber')">
+                                <small class="text-danger">Negative numbers are not allowed.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-center">
+                        <!-- [disabled]="isDisabled()" -->
+                        <button (click)="View()" [disabled]="
+                        accountTransactionsForm.invalid || 
+                        (!accountTransactionsForm.get('debit')?.value && !accountTransactionsForm.get('credit')?.value)||(accountTransactionsForm.get('debit')?.value && accountTransactionsForm.get('credit')?.value)" class="btn btn-danger mt-3">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>   
+                </div>
+            </form>
+            <div id="dowFiles1" style="display: none;">
+              <table class="table table-bordered text-center w-50 mt-3" style="border:solid 1px rgb(87, 87, 87); margin: auto;">
+                  <tbody class="align-middle" >
+                      <tr>
+                          <th  style="background-color: #f4f5f8 !important;" class="w-30 py-2">Download Filled TAX Invoice Report</th>
+                          <td  style="background-color: #f4f5f8 !important;" class="w-60 py-2">
+                              <i (click)="getFilledInvoiceReports('GetFilledTaxInvoiceReport')" class="fa-solid fa-download fs-3 px-2 py-1 mt-1" style="border-radius: 7px; cursor: pointer;color:#2ca01c;"></i>
+                          </td>
+                      </tr>
+                      <tr>
+                          <th style="background-color: #f4f5f8 !important;" class="w-30 py-2">Download Filled Debit Invoice Report</th>
+                          <td style="background-color: #f4f5f8 !important;" class="w-60 py-2">
+                              <i (click)="getFilledInvoiceReports('GetFilledDebitInvoiceReport')" class="fa-solid fa-download fs-3 px-2 py-1 mt-1" style="border-radius: 7px; cursor: pointer;color:#2ca01c;"></i>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
+                <!-- Table -->
+            <div class="wrapper mt-5" *ngIf="this.arrTest.length > 0">
+                <table class="custom_table text-center bordered">
+                    <thead>
+                        <th>DESCRIPTION</th>
+                        <th>DESCRIPTION 2</th>
+                        <th>Main Account</th>
+                        <th>Sub Account</th>
+                        <th>Sub Of Sub Account</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of arrTest; let index = index" style="vertical-align: middle;">
+                            <td>{{ item.description }}</td>
+                            <td>{{ item.description2 || '--' }}</td>
+                            <td>{{ getName(item.mainAccountId) }}</td>
+                            <td>{{ getName(item.subAccountId) || '--' }}</td>
+                            <td>{{ getName(item.subOfSubAccountId) || '--' }}</td>
+                            <td>{{ item.debit || '--' }}</td>
+                            <td>{{ item.credit || '--' }}</td>
+                            <td>
+                                <button 
+                                    [disabled]="this.isSuccess" 
+                                    style="z-index: 1 !important;" 
+                                    color="warn" 
+                                    (click)="remove(index)" 
+                                    mat-raised-button>
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" style="text-align: center;"><strong>Total:</strong></td>
+                            <td><strong>{{ getTotalDebit() | number:'1.3-3' }}</strong></td>
+                            <td><strong>{{ getTotalCredit() | number:'1.3-3' }}</strong></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+                
+          </div>
+      </div> 
+    <!-- footer Add New  -->
+    <div id="AddNewfooterJournal_Voucher" style="z-index: 10000002;" class="px-3 py-3">
+      <div class="d-flex justify-content-between">
+        <div>
+          <button (click)="closeAddNewTapJournal_Voucher()" class="cus_btn outerBtn px-3 AddfooterOuterBtn">Cancel</button>
+        </div>
+        <div>
+          <button *ngIf = "this.isSuccess" (click)="AddNewInvoiceJournal_Voucher()" class="cus_btn mintBtn mx-2">New Entry</button>
+          <button [disabled]="this.entryDate == ''|| this.isSuccess || this.arrTest.length==0 || this.isClicked || this.dueAmount!=0 || this.InvoiceId != undefined  " (click)="SaveJournal_VoucherInvoice()" class="cus_btn mintBtn">
+            <span *ngIf="!this.isClicked">Save</span>
+              <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+          </button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+<!--Journal Account Transsaction Details -->
+<div class="overlay5" (click)="closeshowinvoiceDetails()">
+    <div class="AddNew5" (click)="$event.stopPropagation()">
+        <p class="text-center subPageTitle mt-2">
+            <i (click)="closeshowinvoiceDetails()" class="fa-solid fa-xmark fs-3 mx-2"></i>
+            Details</p>
+            <div class="container_Custom my-3 mx-3">
+              <!-- Show Products Table -->
+              <div class="wrapper mt-5">
+                  <table  class="custom_table text-center bordered">
+                    <thead>
+                      <tr>
+                        <th>description</th>
+                        <th>Credit</th>
+                        <th>Debit</th>
+                        <th>Account Name</th>
+                        <th>Sub Account Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of accountTransactionArrr">
+                          <td>{{item.description}}</td>
+                          <td>{{item.credit||'--'}}</td>
+                          <td>{{item.debit||'--'}}</td>
+                          <td>{{item.accountName||'--'}}</td>
+                          <td>{{item.subAccountName||'--'}}</td>
+                      </tr>
+                    </tbody>
+                      
+                  </table>
+              </div>
+          </div>
+    </div>
+  </div>

@@ -1,0 +1,116 @@
+.highlight-yellow{
+    background-color: yellow!important;
+}
+.table {
+    --bs-table-bg: initial;
+}
+.bg-rejected {
+    background-color: #f8d7da; 
+}
+
+.bg-confirmed {
+    background-color: #d4edda; 
+}.customSuccess{
+  background-color:#f8d7da;
+}
+.customDanger{
+  background-color: #d1e7dd;
+}
+// .modal{
+//   --bs-modal-width: 70%;
+// }
+
+table thead {
+  --bs-table-bg: #F2F2F2; 
+  --bs-table-hover-bg: #e0e0e0; 
+}
+th, td {
+  height: 60px;
+  min-height: 60px; 
+  // font-size: 15px !important;
+  vertical-align: middle;
+} 
+th{
+  color: #01BACB;
+}
+.container-fluid{
+  --bs-gutter-x:0rem
+}
+// .dropdown-menu {
+//   display: none;
+// }
+.dropdown {
+  max-width: 50px !important; /* Restricts the width of the ellipsis container */
+}
+.dropdown-item:hover {
+  background-color: #01BACB !important; /* Background color on hover */
+  color: white !important; /* Text color on hover */
+  cursor: pointer;
+}
+
+.dropdown-item:hover i {
+  color: white !important; /* Ensure all icons change color on hover */
+}
+
+.dropdown.show{
+  display: block;
+  position: absolute;
+  z-index: 100000002;
+}
+.dropdown-menu{
+  min-width: 50px !important;
+}
+
+.fa-ellipsis-v {
+  cursor: pointer;
+}
+
+.dropdown:hover .fa-ellipsis-v {
+  visibility: visible;
+}
+
+
+
+.foe {
+  --mdc-outlined-text-field-outline-color: red!important;
+}
+
+.convertpolicy{
+  background-color: #01909D;
+  color: white;
+  padding: 4px 8px;
+}
+.Policyconverted{
+  color: #FF9500;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.overlayAddplan{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+  z-index: 1000; /* Ensure it is on top */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+.addnewplan{
+  position: absolute;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  top: 0;
+  right: 50%;
+  // padding: 0rem 1rem;
+  overflow-y: auto;
+
+
+}

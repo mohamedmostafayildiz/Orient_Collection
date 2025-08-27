@@ -1,0 +1,32 @@
+.resetBtn{
+    border-radius: 4px;
+    border: 1px solid rgba(16, 74, 143, 0.40);
+    background: #FFF;
+    color: #104A8F;
+  }
+  
+th, td {
+  height: 60px;
+  min-height: 60px; 
+  vertical-align: middle;
+} 
+th{
+  color: #01BACB;
+}
+.container-fluid{
+  --bs-gutter-x:0rem
+}
+.searchfilter{
+  background-color: #01909D;
+  border: none;
+  color: white;
+  // padding: 5px 15px;
+} 
+
+.container-fluid{
+  --bs-gutter-x:0rem
+}
+.headtable th{
+  margin-right: 5px !important;
+  padding-right: 3px !important;
+}

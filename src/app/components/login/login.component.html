@@ -1,0 +1,85 @@
+    <!----------------------------- Start Login ----------------->
+<!-- <section id="login" class=" d-flex align-items-center" data-aos-duration='1000' data-aos="fade-right">
+    <div class="container">
+      <div class="inner p-5 shadow_5 my-3" >
+        <div class="row">
+            <p class="font_Coloered3 text-center">{{"Auth.Login"|translate}}</p>
+
+          <div class="col-lg-6">
+            <ng-lottie [options]="login">
+            </ng-lottie>
+          </div>
+          
+          <div class="col-lg-6 d-flex align-items-center col2">
+            <div class="w-100">
+              <form [formGroup]="loginForm">
+                  <mat-form-field class="w-100" appearance="fill">
+                      <mat-label>{{"Users.UserName"|translate}}</mat-label>
+                      <input formControlName="userName" type="text" matInput>
+                  </mat-form-field>
+  
+                
+
+                
+                  <mat-form-field class="w-100" appearance="fill">
+                      <mat-label>{{"Auth.Password"|translate}}</mat-label>
+                      <input formControlName="password" type="password" matInput>
+                  </mat-form-field>
+                  
+                
+
+                 <div class="mt-2">
+                    <button [disabled]="this.loginForm.status=='INVALID'||this.isClicked" (click)="submitLoginForm()"  mat-raised-button color="primary" class="px-4 w-50">
+                      <span *ngIf="!isClicked" class="h6 ">{{"Auth.Login"|translate}}</span>
+                      <span *ngIf="isClicked" class="h5"><i class="fa-solid fa-fan fa-spin"></i></span>
+                    </button>
+                 </div>
+                 
+                 
+              </form>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+  
+  <!----------------------------- End login ----------------->
+  <div id="Login-page" class="py-4">
+    <div class="">
+      <div class="container">
+        <div class="row">
+           <div class="col-md-12">
+               <h1 class="main_color text-center fw-bold">Sign In</h1>
+               <!-- <p class="Head2">Login now to Tabeeb</p> -->
+               <form [formGroup]="loginForm">
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>{{"Users.UserName"|translate}}</mat-label>
+                    <input formControlName="userName" type="text" matInput>
+                </mat-form-field>
+
+              
+
+              
+                <mat-form-field class="w-100 mt-2" appearance="outline">
+                    <mat-label>{{"Auth.Password"|translate}}</mat-label>
+                    <input formControlName="password" type="password" matInput>
+                </mat-form-field>
+                
+              
+
+               <div class="mt-4">
+                  <button [disabled]="this.loginForm.status=='INVALID'||this.isClicked" (click)="submitLoginForm()"  mat-raised-button class="px-4 w-50 tabeeb_Btn">
+                    <span *ngIf="!isClicked" class="h6 ">{{"Auth.Login"|translate}}</span>
+                    <span *ngIf="isClicked" class="h5"><i class="fa-solid fa-fan fa-spin"></i></span>
+                  </button>
+               </div>
+               
+               
+            </form>
+           </div>
+       </div> 
+   </div>
+    </div>
+</div>

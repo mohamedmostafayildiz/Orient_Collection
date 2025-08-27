@@ -1,0 +1,54 @@
+button{
+    font-weight: 400!important;
+    font-size: 1.2rem!important;
+    background-color:white;
+    color: #000000;
+    padding: 15px 15px;
+    border-radius: 10px;
+    text-align: left;
+    border:solid 1px #D4D4D4!important ;
+    // background-color: #01BACB;
+    // color: white;
+    // padding: 5px 10px;
+}
+.w_85{
+    width: 85%;
+}
+.container-fluid{
+    --bs-gutter-x:0rem
+}
+
+.dropdown-menu {
+    display: block; /* Ensure it only shows on hover */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100%;
+    padding: 5px 0;
+    background-color: #F2F2F2;
+    border: 1px solid #ddd;
+    z-index: 1000;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s, visibility 0.9s ease 0.2s; /* Delay for smooth appearance */
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    font-size: 1.1rem;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.1s ease; /* Add smooth hover effect for each item */
+}
+
+.dropdown-item:hover {
+    background-color: #01BACB;
+    color: white;
+}

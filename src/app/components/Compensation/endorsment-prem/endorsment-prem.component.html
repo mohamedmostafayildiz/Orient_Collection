@@ -1,0 +1,54 @@
+<div id="activateGroup">
+    <div class="container">
+        <div class="d-flex justify-content-between mx-5">
+            <p class="font_Coloered3 text-center my-3">Endorsment Premium</p>
+            <input class="form-control w-25 ml-auto mt-3" style="height: 3rem;" [(ngModel)]='term'  placeholder="{{'Shared.SearchHere'|translate}}" />
+        </div>
+        <div class="outerBorder shadow_5 outerItem" style="max-height: 40rem!important;overflow: auto;"> 
+
+            <div *ngIf="this.PoicyGroup?.length==0"  class="alert alert-info w-75 my-5 m-auto text-center fs-5"><strong>{{'Offer.NoCustomerGroupYet'|translate}}</strong></div>
+            <div *ngIf="this.PoicyGroup?.length>0" id="currentGroup">
+                <table class="table table-striped text-center">
+                    <thead>
+                        <th>{{'addCustomer.Name'|translate}}</th>
+                        <th>Pin Code</th>
+                        <th>{{'addCustomer.Sex'|translate}}</th>
+                        <th>{{'Offer.GroupRel'|translate}}</th>
+                        <th>{{'addCustomer.D.O.B'|translate}}</th>
+                        <th>{{'Shared.Age'|translate}}</th>
+                        <th>Plan Name</th>
+                        <th>{{'Shared.NetPremium'|translate}}</th>
+                        <th>{{'addCustomer.Notes'|translate}}</th>
+                    </thead>
+                    <tbody>
+                        <tr class="align-middle" *ngFor="let group of this.PoicyGroup|search:term;let index=index">
+                            <td>{{group.name}}</td>
+                            <td>{{group.pinCode}}</td>
+                            <td>{{group.gender}}</td>
+                            <td>{{group.groupRel}}</td>
+                            <td> {{group.dateOfBirth|date:'dd-MM-YYYY'}}</td>
+                            <td>{{group.age}}</td>
+                            <td>{{group.planName}}</td>
+                            <td >
+                                <mat-form-field style="margin-bottom: -1.8em;">
+                                    <mat-label>{{'Shared.NetPremium'|translate}}</mat-label>
+                                    <input [(ngModel)]="GroupNatPrem[index]" type="text" matInput>
+                                </mat-form-field>  
+                            </td>
+                            <td><span *ngIf="group.notes==''">_</span>{{group.notes}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Loading -->
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button mat-raised-button color="primary" [disabled]="this.isClicked" class="w-25 mx-4" (click)="UpdatePolicyGroupPremium()"><span *ngIf="this.isClicked">{{'Shared.Waiting'|translate}}</span> <span *ngIf="!this.isClicked">{{'Shared.Update'|translate}} {{'Shared.Group'|translate}} </span><i class="fa-solid fa-people-group"></i></button>
+            <!-- <button mat-raised-button color="accent" routerLink="/CancleUpdate/{{this.PolicyId}}/{{this.EndorsmentId}}" class="mx-4">Proceed <i class="fa-solid fa-forward"></i></button> -->
+        </div>
+    </div>
+</div>

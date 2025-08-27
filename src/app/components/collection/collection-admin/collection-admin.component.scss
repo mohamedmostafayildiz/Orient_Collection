@@ -1,0 +1,19 @@
+.container_custom{
+    width: 85%;
+    margin: auto;
+}
+.modal{
+    --bs-modal-width: 70%;
+}
+th, td {
+    height: 60px;
+    min-height: 60px; 
+    vertical-align: middle;
+  } 
+  th{
+    color: #01BACB;
+  }
+  .container-fluid{
+    --bs-gutter-x:0rem
+  }
+  

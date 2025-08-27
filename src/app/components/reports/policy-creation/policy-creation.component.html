@@ -1,0 +1,122 @@
+<div id="policy_creation_report">
+    <div class="container-fluid">
+        <div class="outerBorder outerItem shadow_5 py-3">
+    <!-------------------- Search Polices ------------------->
+            <!-- <div class="d-flex justify-content-between pt-3">
+                <p class="font_Coloered3 text-center my-2">Policy Reports</p>
+            </div> -->
+
+            <p class="text-muted fs-5 fw-bold mt-2">{{'Shared.SearchHere'|translate}} :</p>
+            <form [formGroup]="SearchForm" class="py-5">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Policy.From'|translate}}</mat-label>
+                            <input formControlName="start"  matInput [matDatepicker]="picker">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Policy.To'|translate}}</mat-label>
+                            <input formControlName="end" matInput [matDatepicker]="picker2">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+        
+                    <div class="col-md-2">
+                        <!-- Search Now -->
+                        <div class="d-flex align-items-center justify-content-center">
+                            <button id="searchBtn" [disabled]="this.SearchForm.status=='INVALID'||this.isClicked" (click)="Search()"
+                                class="w-75 btn Apply"><span *ngIf="this.isClicked"><i
+                                        class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span
+                                    *ngIf="!this.isClicked">{{'Shared.Search'|translate}} 
+                                    <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+    <!-------------------- Search results ------------------->
+
+    <div style="overflow: auto;display: none;   max-width: 1150px;"  id="SearchResults"> 
+        <hr class="my-4" style="width: 80%;margin: auto;">
+        <p class="text-muted fs-5 fw-bold py-2">{{'Shared.Searchresults'|translate}} <i class="fa-solid fa-square-poll-vertical"></i></p>
+        <table class="table text-center">
+            <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                <th class="py-2">رقم الوثيقه</th>
+                <th class="py-2">رقم الملحق</th>       
+                <th class="py-2">اسم المؤمن له</th>       
+                <th class="py-2">محافظة العميل </th> 
+                <th class="py-2">الجنسية</th> 
+                <th class="py-2">النوع</th> 
+                <th class="py-2">شركة الخدمة الطبية</th> 
+                <th class="py-2">عمولة شركة الخدمة الطبية</th> 
+                <th class="py-2">مبلغ عمولة شركة الخدمة الطبية</th>
+                <th class="py-2">القسط الصافى</th> 
+                <th class="py-2">النسبية</th> 
+                <th class="py-2">الضريبة النوعية</th> 
+                <th class="py-2">الاشراف و الرقابة</th> 
+                <th class="py-2">الاصدار</th> 
+                <th class="py-2">الاجمالى</th> 
+                <th class="py-2">عمولة الوسيط</th> 
+                <th class="py-2">مبلغ عمولة الوسيط</th> 
+                <th class="py-2"> سنة الاصدار</th> 
+                <th class="py-2">الانتاج</th> 
+                <th class="py-2">الفرع</th> 
+                <th class="py-2">نوع الحافظة</th> 
+                <th class="py-2">ترحيل الحسابات</th>
+                <th class="py-2">بدايه التامين</th>
+                <th class="py-2">نهايه التامين</th>
+                <th class="py-2">مبلغ التأمين</th>
+
+            </thead>
+            <tbody>
+                
+                <tr *ngFor="let item of this.MedicalPublicationsStatistics">
+                    <td class="align-middle">{{item.code}}</td>
+                    <td class="align-middle">{{item.endrosmentNumber}}</td>
+                    <td class="align-middle">{{item.nameOfTheInsured}}</td>
+                    <td class="align-middle">{{item.clientCity}}</td>
+                    <td class="align-middle">{{item.clientcountry}}</td>
+                    <td class="align-middle">{{item.clientGender}}</td>
+                    <td class="align-middle">{{item.tpaName}}</td>
+                    <td class="align-middle">{{item.tpaFees}}</td>
+                    <td class="align-middle">{{item.tpaFeesPCT}}</td>
+                    <td class="align-middle">{{item.netPremium}}</td>
+                    <td class="align-middle">{{item.stamp}}</td>
+                    <td class="align-middle">{{item.imprintStamp}}</td>
+                    <td class="align-middle">{{item.supervision}}</td>
+                    <td class="align-middle">{{item.issueFees}}</td>
+                    <td class="align-middle">{{item.total}}</td>
+                    <td class="align-middle">{{item.brokeragePCT}}</td>
+                    <td class="align-middle">{{item.brokerage}}</td>
+                    <td class="align-middle">{{item.underWritingYear}}</td>
+                    <td class="align-middle">{{item.production}}</td>
+                    <td class="align-middle">{{item.branchName}}</td>
+                    <td class="align-middle">{{item.endorsementType}}</td>
+                    <td class="align-middle">{{item.migrateAccounts}}</td>
+                    <td class="align-middle">{{item.inceptionDate|date:'dd-MM-YYYY'}}</td>
+                    <td class="align-middle">{{item.expiryDate|date:'dd-MM-YYYY'}}</td>
+                    <td class="align-middle">{{item.totalSumInsured}}</td>
+                    
+
+                </tr>
+            </tbody>
+
+        </table>
+
+        <!-- Loading -->
+        <div id="loading" *ngIf="isClicked">
+            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+        </div>
+        <button (click)="exportFile()"  class=" btn Apply mx-2">Export File</button>
+    </div>
+        </div>
+    </div>
+</div>

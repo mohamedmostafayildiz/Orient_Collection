@@ -1,0 +1,44 @@
+.modal{
+    --bs-modal-width: 75%;
+}
+h2 span{
+    font-family: 'El Messiri', sans-serif!important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.container-fluid{
+  --bs-gutter-x:0rem
+}
+.Current-plan{
+  background-color: #01909D;
+  border: none;
+  border-radius: 5px;
+  padding: 0 10px;
+  color: white;
+}
+.fa-cloud-arrow-up:hover{
+  color: #01909D !important;
+}
+table thead {
+  --bs-table-bg: #F2F2F2; 
+  --bs-table-hover-bg: #e0e0e0; 
+}
+th, td {
+  height: 60px;
+  min-height: 60px; 
+  vertical-align: middle;
+} 
+th{
+  color: #01BACB;
+}

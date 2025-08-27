@@ -1,0 +1,60 @@
+<div class="BrokerCustomers my-1">
+    <div class="container">
+            <div class="d-flex justify-content-between mx-5">
+                <p class="font_Coloered3 text-center my-4">Customer Commissions</p>
+          </div>        
+        <div class="outerBorder shadow_5 table-responsive">
+            <table class="table table-striped text-center">
+                <thead class="tableHead">
+                    <th class="py-2">Insurance Class</th>
+                    <th class="py-2">Business Type</th>
+                    <th class="py-2">Commission Type</th>
+                    <th class="py-2">Pct</th>
+                    <th class="py-2">Amount</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let commission of customerCommissions">
+                        <td class="align-middle">{{commission.insuranceClass}}</td>
+                        <td class="align-middle">{{commission.businessType}}</td>
+                        <td class="align-middle">{{commission.commissionType}}</td>
+                        <td class="align-middle">{{commission.pct}}</td>
+                        <td class="align-middle">{{commission.amount}}</td>
+                        <td><button mat-raised-button color="accent" class="btn btn-primary">Edit <i class="fa-solid fa-user-pen"></i></button></td>
+                        <td><button mat-raised-button color="primary" routerLink="/BrokerCommissions/{{commission.name}}/{{commission.id}}">Delete <i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="loading">
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th><app-spinner class="d-flex justify-content-center m-auto"></app-spinner></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>

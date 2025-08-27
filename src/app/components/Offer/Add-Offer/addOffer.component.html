@@ -1,0 +1,86 @@
+<div id="Policy">
+    <div class="container-fluid">
+        <!-- <div class="d-flex justify-content-between mx-5">
+            <p class="font_Coloered3 text-center my-4">{{'SideBar.AddOffer'|translate}}</p>
+        </div> -->
+        <form [formGroup]="OfferForm">
+            <div class="outerBorder outerItem" style="margin:0px 0px !important;">
+                <p class="font_Coloered3 mb-4">Add Offer</p>
+                <div class="row"> 
+                    <!-- Col 1 -->
+                    <div class="col-md-6">
+                        <mat-form-field class="w-100 foe" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Shared.CompanyName'|translate}}</mat-label>
+                            <input type="text" readonly value="{{'Shared.MisrTakafulInsurance'|translate}}" matInput>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-solid fa-building"></i></mat-icon>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 foe mt-2" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label><span class="text-danger mx-1">*</span>{{'Offer.BusinessType'|translate}}</mat-label>
+                            <mat-select [(value)]="BusinessTypeValue">
+                                <mat-option *ngFor="let type of BusinessTypes" value="{{type.id}}">{{type.value}}</mat-option>
+                            </mat-select> 
+                        </mat-form-field>
+
+                        <mat-form-field class="w-100 foe mt-2" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Offer.Insured'|translate}}</mat-label>
+                            <input type="text" formControlName="customerName" matInput>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-solid fa-person"></i></mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-100 foe mt-2" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Offer.TpaName'|translate}}</mat-label>
+                            <mat-select formControlName="tpaId">
+                                <mat-option *ngFor="let tpa of listOfTpa" [value]="tpa.id">{{tpa.arabicName}}</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-solid fa-suitcase-medical"></i></mat-icon>
+                        </mat-form-field>
+                        
+                    </div>
+                    <!-- Col 2 -->
+                    <div class="col-md-6">
+                        <mat-form-field  class="w-100 foe" appearance="outline" style="margin-bottom: -1em;"  color="warn">
+                            <mat-label>{{'Offer.OfferDate'|translate}}</mat-label>
+                            <input formControlName="offerDate" matInput  [matDatepicker]="picker">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-100 foe mt-2" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Offer.InsuranceClass'|translate}}</mat-label>
+                            <mat-select formControlName="insuranceClass" #team >
+                                <mat-option *ngFor="let type of InsuranceClasses" [value]="type.id">{{type.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        
+                        <mat-form-field class="w-100 foe mt-2" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Admin.Branch'|translate}}</mat-label>
+                            <mat-select formControlName="BranchId">
+                                <mat-option *ngFor="let item of AllBranches" [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                            <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"><i class="fa-solid fa-code-branch"></i></mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-100 foe mt-2" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Offer.PolicySource'|translate}}</mat-label>
+                            <mat-select formControlName="policySource" #item (selectionChange)="getSourceVal(item.value)">
+                                <mat-option [value]="0">{{'Admin.Direct'|translate}}</mat-option>
+                                <mat-option [value]="1">{{'Admin.Indirect'|translate}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field style="display: none;" class="w-100 mt-2" appearance="outline"   id="BrokerFiled">
+                            <mat-label >{{'Offer.Broker'|translate}}</mat-label>
+                            <mat-select [(value)]="BrokerValue" (selectionChange)="getBrokerVal()">
+                                <mat-option *ngFor="let type of brokerCustomers" [value]="type.id">{{type.arabicName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+    
+                    </div>         
+                </div> 
+            <div class="d-flex justify-content-center my-5">
+                <button mat-raised-button class="btn tabeeb_Btn w-25" (click)="SubmitOffer()" [disabled]="this.OfferForm.get('insuranceClass')?.value==0||OfferForm.status=='INVALID'||!BusinessTypeValue||brokerInputValidation||this.isClicked" ><span *ngIf="this.isClicked">Waiting..</span><span *ngIf="!this.isClicked">{{'Shared.Submit'|translate}}</span></button>
+            </div>
+        </div>
+        </form>
+    </div>
+
+</div>

@@ -1,0 +1,110 @@
+
+<div class="container-fluid" style="margin: 0; padding: 0;">
+    <div class="outerBorder outerItem  table-responsive" style="margin:0px 0px !important;">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="chartcontainer">
+                    <apx-chart [series]="chartseries" [chart]="chartDetails" [labels]="chartlabels" [title]="charttitle" [dataLabels]="chardatalabels"></apx-chart>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div style="display: block;">
+                    <canvas
+                        baseChart
+                      [data]="barChartData"
+                      [options]="barChartOptions"
+                      chartType="pie">
+                    </canvas>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6"data-aos-duration="900" data-aos="fade-right">
+                <div class="small-box bg_yellow" [dir]="'dir'| translate">
+                    <div class="inner">
+                        <h2>Offers</h2>
+                        <p class="fs-5">30 Offer</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-regular fa-file"></i>
+                    </div>
+                    <div class="m-auto box-footer">
+                        <a routerLink="/Reports" class="text-center">View Offers <i class="fa-solid fa-arrow-right"></i></a> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos-duration="900" data-aos="fade-down">
+                <div class="small-box bg_green">
+                    <div class="inner">
+                        <h2>Policies</h2>
+                        <p class="fs-5"> 15 </p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-file-circle-check"></i>
+                    </div>
+                    <div class="m-auto box-footer">
+                        <a routerLink="/AllScools" class="text-center">Manage Schools <i class="fa-solid fa-arrow-right"></i></a> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos-duration="900" data-aos="fade-left">
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h2>Parteners</h2>
+                        <p class="fs-5">100 Partener</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-regular fa-handshake"></i>
+                    </div>
+                    <div class="m-auto box-footer">
+                        <a routerLink="/AllParents" class="text-center">View Parents <i class="fa-solid fa-arrow-right"></i></a> 
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-lg-4 col-md-6 mt-2" data-aos-duration="900" data-aos="fade-up">
+                <div class="small-box bg_red">
+                    <div class="inner">
+                        <h2>Kids</h2>
+                        <p class="fs-5"> Kid</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="m-auto box-footer">
+                        <a routerLink="/AllKids" class="text-center">View Kids <i class="fa-solid fa-arrow-right"></i></a> 
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="col-md-6 mb-4" *ngFor="let item of dashboardData">
+                <div 
+                    class="dashboard-card animate__animated animate__fadeInUp"
+                    [ngStyle]="{ 'background': item.gradient }"
+                    [routerLink]="item.link"
+                    role="button"
+                >
+                    <div class="card-body">
+                        <i [class]="item.icon" aria-hidden="true"></i>
+                        <h5 class="card-title mt-3">{{ item.title }}</h5>
+                        <p class="card-text display-4">{{ item.currentValue }}</p>
+                        <small class="text-muted">{{ item.description }}</small>
+                        
+                        <div class="progress mt-3">
+                            <div 
+                                class="progress-bar" 
+                                role="progressbar"
+                                [style.width]="item.percentage + '%'"
+                                [attr.aria-valuenow]="item.percentage"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+
+

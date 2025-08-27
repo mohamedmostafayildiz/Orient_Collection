@@ -1,0 +1,107 @@
+<div id="claim-details-report">
+    <div class="container-fluid">
+        <div class="outerBorder outerItem shadow_5 py-3">
+    <!-------------------- Search Polices ------------------->
+            <div class="d-flex justify-content-between pt-3">
+                <p class="font_Coloered3 text-center my-2"> Claim Details Reports</p>
+            </div>
+
+            <form [formGroup]="SearchForm" class="py-5">
+                <p class="text-muted fs-5 fw-bold py-2">{{'Shared.SearchHere'|translate}} :</p>
+                <div class="row mt-2">
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Policy.From'|translate}}</mat-label>
+                            <input formControlName="start"  matInput [matDatepicker]="picker">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                            <mat-label>{{'Policy.To'|translate}}</mat-label>
+                            <input formControlName="end" matInput [matDatepicker]="picker2">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+        
+                    <div class="col-md-2">
+                        <!-- Search Now -->
+                        <div class="d-flex align-items-center justify-content-center mt-1">
+                            <button id="searchBtn" [disabled]="this.SearchForm.status=='INVALID'||this.isClicked" (click)="Search()"
+                                class="w-75 btn Apply"><span *ngIf="this.isClicked"><i
+                                        class="fa-4 fa-solid fa-fan fa-spin"></i></span> <span
+                                    *ngIf="!this.isClicked">{{'Shared.Search'|translate}} 
+                                    <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+    <!-------------------- Search results ------------------->
+
+    <div style="overflow: auto;display: none; max-width: 1150px;"  id="SearchResults"> 
+        <hr class="my-4" style="width: 80%;margin: auto;">
+        <p class="text-muted fs-5 fw-bold py-2">{{'Shared.Searchresults'|translate}} <i class="fa-solid fa-square-poll-vertical"></i></p>
+        <table class="table text-center">
+            <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                <th class="py-2">رقم المطالبه</th>       
+                <th class="py-2">رقم الوثيقه</th>
+                <th class="py-2">المحافظة</th>
+                <th class="py-2">تاريخ الميلاد</th>
+                <th class="py-2">الجنسية</th>
+                <th class="py-2">النوع</th> 
+                <th class="py-2">قيمه التعويض</th>
+                <th class="py-2">قيمه الخصم</th>
+                <th class="py-2">الصاقي</th>
+                <th class="py-2">اسم العميل</th>
+                <th class="py-2">شركة الخدمة الطبية</th> 
+                <th class="py-2">تاريخ المطالبة</th>
+                <th class="py-2">تاريخ الترحيل</th> 
+                <th class="py-2">بداية الاكتتاب</th> 
+                <th class="py-2">نهايه الاكتتاب </th> 
+                <th class="py-2">سنه الاكتتاب</th>
+                <th class="py-2">المنتج</th>
+                <th class="py-2">اسم منشئ التقرير</th>
+                <th class="py-2">تاريخ التقرير</th>
+            </thead>
+            <tbody>
+                
+                <tr *ngFor="let item of this.MedicalPublicationsStatistics">
+                    <td class="align-middle">{{item.code}}</td>
+                    <td class="align-middle">{{item.code}}</td>
+                    <td class="align-middle">{{item.clientCity}}</td>
+                    <td class="align-middle">{{item.clientDateOfBirth|date:'dd-MM-YYYY'}}</td>
+                    <td class="align-middle">{{item.clientcountry}}</td>
+                    <td class="align-middle">{{item.clientGender}}</td>
+                    <td class="align-middle">{{item.grossAmount}}</td>
+                    <td class="align-middle">{{item.discount}}</td>
+                    <td class="align-middle">{{item.netAmount}}</td>
+                    <td class="align-middle">{{item.insuredName}}</td>
+                    <td class="align-middle">{{item.tpaName}}</td>
+                    <td class="align-middle">{{item.dateOfEntryOfClaim|date:'dd-MM-YYYY'}}</td>
+                    <td class="align-middle">{{item.createdAt|date:'dd-MM-YYYY'}}</td>
+                    <td class="align-middle">{{item.issueDate|date:'dd-MM-YYYY'}}</td>
+                    <td class="align-middle">{{item.expiryDate|date:'dd-MM-YYYY'}}</td>
+                    <td class="align-middle">{{item.underWritingYear}}</td>
+                    <td class="align-middle">{{item.brokerName}} <span *ngIf="item.brokerName==null">_</span></td>
+                    <td class="align-middle">{{item.userName}}</td>
+                    <td class="align-middle">{{item.creationDate|date:'dd-MM-YYYY'}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+        <!-- Loading -->
+        <div id="loading" *ngIf="isClicked">
+            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+        </div>
+        <button (click)="exportFile()" class="mx-2 btn Apply">Export File</button>
+    </div>
+        </div>
+    </div>
+</div>

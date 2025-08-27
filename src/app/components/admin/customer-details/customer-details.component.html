@@ -1,0 +1,1161 @@
+<div id="treatyDetails">
+    <!-- Test -->
+    <div class="container-fluid" style="padding: 10px;">
+
+        <div class="d-flex justify-content-between pt-1">
+            <p class="font_Coloered3 text-center mt-3"><img src="../../../../assets/imgs/Design/person.png"> Personal info</p>
+            <div class="d-flex">
+                <div class="Upload mx-1">
+                    <p class="Editpartner text-center" style="cursor: pointer;" (click)="showButtons('Personalinfo')"><img src="../../../.././assets/imgs/Design/edit.png" alt=""> Edit partner</p>
+                    <i (click)="EditFiles()" class="fa-solid fa-upload fs-3 px-3 py-2 mt-2" style="color:#01909d !important;border-radius: 7px;"></i>
+                </div>
+            </div>
+        </div>
+        <form [formGroup]="Forms">
+            <div>
+                <!-- First Section -->
+                <div class="position-relative" id="Personal_info">
+                <!-- Overlay -->
+                <div 
+                class="overlay" 
+                *ngIf="!isEditable"
+                id="personal_info_overlay">
+                </div>
+                <!-- Personal info -->
+                 <div class="row py-2" id="Personal_info">
+                     <div class="col-md-4">
+                         <mat-form-field class="w-100 field_Mb" appearance="outline" data-aos-duration="700" data-aos="fade-right">
+                             <mat-label>Name</mat-label>
+                             <input formControlName="name" type="text" matInput>
+                         </mat-form-field>
+                         <mat-form-field id="taxNom" class="w-100 field_Mb mt-2" appearance="outline">
+                             <mat-label>Tax NO. </mat-label>
+                             <input formControlName="taxNo" type="number" matInput>
+                         </mat-form-field>
+                         
+                         <mat-form-field id="job" style="display: none;" class="w-100 field_Mb mt-2" appearance="outline">
+                             <mat-label>Job</mat-label>
+                             <input formControlName="job" type="text" matInput>
+                         </mat-form-field>
+ 
+                         <mat-form-field id="code" style="display: none;" class="w-100 field_Mb mt-2" appearance="outline">
+                             <mat-label>Autherity Code</mat-label>
+                             <input formControlName="authorityCode" type="text" matInput>
+                         </mat-form-field>
+                         <mat-form-field id="gender" style="display: none;" class="w-100 field_Mb mt-2" appearance="outline">
+                             <mat-label>Gender</mat-label>
+                             <mat-select formControlName="gender">
+                             <mat-option value="Male">Male</mat-option>
+                             <mat-option value="Female">Female</mat-option>
+                             </mat-select>
+                         </mat-form-field>
+                           <!-- Additional select that appears when customerType is 3 -->
+                           <mat-form-field class="w-100 field_Mb mt-2" appearance="outline" *ngIf="showAdditionalSelect">
+                             <mat-label>Tpa Type</mat-label>
+                             <mat-select formControlName="TPAType">
+                             <mat-option *ngFor="let additional of additionalTypes" [value]="additional.id">
+                             {{ additional.value }}
+                             </mat-option>
+                             </mat-select>
+                             </mat-form-field>
+                     </div>
+                     <div class="col-md-4">
+                         <mat-form-field class="w-100 field_Mb" appearance="outline">
+                             <mat-label>Arabic Name</mat-label>
+                             <input formControlName="arabicName" type="text" matInput>
+                         </mat-form-field>
+                         <mat-form-field class="w-100" class="w-100 field_Mb mt-2" appearance="outline">
+                             <mat-label>Type</mat-label>
+                             <mat-select [(value)]="CustomerTypeValue" (selectionChange)="getCustomerTypeValue($event.value)">
+                                 <mat-option [hidden]="type.id==4" *ngFor="let type of customerTypes" value="{{type.value}}">{{type.value}}</mat-option>
+                             </mat-select>
+                         </mat-form-field>
+                         <mat-form-field id="start" style="display: none;" class="w-100 field_Mb mt-2" appearance="outline">
+                             <mat-label>Start</mat-label>
+                             <input (dateChange)="checkStartDate()" formControlName="authorityStart" matInput [matDatepicker]="picker6">
+                             <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                             <mat-datepicker #picker6></mat-datepicker>
+                         </mat-form-field>
+                         <div *ngIf="inValidStartDate" class="alert alert-danger fs-6">
+                             Please Enter Correct Autherity Start Date
+                         </div>
+                         <mat-form-field id="taxExpiryDate" style="display: none;" class="w-100 field_Mb mt-2" appearance="outline">
+                             <mat-label>Tax Expiry Date</mat-label>
+                             <input (dateChange)="checkTaxDate()" formControlName="expiredTaxDate" matInput [matDatepicker]="picker11">
+                             <mat-datepicker-toggle matIconSuffix [for]="picker11"></mat-datepicker-toggle>
+                             <mat-datepicker #picker11></mat-datepicker>
+                         </mat-form-field>
+                         <div *ngIf="inValidTaxExpireDate" class="alert alert-danger fs-6">
+                             Please Enter Correct Expired Tax Date
+                         </div>
+ 
+                     </div>
+                     <div class="col-md-4">
+                         <mat-form-field class="w-100 field_Mb" appearance="outline">
+                             <mat-label>{{NickName}}</mat-label>
+                             <input formControlName="nickName" type="text" matInput>
+                         </mat-form-field>
+                         
+                         
+                         <mat-form-field class="w-100 field_Mb mt-2" appearance="outline" color="primary">
+                             <mat-label>Id</mat-label>
+                             <input formControlName="regNo" type="text" max="3" matInput>
+                         </mat-form-field>
+                         
+                         <mat-form-field id="end" style="display: none;" class="w-100 field_Mb mt-2" appearance="outline">
+                             <mat-label>End</mat-label>
+                             <input (dateChange)="checkEndDate()" formControlName="authorityEnd" matInput [matDatepicker]="picker7">
+                             <mat-datepicker-toggle matIconSuffix [for]="picker7"></mat-datepicker-toggle>
+                             <mat-datepicker #picker7></mat-datepicker>
+                         </mat-form-field>
+                         <div *ngIf="inValidEndDate" class="alert alert-danger fs-6">
+                             Please Enter Correct Autherity End Date
+                         </div>
+                         <mat-form-field id="Newgroup" style="display: none;" class="w-100 field_Mb mt-2" appearance="outline">
+                             <mat-label>Group</mat-label>
+                             <mat-select [(value)]="groupValue" (selectionChange)="selectGroup($event.value)">
+                             <mat-option value="">Null</mat-option>
+                             <mat-option *ngFor="let corporate of listOfCorporare" [value]="corporate.id">{{corporate.name}}</mat-option>
+                             </mat-select>
+                         </mat-form-field>
+                     </div>
+                     <div class="col-md-12 mt-5" style="display: none;" id="personalinfp">
+                         <div class="text-center">
+                             <button type="button" class="btn canceledit mx-2" (click)="Cancel()">Cancel</button>
+                             <button type="button" class="btn saveedit" (click)="SubmitCustomer()">
+                                 <span *ngIf="!this.isClicked">Save changes</span>
+                                 <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                             </button>                        
+                         </div>
+                     </div>
+                     <hr style="width:90%; margin:auto;border-top:2px solid;color:#000" class="my-5">
+ 
+                 </div>
+                </div>
+                 <!-- sechond Section -->
+                <!-- Contact Info -->
+                <div class="d-flex justify-content-between pt-1">
+                    <p class="font_Coloered3"><img src="../../../../assets/imgs/Design/person.png">Contact Info</p>
+                    <div class="d-flex">
+                        <div class="Upload mx-1">
+                            <p class="Editpartner text-center" style="cursor: pointer;" (click)="showButtons('ContactInfo')"><img src="../../../.././assets/imgs/Design/edit.png" alt=""> Edit partner</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-relative" id="Personal_info">
+                    <!-- Overlay -->
+                    <div 
+                    class="overlay" 
+                    *ngIf="!isEditableContactInfo"
+                    id="personal_info_overlay">
+                    </div>
+                    <div class="row mt-4">
+                        <!-- <p class="font_Coloered2 my-3">Contact Info</p> -->
+                        <div class="col-md-4 mt-2">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Mobile</mat-label>
+                                <input formControlName="mobile" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Mobile 2</mat-label>
+                                <input formControlName="mobile2" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Phone</mat-label>
+                                <input formControlName="phoneNumber" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Phone 2</mat-label>
+                                <input formControlName="phoneNumber2" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Email</mat-label>
+                                <input formControlName="email" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Website</mat-label>
+                                <input formControlName="website" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Country</mat-label>
+                                <mat-select [(value)]="contryValue" (selectionChange)="getCountryValue($event)"(selectionChange)="getValidInputs()">
+                                <mat-option *ngFor="let country of Contries" value="{{country.id}}">{{country.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Contact Person Name</mat-label>
+                                <input [(ngModel)]="contactPersonName" [ngModelOptions]="{standalone: true}" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Contact Person Mobile</mat-label>
+                                <input  [(ngModel)]="contactPersonMobile" [ngModelOptions]="{standalone: true}" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Address</mat-label>
+                                <textarea formControlName="address" matInput></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4" style="display: none;" id="ForginCountryInput">
+                            <mat-form-field  class="w-100" appearance="outline">
+                                <mat-label>{{'addCustomer.Government'|translate}}</mat-label>
+                                <input formControlName="governorateName" type="text" matInput>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-mountain-city"></i></mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4" style="display: none;" id="LocalCountryInput">
+                            <mat-form-field  class="w-100" appearance="outline">
+                                <mat-label>{{'addCustomer.Government'|translate}}</mat-label>
+                                <mat-select formControlName="governorateName">
+                                <mat-option *ngFor="let governmnet of AllItems" [value]="governmnet.name">{{governmnet.name}}</mat-option>
+                                </mat-select>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-mountain-city"></i></mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field  class="w-100" appearance="outline">
+                                <mat-label>{{'addCustomer.D.O.B'|translate}}</mat-label>
+                                <input matInput formControlName="birthday" (dateChange)="checkBirthDate()" [matDatepicker]="picker10">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker10"></mat-datepicker-toggle>
+                                <mat-datepicker #picker10></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Notes</mat-label>
+                                <textarea formControlName="notes" matInput></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="my-3 d-flex">
+                                <label class="cus_label mx-3 mt-2 fs-5" style="color: #01909D;">Notification :</label>
+                                <mat-checkbox formControlName="smsNotification" color="warm" class="example-margin mx-2">SMS</mat-checkbox>
+                                <mat-checkbox formControlName="emailNotification" class="example-margin">Email</mat-checkbox>
+                            </div> 
+                        </div>
+                        <div class="col-md-12 mt-5" style="display: none;" id="contactinfo">
+                            <div class="text-center">
+                                <button type="button" class="btn canceledit mx-2" (click)="Cancel()">Cancel</button>
+                                <button type="button" class="btn saveedit" (click)="SubmitCustomer()">
+                                    <span *ngIf="!this.isClicked">Save changes</span>
+                                    <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                                </button>                        
+                            </div>
+                        </div>
+                        <hr style="width:90%; margin:auto;border-top:2px solid;color:#000" class="my-5">
+                    </div>
+                </div>
+                <!-- Account Info -->
+                <div class="d-flex justify-content-between pt-1">
+                    <p class="font_Coloered3"><img src="../../../../assets/imgs/Design/person.png">Account info</p>
+                    <div class="d-flex">
+                        <div class="Upload mx-1">
+                            <p class="Editpartner text-center" style="cursor: pointer;" (click)="showButtons('AccountInfo')"><img src="../../../.././assets/imgs/Design/edit.png" alt=""> Edit partner</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-relative" id="Personal_info">
+                    <!-- Overlay -->
+                    <div 
+                    class="overlay" 
+                    *ngIf="!isEditableaccountInfo"
+                    id="personal_info_overlay">
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Bank Name</mat-label>
+                                <input formControlName="bankName" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Account NO.</mat-label>
+                                <input formControlName="accountNO" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Currency</mat-label>
+                                <mat-select [(value)]="CurrencyValue" (selectionChange)="getCurrencyValue($event)"(selectionChange)="getValidInputs()">
+                                    <mat-option *ngFor="let item of Currency" value="{{item.value}}">{{item.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Bank Country</mat-label>
+                                <mat-select [(value)]="bankCountryValue" (selectionChange)="getBankCountryValue($event)"(selectionChange)="getValidInputs()">
+                                <mat-option *ngFor="let country of Contries" value="{{country.id}}">{{country.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline" >
+                                <mat-label>IBAN</mat-label>
+                                <input formControlName="iban" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Swift Code</mat-label>
+                                <input formControlName="swiftCode" type="text" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-12 mt-5" style="display: none;" id="accountinfo">
+                            <div class="text-center">
+                                <button type="button" class="btn canceledit mx-2" (click)="Cancel()">Cancel</button>
+                                <button type="button" class="btn saveedit" (click)="SubmitCustomer()">
+                                    <span *ngIf="!this.isClicked">Save changes</span>
+                                    <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                                </button>                        </div>
+                        </div>
+                        <hr style="width:90%; margin:auto;border-top:2px solid;color:#000" class="my-5">
+                    </div>
+                </div>  
+                <!-- Status -->
+                <div class="d-flex justify-content-between pt-1">
+                    <p class="font_Coloered3"><img src="../../../../assets/imgs/Design/person.png">Status</p>
+                    <div class="d-flex">
+                        <div class="Upload mx-1">
+                            <p class="Editpartner text-center" style="cursor: pointer;" (click)="showButtons('Status')"><img src="../../../.././assets/imgs/Design/edit.png" alt=""> Edit partner</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-relative" id="Personal_info">
+                    <!-- Overlay -->
+                    <div 
+                    class="overlay" 
+                    *ngIf="!isEditableStatus"
+                    id="personal_info_overlay">
+                    </div>
+                    <!-- <p class="font_Coloered3"><img src="../../../../assets/imgs/Design/person.png">Status</p> -->
+                    <label class="cus_label mt-4">Notification :</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-checkbox formControlName="onHold" color="primary" (click)="onHoldToggle()" class="example-margin d-block">On Hold</mat-checkbox>
+                            <div style="display: none;" id="onhold">
+                                <!-- <mat-form-field style="display: none;" id="onhold" appearance="outline" color="warn">
+                                <mat-label>Choose a date</mat-label>
+                                <input formControlName="onHoldDate" matInput [matDatepicker]="picker2">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field> -->
+                                <mat-form-field class=" w-100" appearance="outline">
+                                    <mat-label>{{'Shared.ChooseADate'|translate}}</mat-label>
+                                    <input formControlName="onHoldDate" matInput [matDatepicker]="picker30">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker30"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker30></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field class="w-100 " appearance="outline">
+                                    <mat-label>{{'addCustomer.HoldReason'|translate}}</mat-label>
+                                    <textarea  formControlName="onHoldReason" matInput></textarea>
+                                </mat-form-field>
+
+                                <mat-form-field class="w-100 " appearance="outline">
+                                    <mat-label>{{'addCustomer.HoldDangerLevel'|translate}}</mat-label>
+                                    <mat-select formControlName="onHoldDangerLevel" >
+                                    <mat-option *ngFor="let level of AllDangerLevels" [value]="level.value">{{level.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <mat-checkbox color="primary" formControlName="block" (click)="onHoldToggle()" class="example-margin d-block">Block</mat-checkbox>
+                            <div style="display: none;" id="block">
+                                <!-- <mat-form-field appearance="outline" color="warn">
+                                <mat-label>Choose a date</mat-label>
+                                <input formControlName="blockDate" matInput [matDatepicker]="picker1">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field> -->
+                                <mat-form-field  class=" w-100" appearance="outline">
+                                    <mat-label>{{'Shared.ChooseADate'|translate}}</mat-label>
+                                    <input formControlName="blockDate" matInput [matDatepicker]="picker33">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker33"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker33></mat-datepicker>
+                                </mat-form-field>
+
+                                <mat-form-field  class="w-100 " appearance="outline">
+                                    <mat-label>{{'addCustomer.BlockReason'|translate}}</mat-label>
+                                    <textarea formControlName="blockReason" matInput></textarea>
+                                </mat-form-field>
+        
+                                <mat-form-field class="w-100 " appearance="outline">
+                                    <mat-label>{{'addCustomer.BlockDangerLevel'|translate}}</mat-label>
+                                    <mat-select formControlName="blockDangerLevel">
+                                    <mat-option *ngFor="let level of AllDangerLevels" [value]="level.value">{{level.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div> 
+                        <div class="col-md-12 mt-5" style="display: none;" id="statusinfo">
+                            <div class="text-center">
+                                <button type="button" class="btn canceledit mx-2" (click)="Cancel()">Cancel</button>
+                                <button type="button" class="btn saveedit" (click)="SubmitCustomer()">
+                                    <span *ngIf="!this.isClicked">Save changes</span>
+                                    <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                        <hr style="width:90%; margin:auto;border-top:2px solid;color:#000" class="my-4">
+                    </div> 
+                </div>  
+
+
+                <div id="loading" *ngIf="loading">
+                    <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Test -->
+
+</div>
+
+
+
+<div id="customer_details">
+
+
+    <!--------------------------------------- Commission Modal --------------------------->
+    <div class="modal fade" id="Commission" tabindex="-1" aria-labelledby="Commission" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="Commission">Commission</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form [formGroup]="comisionForm">
+                    <div class="row my-4 mx-2">
+                        <div class="col-md-5 offset-md-1">
+
+                            <mat-form-field class="w-100" appearance="outline" data-aos-duration="700"
+                                data-aos="fade-right">
+                                <mat-label><span class="text-danger mx-1">*</span>Name</mat-label>
+                                <input type="text" readonly value="{{CustomerDetails?.name}}" type="text" matInput>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-100" appearance="outline" data-aos-duration="1000"
+                                data-aos="fade-right">
+                                <mat-label><span class="text-danger mx-1">*</span>Business Type</mat-label>
+                                <mat-select [(value)]="BusinessTypeValue">
+                                    <mat-option value="{{type.id}}"
+                                        *ngFor="let type of BusinessTypes">{{type.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- Commission -->
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>Commission</mat-label>
+                                <input formControlName="per" min="0" max="100" (keyup)="check1($event)" type="number"
+                                    matInput>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="col-md-5">
+                            <mat-form-field class="w-100" appearance="outline" data-aos-duration="1000"
+                                data-aos="fade-right">
+                                <mat-label><span class="text-danger mx-1">*</span>Insurance Class</mat-label>
+                                <mat-select [(value)]="insuranceClassValue"
+                                    (selectionChange)="CommissionSelectValidation()">
+                                    <mat-option *ngFor="let type of InsuranceClasses"
+                                        value="{{type.id}}">{{type.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-100" appearance="outline" data-aos-duration="1000"
+                                data-aos="fade-right">
+                                <mat-label><span class="text-danger mx-1">*</span>Commission Type</mat-label>
+                                <mat-select [(value)]="commissionTypeValue"
+                                    (selectionChange)="getCommissionTypeValue($event)"
+                                    (selectionChange)="CommissionSelectValidation()">
+                                    <mat-option *ngFor="let type of CommisionTypes" value="{{type.id}}"
+                                        (selectionChange)="CommissionSelectValidation()">{{type.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- Amount -->
+                            <mat-form-field class="w-100" appearance="outline" data-aos-duration="700"
+                                data-aos="fade-right">
+                                <mat-label><span class="text-danger mx-1">*</span>Commission Amount</mat-label>
+                                <input (keyup)="check2($event)" type="text" matInput>
+                            </mat-form-field>
+
+                            <mat-form-field id="wayOfPayment" style="display: none;" class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>Paymeny Way</mat-label>
+                                <mat-select [(value)]="paymentWayValue">
+                                    <mat-option *ngFor="let type of paymentWays"
+                                        value="{{type.id}}">{{type.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="addCommissionErrorMsg!=null"
+                    class="alert alert-danger w-75 m-auto my-2 d-flex justify-content-center">
+                    <strong class="fs-6">{{this.addCommissionErrorMsg}}</strong>
+                </div>
+                <div class="modal-footer">
+                    <button (click)="closeButton()" id="close" type="button" mat-raised-button
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" mat-raised-button color="warn"
+                        [disabled]="(this.pct==0 && this.amount ==0) ||this.comisionForm.status=='INVALID'|| !validCommistionSelects"
+                        (click)="submitCommissionToCustomerForm()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--------------------------------------- Add Early and Collection Commission Modal --------------------------->
+    <div class="modal fade" id="addEarly" tabindex="-1" aria-labelledby="Commission" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Early and Collection Commission</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form [formGroup]="Form">
+                    <div class="row my-4 mx-2">
+
+                        <div class="col-md-5 offset-md-1">
+                            <mat-form-field class="w-100" appearance="outline" data-aos-duration="700"
+                                data-aos="fade-right">
+                                <mat-label><span class="text-danger mx-1">*</span>Name</mat-label>
+                                <input type="text" readonly value="{{CustomerDetails?.name}}" type="text" matInput>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-100" appearance="outline" data-aos-duration="1000"
+                                data-aos="fade-right">
+                                <mat-label><span class="text-danger mx-1">*</span>Insurance Class</mat-label>
+                                <mat-select [(value)]="insuranceClassValue">
+                                    <mat-option *ngFor="let type of InsuranceClasses"
+                                        value="{{type.id}}">{{type.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-5 ">
+                            <mat-form-field class="w-100" appearance="outline" data-aos-duration="1000"
+                                data-aos="fade-right">
+                                <mat-label><span class="text-danger mx-1">*</span>Business Type</mat-label>
+                                <mat-select [(value)]="BusinessTypeValue">
+                                    <mat-option value="{{type.id}}"
+                                        *ngFor="let type of BusinessTypes">{{type.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                        <hr style="width: 85%;margin: auto;" class="my-4">
+
+                        <div class="d-flex" id="objectInputs" style="width: 83%;margin: auto;">
+                            <div style="width:15%">
+                                <mat-form-field appearance="outline" color="accent" class="w-100">
+                                    <mat-label>From</mat-label>
+                                    <input formControlName="from" type="number" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div style="width:11%" class="mx-1">
+                                <mat-form-field appearance="outline" color="accent" class="w-100">
+                                    <mat-label>To</mat-label>
+                                    <input formControlName="to" type="number" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div style="width:15%">
+                                <mat-form-field appearance="outline" color="accent" class="w-100">
+                                    <mat-label>Pct</mat-label>
+                                    <input formControlName="pre" type="number" matInput>
+                                </mat-form-field>
+                            </div>
+                            <!-- Amount -->
+                            <div style="width:19%" class="mx-1">
+                                <mat-form-field appearance="outline" color="accent" class="w-100">
+                                    <mat-label>Amount</mat-label>
+                                    <input formControlName="amount" type="number" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div style="width:25%">
+                                <mat-checkbox formControlName="includeHolidays" class="example-margin"><label>Include
+                                        Holiday?</label></mat-checkbox>
+                            </div>
+                            <div style="width:12%">
+                                <button color="primary" (click)="view()" class="btn btn-success px-4 py-2 w-100"
+                                    mat-raised-button>Add</button>
+                            </div>
+                        </div>
+
+
+                        <div class="col-10 offset-1">
+                            <div *ngFor="let item of arr;let index = index" class="d-flex my-2">
+                                <p class="w-25 pl-3 text-success fw-bold">{{item.from}}</p>
+                                <p class="w-25 px-3 text-success fw-bolder">{{item?.to}}</p>
+                                <p class="w-25 px-3 text-success fw-bolder">{{item?.pre}}</p>
+                                <p class="w-25 px-3 text-success fw-bolder">{{item?.amount}}</p>
+                                <p class="w-25 px-3 text-success fw-bolder">{{item?.includeHolidays}}</p>
+                                <button color="accent" (click)="remove(index)" class="btn btn-danger"
+                                    mat-raised-button>Remove</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+                <div *ngIf="addEarlyErrrorMsg!=null"
+                    class="alert alert-danger w-75 m-auto my-2 d-flex justify-content-center">
+                    <strong class="fs-6">{{this.addEarlyErrrorMsg}}</strong>
+                </div>
+                <div class="modal-footer">
+                    <button (click)="closeButton()" id="closeEarly" type="button" mat-raised-button
+                        data-bs-dismiss="modal">Close</button>
+                    <button [disabled]="this.arr.length <1 ||this.insuranceClassValue ==null" (click)="SubmitAddEarly()"
+                        type="button" mat-raised-button color="warn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--------------------------------------- Add Profit Modal --------------------------->
+    <div class="modal modal_custom fade pt-5" id="addProfit" tabindex="-1" aria-labelledby="addProfit"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addProfit">Table Of Benefits</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                
+                    <mat-horizontal-stepper linear #stepper ngClass="mat-stepper-label-position-top">
+
+
+                        <!-- Inpatient treatment in hospitals-->
+                        <mat-step label="treatment in hospitals">
+                            <div class="row">
+                                <div class="col-md-5 offset-md-1 mt-2">
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Name In Arabic</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label><span class="text-danger mx-1">*</span>Coverage condition</mat-label>
+                                        <mat-select (selectionChange)="coverageCondition($event)">
+                                            <mat-option value="0">Totally covered</mat-option>
+                                            <mat-option value="1">Partially covered</mat-option>
+                                            <mat-option value="2">Not covered</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Maximum coverage</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div class="col-md-5 mt-2">
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Name In English</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+
+                                    <mat-form-field style="display: none;" id="coverageRadio" class="w-100"
+                                        appearance="outline">
+                                        <mat-label>Coverage ratio !</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Additional data</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between py-3">
+                                <div>
+                                    <button color="accent" mat-raised-button matStepperPrevious>Previous</button>
+                                </div>
+                                <div>
+                                    <button mat-raised-button data-bs-dismiss="modal" class="mx-2">Cancel</button>
+                                    <button color="warn" mat-raised-button matStepperNext>Next</button>
+                                </div>
+                            </div>
+
+
+                        </mat-step>
+
+                        <!-- Outpatient services _ within the Medical Authority -->
+                        <mat-step label="Outpatient clinics Within Authority">
+                            <div class="row">
+                                <div class="col-md-5 offset-md-1 mt-2">
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Name In Arabic</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label><span class="text-danger mx-1">*</span>Coverage condition</mat-label>
+                                        <mat-select (selectionChange)="coverageCondition($event)">
+                                            <mat-option value="0">Totally covered</mat-option>
+                                            <mat-option value="1">Partially covered</mat-option>
+                                            <mat-option value="2">Not covered</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Maximum coverage</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div class="col-md-5 mt-2">
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Name In English</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+
+                                    <mat-form-field style="display: none;" id="coverageRadio2" class="w-100"
+                                        appearance="outline">
+                                        <mat-label>Coverage ratio !</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Additional data</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between py-3">
+                                <div>
+                                    <button color="accent" mat-raised-button matStepperPrevious>Previous</button>
+                                </div>
+                                <div>
+                                    <button mat-raised-button data-bs-dismiss="modal" class="mx-2">Cancel</button>
+                                    <button color="warn" mat-raised-button matStepperNext>Next</button>
+                                </div>
+                            </div>
+                        </mat-step>
+
+                        <!-- Outpatient clinics _ outside the medical body -->
+                        <mat-step label="Outpatient clinics outside Authority">
+                            <div class="row">
+                                <div class="col-md-5 offset-md-1 mt-2">
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Name In Arabic</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label><span class="text-danger mx-1">*</span>Coverage condition</mat-label>
+                                        <mat-select (selectionChange)="coverageCondition($event)">
+                                            <mat-option value="0">Totally covered</mat-option>
+                                            <mat-option value="1">Partially covered</mat-option>
+                                            <mat-option value="2">Not covered</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Maximum coverage</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div class="col-md-5 mt-2">
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Name In English</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+
+                                    <mat-form-field style="display: none;" id="coverageRadio3" class="w-100"
+                                        appearance="outline">
+                                        <mat-label>Coverage ratio !</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Additional data</mat-label>
+                                        <input type="text" type="text" matInput>
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between py-3">
+                                <div>
+                                    <button color="accent" mat-raised-button matStepperPrevious>Previous</button>
+                                </div>
+                                <div>
+                                    <button mat-raised-button data-bs-dismiss="modal" class="mx-2">Cancel</button>
+                                    <button color="warn" mat-raised-button matStepperNext>Next</button>
+                                </div>
+                            </div>
+                        </mat-step>
+
+
+                    </mat-horizontal-stepper>
+              
+
+                <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+          <button color="accent"  mat-raised-button color="primary" >Save</button>
+        </div> -->
+            </div>
+        </div>
+    </div>
+
+
+
+
+    
+    <!--------------------------------------- Add Plan Modal --------------------------->
+    <div class="modal fade" id="addPlan" tabindex="-1" aria-labelledby="addPlan" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addPlan">Add Plan</h1>
+                </div>
+                <form [formGroup]="palnForm">
+                    <div class="row">
+                        <div class="col-md-5 offset-md-1 mt-2">
+
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>Service Provider</mat-label>
+                                <input readonly value="{{CustomerDetails?.name}}" type="text"  matInput>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>Plan Code</mat-label>
+                                <input formControlName="planName" type="text"  matInput>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>Annual Max Limit</mat-label>
+                                <input formControlName="annualMaxLimit" type="text"  matInput>
+                            </mat-form-field>
+
+
+                        </div>
+
+                        <div class="col-md-5 mt-2">
+
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>Type Of service</mat-label>
+                                <mat-select [(value)]="typeOfServiceValue">
+                                    <mat-option value="0">Direct</mat-option>
+                                    <mat-option value="1">Indirect</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>GeographicalScope</mat-label>
+                                <mat-select [(value)]="GeographicalScopeVAlue">
+                                    <mat-option value="0">Outside Egypt</mat-option>
+                                    <mat-option value="1">Inside Egypt</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1"></span>Accommodation Class</mat-label>
+                                <input formControlName="accommodationClass" type="text"  matInput>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="modal-footer py-3">
+                        <button (click)="closeButton()" id="closeAddPlan" type="button" mat-raised-button
+                            data-bs-dismiss="modal">Close</button>
+                        <button (click)=submitPlan() [disabled]="this.palnForm.status=='INVALID' || typeOfServiceValue ==null || GeographicalScopeVAlue==null" type="button" mat-raised-button color="primary">Save</button>
+                    </div>
+                </form>               
+            </div>
+        </div>
+    </div>
+    <!--------------------------------------- Age Stages Modal --------------------------->
+    <div class="modal fade" id="ageStage" tabindex="-1" aria-labelledby="Commission" aria-hidden="true">
+        <div class="modal-dialog">
+            <form [formGroup]="ageForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="ageStage">Age Stages</h1>
+                    </div>
+
+                    <div class="container my-2">
+                        <div class="row px-5">
+                            <div *ngFor="let age of agesOfTpa" class="col-md-2 my-4 text-success">
+                                <div class="smallOuterBorder shadow_5">
+                                    <p class="fs-5 text-center">{{age.name}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 offset-md-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label><span class="text-danger mx-1">*</span>From</mat-label>
+                                    <input formControlName="from" type="number" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-5">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label><span class="text-danger mx-1">*</span>To</mat-label>
+                                    <input formControlName="to" type="number" matInput>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer py-3">
+                        <button (click)="closeButton()" id="closeStageAge" type="button" mat-raised-button
+                            data-bs-dismiss="modal">Close</button>
+                        <button (click)="submitAddAgeToCustomer()" type="button" mat-raised-button
+                            color="primary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--------------------------------------- Pricing Modal --------------------------->
+    <div class="modal fade" id="Pricing" tabindex="-1" aria-labelledby="Pricing" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="Pricing">Pricing</h1>
+                </div>
+
+                <div class="container my-5">
+                    <div class="row">
+                        <div class="col-md-5 offset-md-1">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>Select Age Stage</mat-label>
+                                <mat-select>
+                                    <mat-option value="0">0-17</mat-option>
+                                    <mat-option value="1">18-25</mat-option>
+                                    <mat-option value="2">19-40</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>plan code</mat-label>
+                                <mat-select>
+                                    <mat-option value="0">t1</mat-option>
+                                    <mat-option value="1">t2</mat-option>
+                                    <mat-option value="2">t3</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="col-md-5">
+
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>Coverage from benefits
+                                    schedule</mat-label>
+                                <mat-select>
+                                    <mat-option value="0">t1</mat-option>
+                                    <mat-option value="1">t2</mat-option>
+                                    <mat-option value="2">t3</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>Price</mat-label>
+                                <input type="text" type="number" matInput>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer py-3">
+                    <button (click)="closeButton()" id="close" type="button" mat-raised-button
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" mat-raised-button color="primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--------------------------------------- Medical network coding Modal --------------------------->
+    <div class="modal fade" id="networkCoding" tabindex="-1" aria-labelledby="networkCoding" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="networkCoding">Medical network coding</h1>
+                </div>
+
+                <div class="container my-5">
+                    <div class="row">
+                        <div class="col-md-5 offset-md-1">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label><span class="text-danger mx-1">*</span>medical network code</mat-label>
+                                <input type="text" type="number" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-5">
+
+                            <!-- <mat-label><span class="text-danger mx-1">*</span>To</mat-label>
+                        <input type="file"  matInput> -->
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer py-3">
+                    <button (click)="closeButton()" id="close" type="button" mat-raised-button
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" mat-raised-button color="primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--------------------------------------- اضافه فايل او صوره ؟ --------------------------->
+<!-- <div class="modal fade" id="addDoument" tabindex="-1" aria-labelledby="addDoument" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addDoument">{{'Shared.Documents'|translate}} </h1>
+                <button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="outerBorder shadow_5">
+                <h2 class="fs-4">1- <span class="text-muted">{{'Shared.AddFiles'|translate}}</span> ?</h2>
+                <div class="row" >
+                    <div class="col-md-6">
+                        <table class="table table-striped table-bordered text-center mt-2" style="border-radius: 20px;">
+                            <tbody class="align-middle">
+                                <tr>
+                                    <th class="w-30 py-2">{{'addCustomer.RegFile'|translate}}</th>
+                                    <td class="w-60 py-2">
+                                        <i (click)="fileInput1.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#01909d !important;border-radius: 7px;"></i>
+                                        <input hidden accept=".PDF, .JPEG, .PNG, .JPG, .SVG" (change)="uploadFile1($event)" #fileInput1 type="file">
+                                        <span class="file-name">{{selectedFile1?.name}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="w-30 py-2">{{'addCustomer.TaxiesFile'|translate}}</th>
+                                    <td class="w-60 py-2">
+                                        <i (click)="fileInput2.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#01909d !important;border-radius: 7px;"></i>
+                                        <input  accept=".PDF, .JPEG, .PNG, .JPG, .SVG" hidden (change)="uploadFile2($event)" #fileInput2 type="file">
+                                        <span class="file-name">{{selectedFile2?.name}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-striped table-bordered text-center mt-2" style="border-radius: 20px;">
+                            <tbody class="align-middle">
+                                <tr>
+                                    <th class="w-30 py--2"><span *ngIf="CustomerDetails?.customerType!=3">{{'addCustomer.KYC'|translate}}</span> <span *ngIf="CustomerDetails?.customerType==3">{{'addCustomer.FRA'|translate}}</span></th>
+                                    <td class="w-60 py-2">
+                                        <i (click)="fileInput3.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#01909d !important;border-radius: 7px;"></i>
+                                        <input  accept=".PDF, .JPEG, .PNG, .JPG, .SVG" hidden (change)="uploadFile3($event)" #fileInput3 type="file">
+                                        <span class="file-name">{{selectedFile3?.name}}</span>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                            
+                        </table>
+                    </div>
+
+                </div>  
+            </div>
+            <hr>
+            <div class="container">
+                <div class="d-flex justify-content-between mb-3 mx-3">
+                    <button  (click)="SaveDocument()" mat-raised-button color="primary">
+                        <span *ngIf="this.isClickedDocumnet"><i class="fa-4 fa-solid fa-fan fa-spin"></i></span>
+                        <span *ngIf="!this.isClickedDocumnet">{{'Shared.Save'|translate}}</span>
+                    </button>
+                    <button type="button" mat-raised-button data-bs-dismiss="modal">{{'Shared.Close'|translate}}</button>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+    </div>
+</div> -->
+<div class="overlayEdit" (click)="closeEditgovenmantee()">
+    <div class="Editgovernmant" (click)="$event.stopPropagation()">
+        <div class="d-flex justify-content-between delet-details">
+            <h2>{{'Shared.AddFiles'|translate}} ?</h2>
+            <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeEditgovenmantee()" style="cursor: pointer;"></i></div>
+        </div>
+       <hr class="custom-hr w-100"> 
+       <div class="outerBorder shadow_5">
+        <!-- <h2 class="fs-4">1- <span class="text-muted">{{'Shared.AddFiles'|translate}}</span> ?</h2> -->
+        <!-- File Upload -->  
+        <div class="row" >
+            <div class="col-md-12">
+                <table class="table table-striped table-bordered text-center mt-2" style="border-radius: 20px;">
+                    <tbody class="align-middle">
+                        <tr>
+                            <th class="w-30 py-2">{{'addCustomer.RegFile'|translate}}</th>
+                            <td class="w-60 py-2">
+                                <i (click)="fileInput1.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#01909d !important;border-radius: 7px;"></i>
+                                <input hidden accept=".PDF, .JPEG, .PNG, .JPG, .SVG" (change)="uploadFile1($event)" #fileInput1 type="file">
+                                <span class="file-name">{{selectedFile1?.name}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py-2">{{'addCustomer.TaxiesFile'|translate}}</th>
+                            <td class="w-60 py-2">
+                                <i (click)="fileInput2.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#01909d !important;border-radius: 7px;"></i>
+                                <input  accept=".PDF, .JPEG, .PNG, .JPG, .SVG" hidden (change)="uploadFile2($event)" #fileInput2 type="file">
+                                <span class="file-name">{{selectedFile2?.name}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="w-30 py--2"><span *ngIf="CustomerDetails?.customerType!=3">{{'addCustomer.KYC'|translate}}</span> <span *ngIf="CustomerDetails?.customerType==3">{{'addCustomer.FRA'|translate}}</span></th>
+                            <!-- Know Your Customer -->
+                            <td class="w-60 py-2">
+                                <i (click)="fileInput3.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#01909d !important;border-radius: 7px;"></i>
+                                <input  accept=".PDF, .JPEG, .PNG, .JPG, .SVG" hidden (change)="uploadFile3($event)" #fileInput3 type="file">
+                                <span class="file-name">{{selectedFile3?.name}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between align-items-center" style="padding: 3rem 3px 0 3px;">
+                    <button class="btn _cancel w-50 mx-1" (click)="SaveDocument()">
+                      <span *ngIf="!this.isClicked">Save</span>
+                      <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                    </button>
+                    <button class="btn _delete w-50 mx-1" (click)="closeEditgovenmantee()">Cancel</button>
+                  </div>
+            </div>
+        </div>  
+    </div>
+    </div>
+</div>

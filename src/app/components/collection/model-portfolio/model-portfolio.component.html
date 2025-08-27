@@ -1,0 +1,174 @@
+<div id="model-portfolio" class="Prentable d-flex align-items-center" dir="rtl">
+    <div class=" ParentWhaterMark w-100">
+        <div class="BodderCustom ouerItem shadow_5  p-2 w-100">
+
+            <table class="w-100 text-center">
+            <!-- 1 -->
+                <tr>
+                    <td rowspan="3"><img style="max-width:6rem;" src="../../../../assets/imgs/medicalLogo2.png"></td>
+                    <td colspan="3">مصر للتأمين التكافلي <br> ممتلكات ومسؤليات
+                    </td>
+                    <td rowspan="2" colspan="3">حافظه توريد رقم</td>
+                    <td colspan="2">اسم المنتج</td>
+                    <td colspan="2">{{AllPortfolio?.brokerName}} <span *ngIf="AllPortfolio?.brokerName==null">اداره</span></td>
+                </tr>
+                <!--  -->
+            <!-- 2 -->
+                <tr>
+                    <td>الفرع :</td>
+                    <td colspan="2">{{AllPortfolio?.branchName}}</td>
+                    <td colspan="2"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>التاريخ</td>
+                    <td colspan="2">{{this.CurrentDate|date:'dd-MM-YYYY'}}</td>
+                    <td colspan="3">{{AllPortfolio?.portfolioId}}</td>
+
+                    <td colspan="2">العمله</td>
+
+                    <td colspan="2">جنيه مصري</td>
+                </tr>
+
+                <tr style="background-color: rgb(197, 197, 197);" >
+                    <th class="py-2" style="font-weight: 500!important;">مدين</th>
+                    <th style="font-weight: 500!important;">دائن</th>
+                    <th style="font-weight: 500!important;">نوع التأمين</th>
+                    <th style="font-weight: 500!important;">رقم الوثيقه</th>
+                    <th style="font-weight: 500!important;">رقم الملحق</th>
+                    <th style="font-weight: 500!important;">ت . الإصدار</th>
+                    <th style="font-weight: 500!important;">ت . السريان</th>
+                    <th style="font-weight: 500!important;">شركة فرعية</th>
+                    <th style="font-weight: 500!important;" colspan="2">البيان</th>
+                    <th style="font-weight: 500!important;">صافي القسط</th>
+                </tr>
+                <tr *ngFor="let item of AllPortfolio?.portfolioTemplates">
+                    <td>
+                        <span *ngIf="item.debit<=0||item.debit==null"></span>
+                        <span *ngIf="item.debit>0">{{item.debit}}</span>
+                    </td>
+                    <td>
+                        <span *ngIf="item.credit<=0||item.credit==null"></span>
+                        <span *ngIf="item.credit>0">{{item.credit}}</span>
+                    </td>
+                    <td>{{item.productName}}</td>
+                    <td>{{item.code}}</td>  
+                    <td>{{item.endorsementId}}</td>
+                    <td>{{item.issueDate|date:'dd-MM-YYYY'}}</td>
+                    <td>{{item.inceptionDate|date:'dd-MM-YYYY'}}</td>
+                    <td>{{item.subCompanyName}}</td>
+                    <td colspan="2" style="max-width: 8rem!important;">{{item.notes}} </td>
+                    <td>
+                        <span *ngIf="item.netAmount<0">({{item.netAmount|abs}})</span>
+                        <span *ngIf="item.netAmount>0">{{item.netAmount}}</span>
+                        <span *ngIf="item.netAmount==0||item.netAmount==null"></span>
+                    </td>
+                </tr>
+                <!-- مجموع دائن ومدين  -->
+                <tr>
+                    <td class="bg_gray">{{this.AllPortfolio?.totalDebit}}</td>
+                    <td class="bg_gray">{{this.AllPortfolio?.totalCredit}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="3" style="max-width: 8rem!important;"></td>
+                    <td class="bg_gray">
+                        <span *ngIf="this.AllPortfolio?.totalNetAmount<0">({{this.AllPortfolio?.totalNetAmount|abs}})</span>
+                        <span *ngIf="this.AllPortfolio?.totalNetAmount>0">{{this.AllPortfolio?.totalNetAmount}}</span>
+                        <span *ngIf="this.AllPortfolio?.totalNetAmount==0||this.AllPortfolio?.totalNetAmount==null"></span>
+                    </td>
+                </tr>
+                <!-- Footer -->
+                <tfoot>
+                    <tr class="foot bg_gray">
+                        <td class="py-2 foot" colspan="4">الخزينه برجاء تحصيل مبلغ وقدره : {{this.AllPortfolio?.totalPremium}}</td>
+                        <td colspan="5" class="foot"> {{this.AllPortfolio?.arabicNumber}} </td>  
+                        <td style="background-color: #FFF"></td>
+                    </tr>
+                </tfoot>    
+            </table>
+                    <div class="row mt-2">
+                        <!-- Payment Ways -->
+                        <div class="col-6">
+                            <table class="w-75 text-center NoneBrdTable">
+                                <thead class="tableHead">
+                                    <th class="py-2 NoneBrdTable">Number </th>
+                                    <th class="py-2 NoneBrdTable">Bank</th>
+                                    <th class="py-2 NoneBrdTable">Amount</th>
+                                    <th class="py-2 NoneBrdTable">Date</th>
+                                    <th class="py-2 NoneBrdTable">Payments Way</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let bank of this.CheckTable">
+                                        <td class="NoneBrdTable">{{bank.checkNumber}}</td>
+                                        <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                        <td class="NoneBrdTable">{{bank.amount}}</td>
+                                        <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                        <td class="NoneBrdTable">{{bank.type}}</td>
+                                    </tr>
+                                    <tr *ngFor="let bank of this.bankTransferTable">
+                                        <td class="NoneBrdTable">{{bank.transferNumber}}</td>
+                                        <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                        <td class="NoneBrdTable">{{bank.amount}}</td>
+                                        <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                        <td class="NoneBrdTable">{{bank.type}}</td>
+                                    </tr>
+                                    <tr *ngFor="let bank of this.bankDepositPaymentTable">
+                                        <td class="NoneBrdTable">{{bank.depositNumber}}</td>
+                                        <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                        <td class="NoneBrdTable">{{bank.amount}}</td>
+                                        <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                        <td class="NoneBrdTable">{{bank.type}}</td>
+                                    </tr>
+                                    
+                                    <tr *ngFor="let bank of this.VisaTable">
+                                        <td class="NoneBrdTable">{{bank.cardNumber}}</td>
+                                        <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                        <td class="NoneBrdTable">{{bank.amount}}</td>
+                                        <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                        <td class="NoneBrdTable">{{bank.type}}</td>
+                                    </tr>
+                                    <tr *ngFor="let bank of this.CashTable">
+                                        <td class="NoneBrdTable">-</td>
+                                        <td class="NoneBrdTable">-</td>
+                                        <td class="NoneBrdTable">{{bank.amount}}</td>
+                                        <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                        <td class="NoneBrdTable">{{bank.type}}</td>
+                                    </tr>
+                                    <tr *ngFor="let bank of this.postdatedCheckTable">
+                                        <td class="NoneBrdTable">{{bank.checkNumber}}</td>
+                                        <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                        <td class="NoneBrdTable">{{bank.amount}}</td>
+                                        <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                        <td class="NoneBrdTable">{{bank.type}}</td>
+                                    </tr>
+                                    <tr *ngFor="let bank of this.mappedDtos">
+                                        <td class="NoneBrdTable">{{bank.transactionNo}}</td>
+                                        <td class="NoneBrdTable">{{bank.bankName}}</td>
+                                        <td class="NoneBrdTable">{{bank.amount}}</td>
+                                        <td class="NoneBrdTable">{{bank.paymentDate|date:'dd-MM-YYYY'}}</td>
+                                        <td class="NoneBrdTable">{{bank.type}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-6 d-flex justify-content-end align-items-end">
+                            <div>
+                            <p>الختم:</p>
+                            <div class="stamp"></div>
+                            <p class="mt-2">التاريخ : {{this.CurrentDate|date:'YYYY-MM-dd'}}</p>
+                            <p class="mt-2"> بواسطه : {{this.AllPortfolio?.createdBy}}</p>
+                            </div>
+                        </div>
+                    </div>
+              <!-- Loading -->
+              <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+        <!-- <p class="WhaterMark">اصـل</p> -->
+        <p class="WhaterMark" *ngIf="this.AllPortfolio?.copies>0">نــســـخــة</p>
+    </div>
+</div>

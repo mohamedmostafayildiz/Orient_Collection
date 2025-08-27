@@ -1,0 +1,740 @@
+<div id="convert-to-policy">
+    <div class="container-fluid">
+        <div class="outerBorder">
+            <mat-horizontal-stepper linear #stepper>
+                <!--------------------------- Offer ----------------------->
+                    <mat-step label="{{'Offer.Offer'|translate}}" [completed]="this.totalPercentage==100 &&this.MainForm.get('InceptionDate')?.status=='VALID'&&
+                    this.MainForm.get('ExpiryDate')?.status=='VALID'&&this.MainForm.get('PaymentPeriod')?.status=='VALID'&&
+                    this.MainForm.get('brokerage')?.status=='VALID'&&this.MainForm.get('tpaFees')?.status=='VALID'
+                    &&this.MainForm.get('BranchId')?.status=='VALID'&&this.MainForm.get('TaxNo')?.status=='VALID'
+                    &&this.MainForm.get('RegNo')?.status=='VALID'&&this.MainForm.get('customerId')?.status=='VALID'">
+                <form [formGroup]="MainForm">
+                    <div class="row my-2">  
+                        <!-- Company Title -->
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                        <mat-label>{{'Shared.CompanyName'|translate}}</mat-label>
+                                        <input disabled type="text" readonly value="Misr Takaful Insurance" matInput>
+                                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"> <i class="fa-regular fa-building"></i></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                        <mat-label>{{'Offer.Insured'|translate}}</mat-label>
+                                        <input disabled type="text" readonly value="{{this.OfferDetails?.customerName}}" matInput>
+                                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"> <i class="fa-regular fa-user"></i></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    
+                                    <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                        <mat-label>{{'Policy.UY'|translate}}</mat-label>
+                                        <input disabled type="text" readonly value="{{this.MainForm.get('InceptionDate')?.value|date:'yyyy'}}" matInput>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                        <mat-label>VAT</mat-label>
+                                        <input disabled type="text" readonly value="14" matInput>
+                                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"> <i class="fa-solid fa-percent"></i></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="col-md-3">
+                            
+                            <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                <mat-label>{{'Offer.InsuranceClass'|translate}}</mat-label>
+                                <input disabled type="text" readonly value="{{this.OfferDetails?.insuranceClass}}" matInput>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- col 2 -->
+                        <div class="col-md-3">
+                            
+                            <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                <mat-label>{{'Offer.BusinessType'|translate}}</mat-label>
+                                <input disabled type="text" readonly value="{{this.OfferDetails?.businessType}}" matInput>
+                            </mat-form-field>
+                            
+                        </div>
+                        <!-- col 3 -->
+                        <div class="col-md-3">
+                            <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                <mat-label>{{'Offer.PolicySource'|translate}}</mat-label>
+                                <input disabled type="text" readonly value="{{this.OfferDetails?.policySource}}" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field *ngIf="this.OfferDetails?.brokerId!=0&&this.OfferDetails?.brokerId!=null" class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                <mat-label>{{'Offer.Broker'|translate}}</mat-label>
+                                <input disabled type="text" readonly value="{{this.OfferDetails?.brokerName}}" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+                            
+                            <div class="col-md-4">
+                                <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                    <mat-label>{{'Offer.OfferCode'|translate}}</mat-label>
+                                    <input disabled readonly value="{{this.OfferDetails?.code}}" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                    <mat-label>{{'Offer.OfferDate'|translate}}</mat-label>
+                                    <input disabled readonly value="{{this.OfferDetails?.offerDate|date:'dd-MM-YYYY'}}" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                    <mat-label>{{'Policy.IssueDate'|translate}}</mat-label>
+                                    <input disabled readonly value="{{this.today|date:'dd-MM-YYYY'}}" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em!important">
+                                    <mat-label>{{'Offer.Insured'|translate}}</mat-label>
+                                    <mat-select (selectionChange)="getCustomerId()" formControlName="customerId">
+                                        <mat-option *ngFor="let item of IndividualOrCorporate" [value]="item.id">{{item.arabicName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em!important">
+                                    <mat-label>{{'Offer.TpaName'|translate}}</mat-label>
+                                    <mat-select formControlName="tpaId" (selectionChange)="getTpaCustomer($event.value)">
+                                        <mat-option *ngFor="let tpa of listOfTpa" [value]="tpa.id">{{tpa.arabicName}}</mat-option>
+                                    </mat-select>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"> <i class="fa-regular fa-user"></i></mat-icon>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em!important">
+                                    <mat-label>Branch</mat-label>
+                                    <mat-select formControlName="BranchId">
+                                        <mat-option *ngFor="let item of AllBranches" [value]="item.id">{{item.name}}</mat-option>
+                                    </mat-select>
+                                    <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"> <i class="fa-regular fa-user"></i></mat-icon>
+                                </mat-form-field>
+                            </div>
+                            
+                        </div>
+                            <!-- col 1 Edit -->
+                        <div class="col-md-6">
+                            <mat-form-field  class="w-100 feo mt-1" appearance="outline" style="margin-bottom: -1em!important">
+                                <mat-label>{{'addCustomer.TaxNo'|translate}}</mat-label>
+                                <input (keyup)="checkTax()" formControlName="TaxNo" type="number" matInput>
+                            </mat-form-field>
+
+                            <mat-form-field style="margin-bottom: -0.6em!important" class="w-100 feo mt-1" appearance="outline">
+                                <mat-label>{{'Policy.InceptionDate'|translate}}</mat-label>
+                                <input formControlName="InceptionDate" (dateChange)="getInception($event)"
+                                 matInput [matDatepicker]="picker1">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                            <!-- [max]="this.maxInception" -->
+
+                            <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -0.6em!important">
+                                <mat-label>{{'Policy.ExpiryDate'|translate}}</mat-label>
+                                <input (dateChange)="checkExpiryDate()" [min]="this.MinExpiryDate" formControlName="ExpiryDate" matInput [matDatepicker]="picker2">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                            <!-- <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em!important">
+                                <mat-label>{{'Policy.PaymentPeriod'|translate}}</mat-label>
+                                <mat-select formControlName="PaymentPeriod" (selectionChange)="getPaymentPeriod($event.value)">
+                                <mat-option [value]="0">Yearly</mat-option>
+                                <mat-option [value]="1">Half Yearly</mat-option>
+                                <mat-option [value]="2">Quarterly</mat-option>
+                                <mat-option [value]="3">Other</mat-option>
+                                </mat-select>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-money-bill mt-1"></i></mat-icon>
+                            </mat-form-field> -->
+                            <div class="mt-2 uploaded-container">
+                                <h3 class="mx-3">Upload signed offer</h3>
+                                <div class="d-flex">
+                                    <button (click)="item.click()" type="button" class="btn upload mx-3"><i class="fa-solid fa-cloud-arrow-up mx-2"></i>Upload file</button>
+                                    <p class="mt-2" style="color: #01909D;">{{this.selectedPdfFile.name}}</p>
+                                </div>
+                                <input #item hidden accept=".pdf" (change)="uploadPdfFile($event)" class="form-control py-2" type="file">
+                            </div>
+                            <div class="mt-2">
+                                <h3>{{'Policy.PaymentPeriod'|translate}}<span class="text-danger">*</span></h3>
+                                <mat-radio-group formControlName="PaymentPeriod" (change)="getPaymentPeriod($event.value)" aria-label="Select an option">
+                                    <mat-radio-button class="mx-2" [value]="0">Yearly</mat-radio-button>
+                                    <mat-radio-button class="mx-2" [value]="1">Half Yearly</mat-radio-button>
+                                    <mat-radio-button class="mx-2" [value]="2">Quarterly</mat-radio-button>
+                                    <mat-radio-button class="mx-2" [value]="3">Other</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <!-- <div>
+                                <label class="fs-6 text-muted">{{'Offer.UpoadSignedOffer'|translate}}</label>
+                                <input accept=".pdf" (change)="uploadPdfFile($event)" class="form-control py-2" type="file">
+                            </div> -->
+                           
+                        </div>
+                        <!-- col 2 Edit --> 
+                        <div class="col-md-6">
+                            <mat-form-field class="w-100 feo mt-1" appearance="outline" style="margin-bottom: -0.6em!important">
+                                <mat-label>{{'addCustomer.RegNo'|translate}}</mat-label>
+                                <input formControlName="RegNo" type="number" matInput>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-100 feo mt-1" appearance="outline" style="margin-bottom: -0.6em!important">
+                                <mat-label>{{'SideBar.TpaFees'|translate}}</mat-label>
+                                <input formControlName="tpaFees" [min]="0.0001" [max]="this.MaxTpaFees*100" type="number" matInput>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"> <i class="fa-solid fa-percent"></i></mat-icon>
+                            </mat-form-field>
+                         
+                            <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+                                <mat-label>{{'Offer.Brokerage'|translate}}</mat-label>
+                                <input type="number" max="{{this.OfferDetails?.brokage*100}}" formControlName="brokerage" matInput>
+                                <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"> <i class="fa-solid fa-percent"></i></mat-icon>
+                            </mat-form-field>
+
+                            <!-- <div>
+                                <label class="fs-6 text-muted">{{'Offer.UpoadSignedOffer'|translate}}</label>
+                                <input accept=".pdf" (change)="uploadPdfFile($event)" class="form-control py-2" type="file">
+                            </div> -->
+                        </div>
+                    </div>
+                            <!-- تواريــخ الســـداد -->
+                    <div class="row">
+                            <!-- 1 -->
+                        <div class="col-md-3">
+                            <mat-form-field style="display: none;" class="w-100 payment1 feo" appearance="outline">
+                                <mat-label>{{'Policy.paymentDate1'|translate}}</mat-label>
+                                <input formControlName="Settlement1" matInput [matDatepicker]="picker6">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker6"></mat-datepicker-toggle>
+                                <mat-datepicker #picker6></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <!-- 2 -->
+                        <div class="col-md-3">
+                            <mat-form-field style="display: none;" class="w-100 payment2 feo" appearance="outline">
+                                <mat-label>{{'Policy.paymentDate2'|translate}}</mat-label>
+                                <input formControlName="Settlement2" matInput [matDatepicker]="picker8">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker8"></mat-datepicker-toggle>
+                                <mat-datepicker #picker8></mat-datepicker>
+                            </mat-form-field>
+
+                        </div>
+
+                        <!-- 3 -->
+                        <div class="col-md-3">
+                            <mat-form-field style="display: none;" class="w-100 payment3 feo" appearance="outline">
+                                <mat-label>{{'Policy.paymentDate3'|translate}}</mat-label>
+                                <input formControlName="Settlement3" matInput [matDatepicker]="picker9">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker9"></mat-datepicker-toggle>
+                                <mat-datepicker #picker9></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 4 -->
+                        <div class="col-md-3">
+                            <mat-form-field style="display: none;" class="w-100 payment4 feo" appearance="outline">
+                                <mat-label>{{'Policy.paymentDate4'|translate}}</mat-label>
+                                <input  formControlName="Settlement4" matInput [matDatepicker]="picker10">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker10"></mat-datepicker-toggle>
+                                <mat-datepicker #picker10></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div style="display: none;" class="col-md-12 OtherSettlement">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field class="w-100 feo" appearance="outline">
+                                        <mat-label>Enter Settlement</mat-label>
+                                        <input [min]="currentInceptionDate" [(ngModel)]="otherDate" [ngModelOptions]="{standalone: true}" matInput [matDatepicker]="picker20">
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker20"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker20></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <!-- <div class="col-md-4">
+                                    <mat-form-field class="w-100" style="margin-bottom: -1em;">
+                                        <mat-label>{{'Offer.Percentage'|translate}}</mat-label>
+                                        <input [(ngModel)]="percentage" [ngModelOptions]="{ standalone: true }" type="number" min="0" max="100" matInput>
+                                        <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.65);"> <i class="fa-solid fa-percent"></i></mat-icon>
+                                    </mat-form-field>
+                                </div> -->
+                                <div class="col-md-3 mt-2">
+                                    <button mat-raised-button color="accent" (click)="viewDates()"
+                                    [disabled]="otherDate==''"
+                                    style="width: 20%;" class="mx-1">
+                                    Add
+                                </button>
+                                </div>
+                            </div>
+                        <!-- Table Of Settlements -->
+                        <table *ngIf="this.arrDates.length>0" class="table table-striped text-center w-75">
+                            <thead>
+                                <th>#</th>
+                                <th>Settlement Date</th>
+                                <!-- <th>Percentage</th> -->
+                                <th>remove</th>
+                            </thead>
+                            <tbody>
+                                    <tr *ngFor="let item of arrDates;let index = index" class="align-middle">
+                                        <td>{{index+1}}</td>
+                                        <td>{{item.date}}</td>
+                                        <!-- <td>{{item.percentage}} %</td> -->
+                                        <td><button color="warn" (click)="removeDate(index)" mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                                    </tr>
+                                    <!-- <tr>
+                                        <td></td>
+                                        <td>Total Percentage</td>
+                                        <td>{{ totalPercentage }}%</td>
+                                    </tr> -->
+                            </tbody>
+                            <!-- <tfoot>
+                                <tr style="height: 50px;">
+                                  <td></td>
+                                  <td style="font-size: 1rem !important;font-weight: bold !important;">Total Percentage</td>
+                                  <td style="font-size: 1rem !important;font-weight: bold !important;">{{ totalPercentage }} %</td>
+                                  <td></td>
+                                </tr>
+                              </tfoot> -->
+                        </table>
+                        </div>
+                    </div>
+                </form>
+                <hr style="width:80%; margin:auto;border-top:1px solid;color:#000" class="my-4">
+                <div class="d-flex justify-content-end">
+                    <button [disabled]="this.totalPercentage!=100" class="btn next" matStepperNext>{{'Shared.Next'|translate}}</button>
+                </div>
+                    </mat-step>
+                <!---------------------------- Plans -------------------->
+                <mat-step label="{{'Offer.Plans'|translate}}" [completed]="this.OfferPlans.length!=0">
+                    <!--  -->
+                    <!-- <button (click)="showNewPlan()" mat-stroked-button color="warn" class="my-2">{{'Shared.AddNew'|translate}}</button> -->
+                    <button (click)="AddNewAccType()" type="button" class="mintBtn py-3 mt-3">
+                        <i class="fa-solid fa-plus" style="margin-right: 2px;"></i>Add New Plan
+                      </button>
+                    <div class="row">
+                        <div class="col-md-8 d-flex align-items-center">
+                            <div class="w-100">
+                                <div *ngIf="this.AllOfferPlans.length!=0" >
+                                    <p class="fs-5">{{'Offer.Current plans Are'|translate}} 
+                                        <span *ngFor="let item of this.AllOfferPlans" class="mx-1 text-danger fs-4 fw-bold">{{item.planName}}</span>
+                                    </p>
+                                </div>
+                                <div style="display: none;" id="AddPlan">
+                                    <form [formGroup]="PlanForm">
+                                        <div class="row">
+                                            <div class="col-md-7 my-2">
+                                                <table class="table table-striped table-bordered text-center mt-2" style="border-radius: 20px;">
+                                                    <tbody class="align-middle">
+                                                        <tr>
+                                                            <th class="w-30 py-3">{{'Offer.Upload Plans File'|translate}}</th>
+                                                            <td class="w-60 py-3">
+                                                                <i (click)="fileInput.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#3F51B5;border-radius: 5px;"></i>
+                                                                <input accept=".xlsx , .pdf" hidden (change)="uploadPlanFile($event)" #fileInput type="file">
+                                                                <span class="file-name">{{selectedPlanFile?.name}}</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <mat-form-field class="w-100">
+                                                    <mat-label>{{'Offer.Plan Name'|translate}}</mat-label>
+                                                    <mat-select formControlName="planName">
+                                                        <mat-option value="A">A</mat-option>
+                                                        <mat-option value="B">B</mat-option>
+                                                        <mat-option value="C">C</mat-option>
+                                                        <mat-option value="D">D</mat-option>
+                                                        <mat-option value="E">E</mat-option>
+                                                        <mat-option value="F">F</mat-option>
+                                                        <mat-option value="G">G</mat-option>
+                                                        <mat-option value="H">H</mat-option>
+                                                        <mat-option value="I">I</mat-option>
+                                                        <mat-option value="J">J</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field class="w-100">
+                                                    <mat-label>{{'Offer.NetPremium'|translate}}</mat-label>
+                                                    <input formControlName="netPremium" type="number" matInput>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field class="w-100">
+                                                    <mat-label>{{"Offer.Total Annual"|translate}}</mat-label>
+                                                    <input [(ngModel)]="totalAnnual" [ngModelOptions]="{standalone: true}" disabled readonly type="number" matInput>
+                                                </mat-form-field>
+                                                <!-- <span style="color: red;" *ngIf="this.totalAnnual < this.PlanForm.get('netPremium')?.value"> Total annual must be more than or equal netPremium</span> -->
+    
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <form [formGroup]="RiskForm">
+                                            <div class="row pt-2 shadow_5" style="border-radius: 0.6rem">
+                                                <div class="col-md-5">
+                                                    <mat-form-field class="w-100">
+                                                        <mat-label>{{"Offer.Risk"|translate}}</mat-label>
+                                                        <mat-select formControlName="riskId">
+                                                            <mat-option *ngFor="let item of AllRisks" [value]="item.id">{{item.englishName}}</mat-option>
+                                                            <!-- <mat-option value="B">Risk 2</mat-option> -->
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <mat-form-field class="w-100"  style="margin-bottom: -1em;">
+                                                        <mat-label>{{'Offer.AnnualMaxLimit'|translate}}</mat-label>
+                                                        <input formControlName="annualMaxLimit" type="number" matInput>
+                                                    </mat-form-field>
+                                                    <span [hidden]="this.RiskForm.get('annualMaxLimit')?.value === ''" style="color: red;" *ngIf="this.RiskForm.get('annualMaxLimit')?.value < this.PlanForm.get('netPremium')?.value"> Annual Max Limit must be more than or equal netPremium</span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button [disabled]="this.RiskForm.status=='INVALID' || this.RiskForm.get('annualMaxLimit')?.value < this.PlanForm.get('netPremium')?.value" (click)="viewRisk()" mat-raised-button color="accent" class="mt-2">{{'Shared.Add'|translate}}</button>
+                                                </div>
+                                                <table *ngIf="this.ArrRisk.length>0"  class="table table-striped text-center w-75">
+                                                    <thead>
+                                                        <th>{{"Offer.Risk"|translate}}</th>
+                                                        <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                                                        <th class="remove"></th>
+                                                    </thead>
+                                                    <tbody>
+                                                            <tr *ngFor="let item of ArrRisk;let index = index">
+                                                                <td>{{ getRiskNameById(item.riskId) }}</td>
+                                                                <td>{{item.annualMaxLimit}}</td>
+                                                                <td class="remove"><button color="warn" (click)="removeRisk(index)" mat-raised-button>{{'Shared.Remove'|translate}}</button></td>
+                                                            </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                    </form>
+                                </div>
+                                <table *ngIf="this.OfferPlans.length>0"  class="table text-center mt-2">
+                                    <thead style="background-color: #F2F2F2 !important;">
+                                        <th>{{"Offer.Plan Name"|translate}}</th>
+                                        <th>{{'Offer.NetPremium'|translate}}</th>
+                                        <th>Total Sum Insured</th>
+                                        <th>{{"Offer.Risk"|translate}}</th>
+                                        <th class="remove"></th>
+                                    </thead>
+                                    <tbody>
+                                            <tr *ngFor="let item of OfferPlans;let index = index" class="align-middle">
+                                                <td>{{item.planName}}</td>
+                                                <td>{{item.netPremium}}</td>
+                                                <td>{{item.totalSumInsured}}</td>
+                                                <td>
+                                                    <i (click)="getRiskInfo(item.risksLst)" class="fa-regular fa-eye fs-5 px-3 py-2" style="color:#01BACB !important;"></i>
+                                                </td>
+                                                <td><i (click)="remove(index,item.id,item.planName)" class="fa-regular fa-trash-can fs-5 px-3 py-2" style="color:red !important"></i></td>
+                                                <!-- <td class="remove"><button color="warn" (click)="remove(index,item.id,item.planName)" mat-raised-button>{{'Shared.Remove'|translate}}</button></td> -->
+                                            </tr>
+                                    </tbody>
+                                    <!-- <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>All Fees</th>
+                                        
+                                        <th><button  mat-raised-button color="primary" class="w-50 mt-3"> <span >Save <i class="fa-regular fa-floppy-disk"></i></span></button></th>
+                                        </tr>
+                                    </tfoot> -->
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="../../../../assets/imgs/upload2.svg" class="w-100">
+                        </div>
+                        <!-- Add -->
+                        <!-- <div class="d-flex justify-content-between">
+                            <button [disabled]="this.PlanForm.status=='INVALID'||this.ArrRisk.length==0 || this.totalAnnual < this.PlanForm.get('netPremium')?.value"
+                            (click)="view()" mat-raised-button color="accent"
+                            class="mt-2">
+                            {{"Offer.Add Plan"|translate}}
+                            </button>
+                        </div> -->
+                    </div>
+
+                    <hr style="width:80%; margin:auto;border-top:1px solid;color:#000" class="my-4">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                          <button color="accent"  mat-raised-button matStepperPrevious >{{'Shared.Previous'|translate}}</button>
+                        </div>
+                        <div>
+                          <button type="button" class="btn next" matStepperNext>{{'Shared.Next'|translate}}</button>
+                        </div>
+                    </div>
+                </mat-step>
+                <!----------------------------- Group ------------------------->
+                <mat-step label="{{'Offer.Group'|translate}}">
+                    <div>
+                        <div class="d-flex py-5">
+                            <h4 class="mt-4 mx-3">Step1</h4>
+                            <div class="gray-circle mt-4" style="margin-top: 30px;"></div>
+                            <div class="shadow-down mx-4">
+                                <i class="fa-solid fa-download fs-4" style="color: #01909D !important; margin-top: 20px;padding: 0 15px;"></i>
+                            </div>
+                            <div>
+                                <h2 class="Downloadfile">Download File</h2>
+                                <p class="pleaseDownloadfile">Please download file <span class="clickher" (click)="getTempleteFile()">click here</span></p>
+                            </div>
+                            <!-- <i (click)="getTempleteFile()" class="fa-solid fa-download fs-3 px-2 py-1 mt-3" style="color: #01909D !important; border-radius: 7px;"></i> -->
+                        </div>
+                        <hr class="w-90" style="border: 1px solid gray;margin: auto;">
+                        <div class="d-flex" style="padding-top: 25px;">
+                            <h4 class="mt-4 mx-3">Step2</h4>
+                            <div class="gray-circle" style="margin-top: 30px;"></div>
+                            <div class="shadow-down mx-4">
+                                <i (click)="fileGroupInput.click()" class="fa-solid fa-cloud-arrow-up fs-4" style="color: #01909D !important; margin-top: 20px;padding: 0 15px;"></i>
+                                <!-- <input accept=".xlsx" hidden (change)="uploadGroupFile($event)" #fileGroupInput type="file"> -->
+
+                            </div>
+                            <div>
+                                <h2 class="Downloadfile">Upload File</h2>
+                                <p class="pleaseDownloadfile">Please Upload file with entered data </p>
+                            </div>
+                            <!-- <i (click)="getTempleteFile()" class="fa-solid fa-download fs-3 px-2 py-1 mt-3" style="color: #01909D !important; border-radius: 7px;"></i> -->
+                        </div>
+                        <div class="d-flex">
+                            <div class="w-15"></div>
+                            <div class="w-85">
+                                <div class="uploaded-container mt-1">
+                                    <div class="d-flex align-items-center file-upload" (click)="fileGroupInput.click()" role="button" aria-label="Upload File">
+                                        <i class="fa-solid fa-cloud-arrow-up fs-4 mt-1 upload-icon"></i>
+                                        <h3 class="mx-4 mt-3">Upload File</h3>
+                                        <p class="mt-1 file-name" *ngIf="selectedGroupFile">{{ selectedGroupFile.name }}</p>
+                                        <input accept=".xlsx" hidden (change)="uploadGroupFile($event)" #fileGroupInput type="file">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      
+                        <!-- <div>
+                            <i (click)="fileGroupInput.click()" class="fa-solid fa-cloud-arrow-up fs-2 px-2 py-2" style="color:#01909D;border-radius: 5px;cursor: pointer;"></i>
+                            <input accept=".xlsx" hidden (change)="uploadGroupFile($event)" #fileGroupInput type="file">
+                            <span class="file-name">{{selectedGroupFile?.name}}</span>
+                        </div> -->
+                        <button *ngIf="this.OfferGroup?.length>0" type="button" class="btn _cancel my-2"(click)=showCurrentGroup()>{{"Offer.CurrerntGroup"|translate}}</button>
+                    </div>
+                    <div *ngIf="this.OfferGroup?.length==0"  class="alert alert-info w-75 my-5 m-auto text-center fs-5"><strong>{{'Offer.NoCustomerGroupYet'|translate}}</strong></div>
+                    <div *ngIf="this.OfferGroup?.length>0" style="display:none; max-height:19rem;overflow: auto;" id="currentGroup">
+                        <table class="table text-center">
+                            <thead style="background-color: #F2F2F2 !important;">
+                                <th>{{'addCustomer.Name'|translate}}</th>
+                                <th>Plan Name</th>
+                                <th>{{'addCustomer.Sex'|translate}}</th>
+                                <th>{{'Offer.GroupRel'|translate}}</th>
+                                <th>{{'addCustomer.D.O.B'|translate}}</th>
+                                <th>{{'Shared.Age'|translate}}</th>
+                                <th>{{'addCustomer.Notes'|translate}}</th>
+                                </thead>
+                            <tbody>
+                                <tr *ngFor="let plan of this.OfferGroup;"[class.customDanger]="plan.age>=65">
+                                    <td class="py-3">{{plan.name}}</td>
+                                    <td class="py-3">{{plan.planName}}</td>
+                                    <td>{{plan.gender}}</td>
+                                    <td>{{plan.groupRel}}</td>
+                                    <td>{{plan.dateOfBirth|date:'dd-MM-YYYY'}}</td>
+                                    <td>{{plan.age}}</td>
+                                    <td>{{plan.notes}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+
+                    <hr style="width:80%; margin:auto;border-top:1px solid;color:#000" class="my-4">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                          <button color="accent" mat-raised-button matStepperPrevious>{{'Shared.Previous'|translate}}</button>
+                        </div>
+                        <div>
+                          
+                          <button (click)="SaveUpdate()" [disabled]="this.MainForm.status=='INVALID'||this.selectedGroupFile?.name==null" class="btn _cancel" matStepperNext ><span *ngIf="this.isLoading">Waiting .. </span> <span *ngIf="!this.isLoading">{{'Shared.Submit'|translate}}</span></button>
+                        </div>
+                    </div>
+                </mat-step>
+                </mat-horizontal-stepper>
+                <!--------------------------------------- Risk Modal --------------------------->
+<!-- <div class="modal fade" id="Risk" tabindex="-1" aria-labelledby="Risk" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="Risk">{{"Offer.Risk"|translate}}</h1>
+            </div>
+            <div class="container my-2">
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <table class="table table-striped text-center w-100">
+                            <thead>
+                                <th>{{"Offer.Risk"|translate}}</th>
+                                <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                            </thead>
+                            <tbody>
+                                    <tr *ngFor="let item of AllRisk;let index = index">
+                                        <td>{{ getRiskNameById(item.riskId) }}</td>
+                                        <td>{{item.annualMaxLimit}}</td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer py-3">
+                <button id="close" type="button" mat-raised-button
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</div> -->
+
+<!-- Add plan -->
+<div class="overlayAddplan" (click)="closeNewAccType()">
+    <div class="addnewplan" (click)="$event.stopPropagation()">
+        <div class="d-flex justify-content-between delet-details">
+            <h2>Add new Plan ?</h2>
+            <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeNewAccType()" style="cursor: pointer;"></i></div>
+        </div>
+        <hr class="custom-hr w-100">
+        <div>
+        <div class="container-fluid" style="padding: 0 25px;">
+            <form [formGroup]="PlanForm">
+                <div class="row">
+                    <div class="col-md-12 my-2">
+                        <div class="uploaded-container mt-1">
+                            <div class="text-center file-upload" (click)="fileInput.click()" role="button" aria-label="Upload File">
+                                <i class="fa-solid fa-cloud-arrow-up fs-4 mt-2 upload-icon" style="color: #01909D;"></i>
+                                <h3 class="mx-4 mt-3">Upload Plans File</h3>
+                                <p class="mt-1 file-name" *ngIf="selectedFile">{{ selectedFile.name }}</p>
+                                <input  hidden (change)="uploadFile($event)" #fileInput type="file">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100  feo" appearance="outline">
+                            <mat-label>{{'Offer.Plan Name'|translate}}</mat-label>
+                            <mat-select formControlName="planName">
+                                <mat-option value="A">A</mat-option>
+                                <mat-option value="B">B</mat-option>
+                                <mat-option value="C">C</mat-option>
+                                <mat-option value="D">D</mat-option>
+                                <mat-option value="E">E</mat-option>
+                                <mat-option value="F">F</mat-option>
+                                <mat-option value="G">G</mat-option>
+                                <mat-option value="H">H</mat-option>
+                                <mat-option value="I">I</mat-option>
+                                <mat-option value="J">J</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100  feo" appearance="outline">
+                            <mat-label>{{'Offer.NetPremium'|translate}}</mat-label>
+                            <input formControlName="netPremium" type="number" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100  feo" appearance="outline">
+                            <mat-label>Total Sum insured</mat-label>
+                            <input formControlName="totalSumInsured" type="number" matInput>
+                        </mat-form-field>
+                        <!-- <span style="color: red;" *ngIf="this.totalAnnual < this.PlanForm.get('netPremium')?.value"> Total annual must be more than or equal netPremium</span> -->
+
+                    </div>
+                </div>
+            </form>
+            <form [formGroup]="RiskForm" class="mt-2">
+                    <div class="row pt-2 shadow_5" style="border-radius: 0.6rem">
+                        <div class="col-md-5">
+                            <mat-form-field class="w-100  feo" appearance="outline">
+                                <mat-label>{{"Offer.Risk"|translate}}</mat-label>
+                                <mat-select formControlName="riskId">
+                                    <mat-option *ngFor="let item of AllRisks" [value]="item.id">{{item.englishName}}</mat-option>
+                                    <!-- <mat-option value="B">Risk 2</mat-option> -->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-5">
+                            <mat-form-field class="w-100  feo" appearance="outline"  style="margin-bottom: -1em;">
+                                <mat-label>{{'Offer.AnnualMaxLimit'|translate}}</mat-label>
+                                <input formControlName="annualMaxLimit" type="number" matInput>
+                            </mat-form-field>
+                            <span [hidden]="this.RiskForm.get('annualMaxLimit')?.value === ''" style="color: red;" *ngIf="this.RiskForm.get('annualMaxLimit')?.value >this.PlanForm.get('totalSumInsured')?.value"> Annual Max Limit must be Less or equal than Total Sum insured</span>
+                        </div>
+                        <div class="col-md-2">
+                            <button [disabled]="this.RiskForm.status=='INVALID' || this.RiskForm.get('annualMaxLimit')?.value > this.PlanForm.get('totalSumInsured')?.value" (click)="viewRisk()" mat-raised-button  class="mt-2 tabeeb_Btn">{{'Shared.Add'|translate}}</button>
+                        </div>
+                        <table *ngIf="this.ArrRisk.length>0"  class="table text-center w-100">
+                            <thead style="background-color: #F2F2F2 !important;">
+                                <th>{{"Offer.Risk"|translate}}</th>
+                                <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                                <th class="remove"></th>
+                            </thead>
+                            <tbody>
+                                    <tr *ngFor="let item of ArrRisk;let index = index">
+                                        <td>{{ getRiskNameById(item.riskId) }}</td>
+                                        <td>{{item.annualMaxLimit}}</td>
+                                        <!-- <td class="remove"><button color="warn" (click)="removeRisk(index)" mat-raised-button>{{'Shared.Remove'|translate}}</button></td> -->
+                                        <td><i (click)="removeRisk(index)" class="fa-regular fa-trash-can fs-5 px-3 py-2" style="color:red !important"></i></td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </form>
+        </div>
+        
+    </div>
+        <div class="d-flex justify-content-between align-items-center py-5" style="padding: 0 3px 0 3px;">
+            <button  (click)="view()" [disabled]="this.PlanForm.status=='INVALID'||this.ArrRisk.length==0" class="btn _cancel w-50 mx-1">
+                <!-- <span *ngIf="!this.isClicked">Add Plan</span> -->Add Plan
+                <!-- <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span> -->
+            </button>
+            <button class="btn _delete w-50 mx-1" (click)="closeNewAccType()">Cancel</button>
+        </div>
+    
+    </div>
+</div>
+
+    <!-- Risk Model -->
+<div class="overlay" (click)="closeShowRisk()">
+    <div class="delet" (click)="$event.stopPropagation()">
+        <div class="d-flex justify-content-between delet-details">
+            <h2>Risk ?</h2>
+            <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeShowRisk()" style="cursor: pointer;"></i></div>
+        </div>
+        <hr class="custom-hr w-100">
+        <div class="container my-2">
+            <div class="row">
+                <div class="col-12">
+                    <table class="table text-center w-100">
+                        <thead style="background-color: #F2F2F2 !important;">
+                            <th>{{"Offer.Risk"|translate}}</th>
+                            <th>{{'Offer.AnnualMaxLimit'|translate}}</th>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let item of AllRisk;let index = index">
+                                    <td>{{ getRiskNameById(item.riskId) }}</td>
+                                    <td>{{item.annualMaxLimit}}</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center" style="padding: 0 3px 0 3px;">
+        <button class="btn _cancel w-50 mx-1" (click)="closeShowRisk()">Cancel</button>
+        </div>
+    </div>
+</div>

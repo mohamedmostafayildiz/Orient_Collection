@@ -1,0 +1,41 @@
+<div class="allEarlyCollect my-3">
+    <div class="container">        
+        <p class="font_Coloered3 text-center my-4">All early Collects</p>
+        <div class="outerBorder shadow_5 table-responsive">
+            
+            <table class="table table-striped text-center">
+                <thead class="tableHead">
+                    <th class="py-2">Insurance Class</th>
+                    <th class="py-2">Business Type</th>
+                    <th></th>
+                    <th></th>
+                </thead>
+                <tbody >
+                    <tr *ngFor="let early of allEarlyCollect">
+                        <td class="align-middle">{{early.insuranceClass}}</td>
+                        <td class="align-middle">{{early.businessType}}</td>
+                        <td><button mat-raised-button color="accent" class="btn btn-primary">Edit <i class="fa-solid fa-user-pen"></i></button></td>
+                        <td><button mat-raised-button color="primary" routerLink="/earlyDetails/{{early.id}}">View <i class="fa-solid fa-magnifying-glass"></i></button></td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="loading">
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    <tr><th></th></tr>
+                    
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th><app-spinner class="d-flex justify-content-center m-auto"></app-spinner></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

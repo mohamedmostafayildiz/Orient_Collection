@@ -1,0 +1,119 @@
+<div id="Uplaod-Group_file">
+    <div class="container-fluid">
+        <!-- Header  -->
+        <!-- Body -->
+        <div class="outerBorder shadow_5">
+            <div class="d-flex justify-content-between mx-4">
+                <div class="d-flex">
+                    <p class="font_Coloered3 text-center my-4">{{'Shared.Add'|translate}} {{'Offer.Group'|translate}}</p>
+                    <!-- <div class="Download mt-2">
+                        <i (click)="getTempleteFile()" class="text-success fa-solid fa-download fs-3 px-2 py-1 mt-3" style="color:#01909D;border-radius: 7px;"></i>
+                    </div> -->
+                    <!-- <button type="button" (click)="this._location.back()" class="btn tabeeb_Btn">Back</button> -->
+                </div>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#ViewGroup" class="btn Current-plan mt-3">{{'Offer.CurrentGroup'|translate}}</button>
+            </div>
+            <!-- <h2 class="fs-4 mt-2"><span class="text-muted">{{'Shared.AddOnlyExcelFile'|translate}}</span> </h2> -->
+            <!-- File Upload -->  
+            <div class="row" >
+                <div class="d-flex py-4">
+                    <h4 class="mt-4 mx-3">Step1</h4>
+                    <div class="gray-circle mt-4" style="margin-top: 30px;"></div>
+                    <div class="shadow-down mx-4">
+                        <i class="fa-solid fa-download fs-4" style="color: #01909D !important; margin-top: 20px;padding: 0 15px;"></i>
+                    </div>
+                    <div>
+                        <h2 class="Downloadfile">Download File</h2>
+                        <p class="pleaseDownloadfile">Please download file <span class="clickher" (click)="getTempleteFile()">click here</span></p>
+                    </div>
+                </div>
+                <hr class="w-90" style="border: 1px solid gray;margin: auto;">
+                <div class="d-flex py-4" style="padding-top: 25px;">
+                    <h4 class="mt-4 mx-3">Step2</h4>
+                    <div class="gray-circle" style="margin-top: 30px;"></div>
+                    <div class="shadow-down mx-4">
+                        <i (click)="fileInput.click()" class="fa-solid fa-cloud-arrow-up fs-4" style="color: #01909D !important; margin-top: 20px;padding: 0 15px;"></i>
+
+                    </div>
+                    <div>
+                        <h2 class="Downloadfile">Upload File</h2>
+                        <p class="pleaseDownloadfile">Please Upload file with entered data </p>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="w-15"></div>
+                    <div class="w-85">
+                        <div class="uploaded-container mt-1">
+                            <div class="d-flex align-items-center file-upload" (click)="fileInput.click()" role="button" aria-label="Upload File">
+                                <i class="fa-solid fa-cloud-arrow-up fs-4 mt-1 upload-icon"></i>
+                                <h3 class="mx-4 mt-3">Upload File</h3>
+                                <p class="mt-1 file-name" *ngIf="selectedFile">{{ selectedFile.name }}</p>
+                                <input accept=".xlsx" hidden (change)="uploadFile($event)" #fileInput type="file">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               
+                <div class="d-flex justify-content-between py-4">
+                    <button type="button" (click)="SaveGroup()" mat-raised-button class="btn Current-plan w-25 my-2 btn tabeeb_Btn" [disabled]="this.isClickedDocumnet || this.selectedFile==null"><span *ngIf="this.isClickedDocumnet">{{'Shared.Uploading'|translate}} <i class="fa-solid fa-spinner fa-spin"></i></span><span *ngIf="!this.isClickedDocumnet">{{'Shared.Upload'|translate}} <i class="fa-solid fa-floppy-disk"></i></span></button>
+                    <!-- <button *ngIf="this.AllPolicyGroup!=null" class="w-25 my-2" routerLink="/SelectPlanToPolicy/{{this.PolicyId}}"  mat-raised-button color="accent">Proceed</button> -->
+                            
+                </div>
+            
+        </div>
+        </div> 
+    </div>
+        <!--------------------------------------- Current Entered Group Modal --------------------------->
+        <div class="modal fade" id="ViewGroup" tabindex="-1" aria-labelledby="networkCoding" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="networkCoding">{{'Offer.CurrentGroup'|translate}}</h1>
+                    </div>
+    
+                    <div class="container">
+                        <!-- Header -->
+                        <!-- <div class="d-flex justify-content-between mx-4 pt-3">
+                            <p class="font_Coloered3 text-center my-3">Current Group </p>
+                            <button routerLink="/UploadGroupFile/{{this.PolicyId}}" mat-raised-button color="primary" class="mt-3">Add New</button>
+                        </div> -->
+                        <!-- Body -->
+                        <div class="outerItem outerBorder shadow_5" style="overflow: auto;">
+                            <table class="table table-striped text-center">
+                                <thead class="tableHead">
+                                    <th class="py-2">{{'addCustomer.Name'|translate}}</th>
+                                    <th class="py-2">{{'Offer.GroupRel'|translate}}</th>
+                                    <th class="py-2">{{'addCustomer.D.O.B'|translate}}</th>
+                                    <th class="py-2">{{'addCustomer.age'}}</th>
+                                    <th class="py-2">Assigned Plan</th>
+                                    <th class="py-2">{{'addCustomer.Notes'|translate}}notes</th>
+                                    
+                                </thead>
+                                <tbody>
+                                    
+                                    <tr *ngFor="let item of AllPolicyGroup">
+                                        <td class="align-middle py-3">{{item.name}}</td>
+                                        <td class="align-middle py-3">{{item.groupRel}}</td>
+                                        <td class="align-middle py-3">{{item.dateOfBirth|date:'shortDate'}}</td>
+                                        <td class="align-middle py-3">{{item.age}}</td>
+                                        <td class="align-middle py-3">{{item?.plan?.planName}}</td>  
+                                        <td class="align-middle py-3">{{item.notes}}</td>  
+                
+                                    </tr>
+                                </tbody>
+                
+                            </table>
+                            <div id="loading" *ngIf="loading">
+                                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer py-3">
+                        <button type="button" mat-raised-button
+                            data-bs-dismiss="modal">{{'Shared.Close'|translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

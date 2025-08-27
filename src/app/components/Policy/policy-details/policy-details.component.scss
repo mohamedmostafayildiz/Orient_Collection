@@ -1,0 +1,30 @@
+.modal{
+    --bs-modal-width: 80%;
+}
+.container_custom{
+    width: 80%;
+    margin: auto;
+}
+.customDanger{
+    background-color: rgb(201, 166, 166);
+}
+
+table thead {
+    --bs-table-bg: #F2F2F2; 
+    --bs-table-hover-bg: #e0e0e0; 
+  }
+  th, td {
+    height: 60px;
+    min-height: 60px; 
+    font-size: 14px !important;
+    vertical-align: middle;
+  } 
+  th{
+    color: #01BACB;
+  }
+  .container-fluid{
+    --bs-gutter-x:0rem
+  }
+  .fa-eye:hover{
+    color: white !important;
+  }

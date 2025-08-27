@@ -1,0 +1,205 @@
+.dropdown-menu {
+    position: absolute;
+    left: auto !important; 
+    right: 0 !important;
+    top: 50% !important; 
+    transform: translateY(-50%) !important;
+  }
+
+
+  .overlay ,.overlayAccountType,.overlayAccountDetails,.overlayTypeDetails,.overlayEditAccountType, .overlayView {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
+.AddNew ,.AddNewAccountType,.AddNewAccountDetails,.showtypeDetails,.EditAccountType, .Viewgovernmant{
+    position: absolute;
+    z-index: 999;
+    width: 40%;
+    height: 100%;
+    background-color: white;
+    border-top-left-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+    top: 0;
+    right: -40%;
+    padding: 0rem 1rem;
+    overflow-y: auto;
+
+
+}
+
+.AddJournalgovernmant{
+    position: absolute;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    top: 0;
+    right: -30%;
+    overflow-y: auto;
+}
+
+.AddNewJournal_Voucher {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f4f5f8;
+    z-index: 999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+#AddNewfooterJournal_Voucher{
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    background-color: #393a3d;
+    border-top: 1px solid #d4d7dc;
+}
+
+
+.wrapper {
+    overflow: auto;
+    border-radius: 10px;
+    border: 1px solid rgba(16, 74, 143, 0.25);
+  }
+
+
+  .custom_table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .custom_table th, .custom_table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .custom_table th {
+    background-color: #f2f2f2;
+  }
+  
+  .custom_table th, .custom_table td {
+    text-align: center;
+  }
+
+  .AddfooterInnerBtn{
+    border-radius:1rem;
+}
+
+.cusNewBtn{
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  margin-right: 1px;
+}
+
+
+.cus_container2{
+  width: 90%;
+  margin: auto;
+}
+
+.newInvoiceBody{
+  min-height: 100vh;
+  overflow: auto!important;
+
+}
+
+// Customers
+.overlay5 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+    z-index: 1000000; /* Ensure it is on top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none; /* Initially hidden */
+}
+
+.AddNew5 {
+    position: absolute;
+    z-index: 1000000;
+    width: 75%; /* Adjust width as needed */
+    height: 100%; /* Adjust height dynamically */
+    background-color: white;
+    border-radius: 0.8rem;
+    padding: 1.5rem;
+    // overflow-y: auto;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); /* Add shadow */
+    
+    /* Centering */
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+}
+
+
+
+  
+// For New Performance
+// Bank Transaction componant
+
+.dropdown {
+    position: relative;
+  }
+  
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 160px;
+    padding: 5px 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    z-index: 1000;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  }
+  .dropdown-menu {
+  top: 100% !important;       /* Show below the button */
+  left: 0;
+  transform: translateY(0);   /* Remove any upward offset */
+  margin-top: 1.9rem;        /* Optional spacing */
+}
+  
+.dropdown-menu.show {
+    display: block;
+}
+.dropdown-menu {
+    transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+}
+  
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+}
+  
+.dropdown-item {
+    padding: 5px 15px;
+    cursor: pointer;
+}
+  
+.dropdown-item:hover {
+    background-color: #01909D;
+    color: white;
+}

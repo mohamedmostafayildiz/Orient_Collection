@@ -1,0 +1,47 @@
+h2{
+    font-family: 'El Messiri', sans-serif!important;
+}
+.Editpartner{
+    color: #01909D;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    text-decoration: underline;
+}
+.container-fluid{
+    --bs-gutter-x:0rem
+  }
+  .maindetails{
+    color: #01909D;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24.2px;
+  }
+  .quest{
+    color: #01909D;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.36px;
+  }
+  .answ{
+    color: #000000;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 21.36px;
+  }
+  .custom-table{
+    --bs-table-bg: #F6F6F6;
+     border-spacing: 0px 10px !important;
+     
+  }
+  th, td {
+    height: 60px;
+    min-height: 60px; 
+    vertical-align: middle;
+  } 
+  th{
+    color: #01BACB;
+  }
+
+  
+

@@ -1,0 +1,11 @@
+.custom-checkbox .mdc-form-field {
+  display: flex;
+  align-items: center; /* يخلي النص جنب المربع في النص */
+  gap: 8px; /* مسافة صغيرة بين المربع والرقم */
+}
+
+.custom-checkbox {
+  font-size: 14px; /* حجم الخط */
+  font-weight: 500;
+  color: #333; /* لون النص */
+}

@@ -1,0 +1,38 @@
+.modal{
+    --bs-modal-width: 70%;
+}
+.container_custom{
+    width: 80%;
+    margin: auto;
+}
+// thead th{
+//     font-family: 'El Messiri', sans-serif!important;
+// }
+// tbody tr td{
+//     font-family: 'El Messiri', sans-serif!important;
+// }
+// .modal-header h1{
+//     font-family: 'El Messiri', sans-serif!important;
+// }
+
+
+.container-fluid{
+    --bs-gutter-x:0rem
+  }
+  .searchfilter{
+    background-color: #01909D;
+    border: none;
+    color: white;
+    // padding: 5px 15px;
+  } table thead {
+    --bs-table-bg: #F2F2F2; 
+    --bs-table-hover-bg: #e0e0e0; 
+  }
+  th, td {
+    height: 60px;
+    min-height: 60px; 
+    vertical-align: middle;
+  } 
+  th{
+    color: #01BACB;
+  }

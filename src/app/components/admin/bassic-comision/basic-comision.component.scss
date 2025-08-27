@@ -1,0 +1,27 @@
+#basicComission{
+    display: flex;
+    align-items: center;
+ 
+}
+.font_Coloered2:before{
+    content: '';
+    padding-left: 0.7rem;
+    border-left: solid 0.32rem #D97706;
+}
+
+.outerBorder{
+    border:1px solid transparent;
+    // margin:1.2rem;
+    // padding: 1.2rem;
+    border-radius: 0.5rem;
+}
+.container-fluid{
+    --bs-gutter-x:0rem
+  }
+
+  .activate{
+    background-color: #01909D;
+    padding: 8px 16px;
+    border-radius: 10px;
+    color: white;
+  }

@@ -1,0 +1,120 @@
+///////////// New Design ////////////
+
+/// Nav bar ////////
+.First_nav{
+  /* position: fixed;
+  top:0;
+  left:0;
+  right:0; */
+  background-color: #01909D;
+}
+.second-nav {
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  background-color: #aaa5a5; /* Adjust color as needed */
+  border-bottom: 1px solid #ddd; /* Optional border */
+  margin-top: -1px; /* Remove any gap between navbars */
+  z-index: 9; /* Ensure it stays below the first navbar */
+}
+.navbar-brand{
+  color: #FFFFFF;
+  font-size: 1.9rem;
+  font-weight: bold;
+}
+.vr {
+  border-left: 1px solid gray;
+  height: 30px;
+}
+
+
+
+///// Side bar //////
+.bg_white{
+  background-color: #FFF;
+}
+.bg_gray{
+  background-color: #f2f2f2;
+}
+.bg_move{
+  background-color: #01909D;
+}
+.color_gray{
+  color: #f2f2f2;
+}
+.ParentSideNav{
+  // width: 130px;
+  padding: 0.5rem 0;
+  background-color: #f2f2f2;
+  padding: 1rem 0.8rem;
+}
+.sideNav{
+  background-color: #FFF;
+  border-radius: 0.5rem;
+  padding: 0.7rem 0.6rem;
+  box-shadow: 0px 4px 4px 0px #365A7C33;
+
+}
+.sideNav .py-2 p{
+  color: #999999;
+  font-size: 0.9rem;
+}
+.sideNav .py-2 ,.defaultImg{
+  transition: 0.2s;
+}
+.defaultImg{
+  transition: 0.2s;
+}
+.sideNav .py-2:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0.3rem;
+}
+.sideNav .py-2:hover .defaultImg{
+  background-color: rgba(0, 0, 0, 0.0);
+}
+.defaultImg,.acImg{
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.3rem;
+}
+//
+.activee{
+  color: #01909D!important;
+}
+.activee .defaultImg{
+  display: none;
+}
+.activee .acImg{
+  display: block!important;
+}
+.activee p{
+  color: #01909D!important;
+}
+
+
+//////////////////////
+.fa-chevron-down{
+  border-radius: 0.3rem;
+  transition: 0.3s;
+}
+.fa-chevron-down:hover{
+  cursor: pointer;
+  background-color: #01909D;
+  color: #FFF;
+}
+.dropdown-menu{
+  left: -30px!important;
+  text-align: center!important;
+  --bs-dropdown-min-width: 7.5rem!important;
+
+}
+@media print {
+  .Prentable{
+      visibility:visible;
+      margin-top: 0;
+  }
+  .Non-prentable{
+      visibility:hidden;
+  }
+}

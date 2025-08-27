@@ -1,0 +1,33 @@
+<div id="plans-of-policy">
+    <div class="container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between mx-4 pt-3">
+            <p class="font_Coloered3 text-center my-3">Plans </p>
+            <button routerLink="/UploadPlansFile/{{this.PolicyId}}" mat-raised-button color="primary" class="mt-3">Add New</button>
+        </div>
+        <!-- Body -->
+        <div class="outerItem outerBorder shadow_5" style="overflow: auto;">
+            <table class="table table-striped text-center">
+                <thead class="tableHead">
+                    <th class="py-2">Name</th>
+                    <th class="py-2">Annual Max Limit</th>
+                    <th class="py-2">Net Premium</th>
+                    
+                </thead>
+                <tbody>
+                    
+                    <tr *ngFor="let item of AllPolicyPlans">
+                        <td class="align-middle py-3">{{item.planName}}</td>
+                        <td class="align-middle py-3">{{item.annualMaxLimit}}</td>
+                        <td class="align-middle py-3">{{item.netPremium}}</td>  
+
+                    </tr>
+                </tbody>
+
+            </table>
+            <div id="loading" *ngIf="loading">
+                <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+            </div>
+        </div>
+    </div>
+</div>

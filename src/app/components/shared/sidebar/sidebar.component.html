@@ -1,0 +1,229 @@
+<div *ngIf="this._AuthService.isLoggedIn()" style="border-bottom: none;min-height: 92.4vh;">
+    <!-- Administrator Setup -->
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            
+            <h2 class="accordion-header head">
+                <button class="w-100 collapsed px-2" type="button" data-bs-toggle="collapse" data-bs-target="#H_2">
+                    <i class="fa fa-grip-horizontal "></i> {{"SideBar.AdministratorSetup"|translate}}
+                </button>
+            </h2>
+            <div id="H_2" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                
+                <div class="accordion-body pl-5">
+                    
+                    <h2 *ngIf="this.permissions.includes('Permissions.Customers.View')" style="line-height: 41px;" class="accordion-header">
+                        <button routerLink="/AllCustomers" routerLinkActive="active" class="w-100 collapsed px-2" type="button" data-bs-toggle="collapse"style="padding: 0px 20px!important;"
+                            data-bs-target="#H_1">
+                            <i class="fa fa-users"></i> {{"SideBar.Customers"|translate}}
+                        </button>
+                    </h2>
+                    
+                    <!-- Customers -->
+                    <div class="accordion accordion-flush" id="accordionFlushExample" style="padding: 0px!important;">
+                        <div id="H_1" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="my-1"(click)="Customers('')">All Customers</div>
+                                <div class="my-1"(click)="Customers(0)">Individual</div>
+                                <div class="my-1"(click)="Customers(1)">Corporate</div>
+                                <div class="my-1"(click)="Customers(2)">TPA</div>
+                                <div class="my-1"(click)="Customers(3)">Broker</div>
+                                <div class="my-1"(click)="Customers(4)">ReInsurer</div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Customers.Create')" class="my-1" routerLinkActive="active" routerLink="/addCustomer"><i class="fa-solid fa-user-plus"></i>
+                        {{'UserInfo.AddCustomer'|translate}}</div>
+                    
+                    <div *ngIf="this.permissions.includes('Permissions.Users.View')" class="my-1" routerLinkActive="active" routerLink="/Users"><i class="fa-solid fa-user-group"></i>
+                        {{"SideBar.Users"|translate}}</div>
+                    
+                    <!-- <div class="my-1" routerLink="/AllPlans" routerLinkActive="active">
+                        <i class="fa-solid fa-hand-holding-droplet"></i> Plans</div> -->
+
+                    <!-- <div class="my-1" routerLinkActive="active" routerLink="/AddBenefit">
+                        <i class="fa-brands fa-slack"></i>{{"SideBar.AddGobalBenefit"|translate}}</div> -->
+                    <!-- <div class="my-1" routerLinkActive="active" routerLink="/BasicComision">
+                        <i class="fa-brands fa-slack"></i>All gobal benefit</div> -->
+
+                    <!-- <div class="my-1" routerLink="/AllEarlyCollects" routerLinkActive="active"><i
+                            class="fa-solid fa-layer-group"></i> {{"SideBar.EarlyCollects"|translate}}</div> -->
+                    <div *ngIf="this.permissions.includes('Permissions.BrokerageCommissions.Add')" class="my-1" routerLink="/BasicComision" routerLinkActive="active">
+                        <i class="fa-solid fa-notes-medical"></i> {{"SideBar.AddBasicCommission"|translate}}</div>
+                    <div *ngIf="this.permissions.includes('Permissions.BrokerageCommissions.View')" class="my-1" routerLink="/Commissions" routerLinkActive="active">
+                        <i class="fa-solid fa-droplet"></i> {{"SideBar.Commissions"|translate}}</div>
+                    <!-- <div class="my-1" routerLinkActive="active" routerLink="/Early&Collect">
+                        <i class="fa-regular fa-calendar-minus"></i> {{"SideBar.AddEarly&Collect"|translate}}</div> -->
+                    <div *ngIf="this.permissions.includes('Permissions.TpaCommissions.View')" class="my-1" routerLinkActive="active" routerLink="/TPAFees">
+                        <i class="fa-regular fa-star"></i> {{"SideBar.TpaFees"|translate}}</div>
+                    <!-- <div class="my-1" routerLinkActive="active" routerLink="/AllReinsurers">
+                        <i class="fa-solid fa-wrench"></i> {{"SideBar.AllReinsurers"|translate}}</div> -->
+                    <div *ngIf="this.permissions.includes('Permissions.Branches.View')" class="my-1" routerLinkActive="active" routerLink="/Branches">
+                        <i class="fa-solid fa-code-branch"></i> {{"Admin.Branch"|translate}}</div>
+                        
+                    <div *ngIf="this.permissions.includes('Permissions.Banks.View')" class="my-1" routerLinkActive="active" routerLink="/Banks">
+                        <i class="fa-solid fa-building-columns"></i> {{"Admin.Banks"|translate}}</div>
+
+                    <div *ngIf="this.permissions.includes('Permissions.Departments.View')" class="my-1" routerLinkActive="active" routerLink="/Departments">
+                        <i class="fa-brands fa-microsoft"></i> {{"Admin.Departments"|translate}} </div>
+
+                    <div *ngIf="this.permissions.includes('Permissions.Governorates.View')" class="my-1" routerLinkActive="active" routerLink="/governorates">
+                        <i class="fa-solid fa-city"></i> {{"Admin.Governorates"|translate}}</div>
+                    <div class="my-1" routerLinkActive="active" routerLink="/Risk">
+                        <i class="fa fa-file-alt"></i> Risk</div>
+                </div>   
+            </div>
+        </div>
+
+
+    </div>
+    <!-- Customers -->
+
+    <!-- Offers -->
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header head">
+                <button class="w-100 collapsed px-2" type="button" data-bs-toggle="collapse" data-bs-target="#H_3">
+                    <i class="fa fa-compress"></i> {{"SideBar.Offers"|translate}}
+                </button>
+            </h2>
+            <div id="H_3" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <div *ngIf="this.permissions.includes('Permissions.Offers.Create')" class="my-1"routerLink="/Offer" routerLinkActive="active"><i class="fa-solid fa-money-bill"></i> {{"SideBar.AddOffer"|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Offers.View')" class="my-1"routerLink="/AllOffers" routerLinkActive="active"><i class="fa fa-file-alt"></i> {{"SideBar.AllOffers"|translate}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Polices -->
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header head">
+                <button class="w-100 collapsed px-2" type="button" data-bs-toggle="collapse" data-bs-target="#H_4">
+                    <i class="fa fa-book-reader"></i>  {{'Policy.Policies'|translate}}
+                </button>
+            </h2>
+            <div id="H_4" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <div *ngIf="this.permissions.includes('Permissions.Policies.View')" class="my-1"routerLink="/AllPolices" routerLinkActive="active"><i class="fa fa-window-maximize"></i>
+                        {{'Policy.AllPolices'|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Endorsements.Create')" class="my-1"routerLink="/InitialEndorsment" routerLinkActive="active"><i class="fa-solid fa-battery-half"></i>
+                         {{'SideBar.Endorsment'|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Claims.Create')" class="my-1"routerLink="/InitialClaim" routerLinkActive="active"><i class="fa-solid fa-heart-circle-plus"></i>
+                        {{'SideBar.Claims'|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Claims.Create')" class="my-1"routerLink="/AllClaims" routerLinkActive="active"><i class="fa-solid fa-heart-circle-plus"></i>
+                        All Claims
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Claims.Create')" class="my-1"routerLink="/Rejected-claims" routerLinkActive="active"><i class="fa-solid fa-heart-circle-plus"></i>
+                        Rejected Claims
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Endorsements.View')" class="my-1"routerLink="/AllEndorsments" routerLinkActive="active"><i class="fa-solid fa-gear"></i>
+                        {{'SideBar.AllEndorsements'|translate}}
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Collections -->
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header head">
+                <button class="w-100 collapsed px-2" type="button" data-bs-toggle="collapse" data-bs-target="#H_8">
+                    <i class="fa-solid fa-coins"></i> {{'Collections.Collections'|translate}}
+                </button>
+            </h2>
+            <div id="H_8" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <div *ngIf="this.permissions.includes('Permissions.Portfolios.Create')" class="my-1" routerLink="/EmployeeCollection" routerLinkActive="active" ><i class="fa-solid fa-plus"></i>
+                        {{'Collections.Collections'|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Portfolios.Approve')" class="my-1" routerLink="/AdminCollection" routerLinkActive="active" ><i class="fa-solid fa-gear"></i>
+                        {{'Portfolios.ApprovePortfolios'|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Portfolios.Payment')" class="my-1" routerLink="/CollectionPayment" routerLinkActive="active"><i class="fa-brands fa-cc-amazon-pay"></i>
+                        {{'Portfolios.PortfolioPay'|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Portfolios.FinalApprove')" class="my-1" routerLink="/PendingPortfolio" routerLinkActive="active"><i class="fa-brands fa-cc-amazon-pay"></i>
+                        {{'Portfolios.PendingPortfolio'|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Claims.View')" class="my-1" routerLink="/ClaimsPayment" routerLinkActive="active"><i class="fa-solid fa-money-bill"></i>
+                        {{'SideBar.ClaimsPayment'|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.BrokerageCommissions.Pay')" class="my-1" routerLink="/BrokeragePayment" routerLinkActive="active"><i class="fa-solid fa-comment-dollar"></i>
+                        {{'SideBar.BrokeragePay'|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.TpaCommissions.Pay')" class="my-1" routerLink="/TpaPayment" routerLinkActive="active"><i class="fa-solid fa-percent"></i>
+                        {{'SideBar.TPAPay'|translate}}
+                    </div>
+                    <!-- <div class="my-1" routerLink="/CommissionPermision" routerLinkActive="active"><i class="fa-solid fa-percent"></i>
+                        Commission Permision
+                    </div>
+                    <div class="my-1" routerLink="/CommissionPayment" routerLinkActive="active"><i class="fa-solid fa-percent"></i>
+                        Commission Payment
+                    </div> -->
+                    <div *ngIf="this.permissions.includes('Permissions.Portfolios.View')" class="my-1" routerLink="/PrintSubbliy" routerLinkActive="active"><i class="fa fa-file-alt"></i>
+                        {{'Portfolios.PrintSubbliy'|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.CustomerSecretaries.Create')" class="my-1" routerLink="/CreateHonsty" routerLinkActive="active"><i class="fa-solid fa-circle-plus"></i>
+                        {{'Portfolios.CreateHonsty'|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.ExchangePermits.View')" class="my-1" routerLink="/AllExchangePermit" routerLinkActive="active"><i class="fa-solid fa-circle-plus"></i>
+                        {{'Portfolios.AllExchangePermit'|translate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Reports -->
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header head">
+                <button class="w-100 collapsed px-2" type="button" data-bs-toggle="collapse" data-bs-target="#H_5">
+                    <i class="fa fa-file-alt"></i> {{"SideBar.Reports"|translate}}
+                </button>
+            </h2>
+            <div id="H_5" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <div class="my-1"routerLink="/Reports" routerLinkActive="active"><i class="fa-solid fa-file"></i> {{"SideBar.Reports"|translate}}</div>
+                    <div *ngIf="this.permissions.includes('Permissions.Reports.Polices')" class="my-1"routerLink="/CreatedPolices" routerLinkActive="active"><i class="fa fa-user"></i> {{"SideBar.Polices Reports"|translate}}</div>
+                    <!-- <div class="my-1"routerLink="/ClaimDetailsReport" routerLinkActive="active"><i class="fa fa-folder-open"></i> ClaimDetailsReport
+                        </div> -->
+                    <div *ngIf="this.permissions.includes('Permissions.Reports.Offers')" class="my-1"routerLink="/OfferReports" routerLinkActive="active"><i class="fa fa-unlock"></i> {{"SideBar.Offers Reports"|translate}}
+                    </div>
+                    <div *ngIf="this.permissions.includes('Permissions.Reports.Customers')" class="my-1"routerLink="/CustomersReport" routerLinkActive="active"><i class="fa fa-microchip"></i> {{"SideBar.Customers  Report"|translate}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ReInsurance -->
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header head">
+                <button class="w-100 collapsed px-2" type="button" data-bs-toggle="collapse" data-bs-target="#H_6">
+                    <i class="fa-solid fa-retweet"></i> {{"SideBar.Reinsurance"|translate}}
+                </button>
+            </h2>
+            <div id="H_6" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <div class="my-1"routerLink="/ReInsuranceCompany" routerLinkActive="active"><i class="fa-solid fa-building"></i> {{"SideBar.Reinsurance Comapany"|translate}}</div>
+                    <div class="my-1"routerLink="/ReInsuranceBroker" routerLinkActive="active"><i class="fa-solid fa-handshake"></i>{{"SideBar.Reinsurance Broker"|translate}}</div>
+                    <div class="my-1"routerLink="/MedicalTreatySetup" routerLinkActive="active"><i class="fa-solid fa-repeat"></i> {{"SideBar.Medical Treaty Setup"|translate}}</div>
+                  
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

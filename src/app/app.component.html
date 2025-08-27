@@ -1,0 +1,115 @@
+
+<!-- New Design -->
+<div class="bg_gray" style="min-height: 100vh; position: relative;">
+  <nav class="navbar First_nav Non-prentable">
+    <div class="d-flex w-100">
+        <div class="d-flex align-items-center" style="padding-left: 10px;width: 20%;">
+            <a class="navbar-brand" href="#">Orient</a>
+        </div>
+
+        <div class="position-relative" style="padding-right: 10px;width: 80%;">
+            <input type="text" class="form-control pr-5" placeholder="&#xf002; Search here..." style="font-family:Arial, FontAwesome!important; padding-right: 150px;">
+
+            <div class="d-flex align-items-center position-absolute" style="right: 25px; top: 50%; transform: translateY(-50%);">
+                <div class="vr mx-3"></div> 
+                <i class="fas fa-user me-2" *ngIf="this._AuthService.isLoggedIn()"></i> 
+                <span style="font-size: .7rem; white-space: nowrap;" *ngIf="this._AuthService.isLoggedIn()">Hi, User!</span>
+                <i class="fas fa-chevron-down ms-2 px-2 py-1"
+                 data-bs-toggle="dropdown" aria-expanded="false"></i>
+                <ul class="dropdown-menu" style="z-index: 1000000001 !important;">
+                  <li style="z-index: 1000000001 !important;"><a class="dropdown-item main_color fw-bold" *ngIf="!this._AuthService.isLoggedIn()" routerLink="/login">Login <i class="fa-solid fa-right-to-bracket fs-5"></i></a></li>
+                  <li style="z-index: 1000000001 !important;"><a class="dropdown-item main_color fw-bold" *ngIf="this._AuthService.isLoggedIn()" (click)="logOut()">LogOut <i class="fa-solid fa-arrow-right-to-bracket fs-5"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<nz-alert 
+  *ngIf="isSuccess"
+  nzType="success"
+  [nzDescription]="successMessage"
+  nzShowIcon
+  nzCloseable
+  class="custom-alert"
+></nz-alert>
+
+<!-- Socend Nav -->
+<!-- *ngIf="this._AuthService.isLoggedIn()" -->
+ <app-soc-nav class="Non-prentable"  [activeTap]="ActiveList"></app-soc-nav>
+
+ <!-- *ngIf="this._AuthService.isLoggedIn()" -->
+  <div class="ParentSideNav d-flex Non-prentable">
+    <div class="sideNav Non-prentable" >
+      <!-- <div class="py-2" (click)="getSelectedSideBar(item1,'Dashboard')" #item1 [class.activee]="this.CurrentTap =='Dashboard'">
+        <div class="d-flex justify-content-center m-auto">
+          <img src="../assets/imgs/Design/Icons/Home.png" class="defaultImg m-auto bg_white">
+          <img src="../assets/imgs/Design/Icons/act_Home.png" class="acImg m-auto bg_move" style="display: none;">
+        </div>
+        <p class="text-center">Dashboard</p>
+      </div> -->
+      <!-- <div class="py-2 mt-2" (click)="getSelectedSideBar(item2,'Issuance')" #item2 [class.activee]="this.CurrentTap =='Issuance'">
+        <div class="d-flex justify-content-center m-auto">
+          <img src="../assets/imgs/Design/Icons/Requests.png" class="defaultImg m-auto bg_white">
+          <img src="../assets/imgs/Design/Icons/act_Requests.png" class="acImg m-auto bg_move" style="display: none;">
+        </div>
+        <p class="text-center ">Issuance</p>
+      </div> -->
+      <!-- <div class="py-2 mt-2" (click)="getSelectedSideBar(item3,'Claims')" #item3 [class.activee]="this.CurrentTap =='Claims'">
+        <div class="d-flex justify-content-center">
+          <img src="../assets/imgs/Design/Icons/Claims.png" class="defaultImg m-auto bg_white">
+          <img src="../assets/imgs/Design/Icons/act_Claims.png" class="acImg m-auto bg_move" style="display: none;">
+        </div>
+        <p class="text-center">Claims</p>
+      </div> -->
+      <div class="py-2 mt-2" (click)="getSelectedSideBar(item4,'Re-insurance')" #item4 [class.activee]="this.CurrentTap =='Re-insurance'">
+        <div class="d-flex justify-content-center">
+          <img src="../assets/imgs/Design/Icons/Re-insurance.png" class="defaultImg m-auto bg_white">
+          <img src="../assets/imgs/Design/Icons/act_Re-insurance.png" class="acImg m-auto bg_move" style="display: none;">
+        </div>
+        <p class="text-center">Re-insurance</p>
+      </div>
+      <div class="py-2 mt-2" (click)="getSelectedSideBar(item5,'Collections')" #item5 [class.activee]="this.CurrentTap =='Collections'">
+        <div class="d-flex justify-content-center">
+          <img src="../assets/imgs/Design/Icons/Collections.png" class="defaultImg m-auto bg_white">
+          <img src="../assets/imgs/Design/Icons/act_Collections.png" class="acImg m-auto bg_move" style="display: none;">
+        </div>
+        <p class="text-center">Collections</p>
+      </div>
+          <!-- Finance -->
+          <!-- <div class="py-2 mt-2" (click)="getSelectedSideBar(item10,'Finance')" #item10 [class.activee]="this.CurrentTap =='Finance'">
+            <div class="d-flex justify-content-center m-auto">
+              <img src="../assets/imgs/Design/Icons/Requests.png" class="defaultImg m-auto bg_white">
+              <img src="../assets/imgs/Design/Icons/act_Requests.png" class="acImg m-auto bg_move" style="display: none;">
+            </div>
+            <p class="text-center ">Finance</p>
+          </div> -->
+
+          <!-- Finance2 -->
+          <div class="py-2 mt-2" (click)="getSelectedSideBar(item11,'Finance')" #item11 [class.activee]="this.CurrentTap =='Finance'">
+            <div class="d-flex justify-content-center m-auto">
+              <img src="../assets/imgs/Design/Icons/Requests.png" class="defaultImg m-auto bg_white">
+              <img src="../assets/imgs/Design/Icons/act_Requests.png" class="acImg m-auto bg_move" style="display: none;">
+            </div>
+            <p class="text-center ">Finance</p>
+          </div>
+
+      <div class="py-2 mt-2" (click)="getSelectedSideBar(item6,'Accounting')" #item6 [class.activee]="this.CurrentTap =='Accounting'">
+        <div class="d-flex justify-content-center">
+          <img src="../assets/imgs/Design/Icons/Accounting.png" class="defaultImg m-auto bg_white">
+          <img src="../assets/imgs/Design/Icons/act_Accounting.png" class="acImg m-auto bg_move" style="display: none;">
+        </div>
+        <p class="text-center">Reports</p>
+      </div>
+      <!-- <div class="py-2 mt-2" (click)="getSelectedSideBar(item7,'Account setup')" #item7 [class.activee]="this.CurrentTap =='Account setup'">
+        <div class="d-flex justify-content-center">
+          <img src="../assets/imgs/Design/Icons/Setup.png" class="defaultImg m-auto bg_white">
+          <img src="../assets/imgs/Design/Icons/act_Account.png" class="acImg m-auto bg_move" style="display: none;">
+        </div>
+        <p class="text-center">Account setup</p>
+      </div> -->
+    </div>
+    <div class="w-100" style="padding: 0 0 0 0.6rem;">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

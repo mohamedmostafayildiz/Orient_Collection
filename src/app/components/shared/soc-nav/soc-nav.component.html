@@ -1,0 +1,36 @@
+<div style="width: 98%;margin: auto;">
+  <div class="d-flex justify-content-between main_com">
+    <h3 class="Account">
+      <span (click)="goBack()" *ngIf="this.addButton?.arrow== true" class="mx-2"><i class="fa-solid fa-arrow-left"></i></span>
+      <span>{{this.activeTap?.tab}}</span>
+    </h3>
+    <div *ngIf="!showButtons">
+      <button *ngIf="this.addButton?.filter==true" (click)="onToggle()" type="button" class="main_outer_Btn mx-2" mat-stroked-button>
+        <i class="fas fa-chevron-down" style="margin-right: 2px;"></i>Filter
+      </button>
+      <button *ngIf="this.addButton?.add!='' && this.addButton?.modal==false" routerLink="/{{this.addButton?.route}}" type="button" mat-raised-button class="tabeeb_Btn py-1">
+        <i class="fa-solid fa-plus" style="margin-right: 2px;"></i>{{this.addButton?.add}}
+      </button>
+      <button (click)="openModal({})" *ngIf="this.addButton?.modal==true" type="button" class="mintBtn py-1">
+        <i class="fa-solid fa-plus" style="margin-right: 2px;"></i>{{this.addButton?.add}}
+      </button>
+    </div>
+    <div *ngIf="showButtons" class="d-flex justify-content-center mt-2">
+      <button type="button" class="btn outerBtn mx-2" (click)="onDelete()">
+        <i class="fa-solid fa-trash"></i> Delete
+      </button>
+      <!-- <button type="button" class="btn mintBtn mx-2" (click)="onEdit()">
+        <i class="fa-solid fa-edit"></i> Edit
+      </button> -->
+    </div>
+  </div>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" *ngFor="let item of this.activeTap?.keys" (click)="setActNav(item)">
+      <button class="nav-link" data-bs-toggle="tab" [class.active]="currentRoute==item.router"
+      [routerLink]="['/' + item.router]"
+      [queryParams]="{paramName: (item.page == 'SOA' ? 'SOA' : null ||item.page == 'Policy Borderaeux' ? 'Borderaeux' : null ||item.page == 'Claims Borderaeux' ? 'Claims' : null||item.page == 'Outstanding Borderaeux' ? 'Outstanding' : null)}">
+          {{item.page}}
+      </button>
+    </li>
+  </ul>
+</div>

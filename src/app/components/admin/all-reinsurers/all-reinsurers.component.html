@@ -1,0 +1,23 @@
+<div id="reinsurerData">
+    <div class="container">
+        <div class="d-flex justify-content-between mx-5 pt-3">
+            <p class="font_Coloered3 text-center my-2">{{"SideBar.AllReinsurers"|translate}}</p>
+        </div>
+        <div class="outerBorder shadow_5">
+            <div class="d-flex justify-content-center py-4">
+                <div class="w-50">
+                    <mat-form-field class="w-100" color="warn">
+                        <mat-label>{{'ReInsurerData.ChooseReinsurer'|translate}}</mat-label>
+                        <mat-select (selectionChange)="getInsurerId($event.value)">
+                            <mat-option *ngFor="let customer of AllReinsurers" [value]="customer.id">{{customer.name}}</mat-option>
+                        </mat-select>
+                        <!-- <mat-icon matIconSuffix style="color: rgba(0, 0, 0, 0.6);"><i class="fa-solid fa-venus-mars"></i></mat-icon> -->
+                    </mat-form-field>
+                    <button routerLink="/ReinsurerData/{{this.ReInsurerId}}" mat-raised-button color="primary"
+                    [disabled]="this.ReInsurerId ==null"
+                        class="w-50">{{"Shared.Submit"|translate}} <i class="fa-regular fa-floppy-disk"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

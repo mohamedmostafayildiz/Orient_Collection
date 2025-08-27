@@ -1,0 +1,77 @@
+button a {
+    text-decoration: none;
+    color:#FFF;
+}
+.modal{
+    --bs-modal-width: 70%;
+}
+// td a{
+//     text-decoration: none;
+//     color:#FFF ;
+//     background-color:#3f51b5 ;
+//     font-family: 'El Messiri', sans-serif!important;
+
+// }
+.save{
+    background-color: #01909D;
+    color: white;
+}
+table thead {
+    --bs-table-bg: #F2F2F2; 
+    --bs-table-hover-bg: #e0e0e0; 
+  }
+  th, td {
+    height: 60px;
+    min-height: 60px; 
+    vertical-align: middle;
+  } 
+  th{
+    color: #01BACB;
+  }
+  .container-fluid{
+    --bs-gutter-x:0rem
+  }
+  
+.dropdown {
+  max-width: 20px; /* Restricts the width of the ellipsis container */
+
+}
+.dropdown-item{
+  font-size: 14px;
+}
+.dropdown-item:hover{
+  background-color: #01BACB !important;
+  color: white !important;
+  cursor: pointer;
+}
+.dropdown-item:hover .fa-eye {
+  color: white !important;
+}
+.dropdown-item:hover .hhh {
+  color: white !important;
+}
+.dropdown-item:hover .fa-road-barrier {
+  color: white !important;
+}
+.dropdown.show{
+  display: block;
+  position: absolute;
+  z-index: 1000;
+}
+.dropdown-menu{
+  min-width: 40px;
+}
+
+.fa-ellipsis-v {
+  cursor: pointer;
+}
+
+.dropdown:hover .fa-ellipsis-v {
+  visibility: visible;
+}
+
+
+
+.foe {
+  --mdc-outlined-text-field-outline-color: red!important;
+}

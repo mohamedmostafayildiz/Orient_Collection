@@ -1,0 +1,24 @@
+.container-fluid{
+    --bs-gutter-x:0rem
+  }
+  .Apply{
+    background-color: #01909D;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+  }
+
+  table thead {
+    --bs-table-bg: #F2F2F2; 
+    --bs-table-hover-bg: #e0e0e0; 
+  }
+  th, td {
+    height: 60px;
+    min-height: 60px; 
+    font-size: 15px !important;
+    vertical-align: middle;
+  } 
+  th{
+    color: #01BACB;
+  }
+

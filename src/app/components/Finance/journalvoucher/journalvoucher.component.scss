@@ -1,0 +1,47 @@
+
+.wrapper {
+    overflow: auto;
+    border-radius: 10px;
+    border: 1px solid rgba(16, 74, 143, 0.25);
+  }
+
+
+  .custom_table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .custom_table th, .custom_table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .custom_table th {
+    background-color: #f2f2f2;
+  }
+  
+  .custom_table th, .custom_table td {
+    text-align: center;
+  }
+
+  .AddfooterInnerBtn{
+    border-radius:1rem;
+}
+
+.cusNewBtn{
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  margin-right: 1px;
+}
+
+
+.cus_container2{
+  width: 90%;
+  margin: auto;
+}
+
+.newInvoiceBody{
+  min-height: 100vh;
+  overflow: auto!important;
+
+}

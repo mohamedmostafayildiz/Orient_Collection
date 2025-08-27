@@ -1,0 +1,49 @@
+/// Socend Nav ////////////
+.main_com {
+    padding: 15px 15px 0 15px; 
+  }
+  .Account {
+    margin: 0; 
+    color: #000000;
+    font-size: 22px;
+    font-weight: 600px;
+  }
+
+  .nav-link {
+    color: #01BACB;
+    font-weight: 400;
+    border: none;
+    margin: 0 0.15rem;
+    font-size: 0.9rem;
+    border-bottom: 4px solid transparent;
+  }
+  .nav-link:hover{
+    border-bottom: 4px solid transparent;
+  }
+  .nav-link.active, .show > .nav-link{
+    color:#01909D;
+    font-weight: 600;
+    border: none;
+    border-bottom: 4px solid #01909D;
+    border-radius: 4px!important; 
+    background-color: transparent;
+  }
+.fa-arrow-left{
+  cursor: pointer;
+  color: #01909d;
+  font-weight: bold;
+
+}
+@media print {
+  .Prentable{
+      visibility:visible;
+      margin-top: 0;
+  }
+  .Non-prentable{
+      visibility:hidden;
+  }
+  .claimBox{
+      background-color: rgba(0, 0, 0, 0.23)!important;
+      print-color-adjust: exact; 
+  }
+}

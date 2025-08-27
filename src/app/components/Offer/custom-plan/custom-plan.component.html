@@ -1,0 +1,58 @@
+<div id="CustomPaln">
+    <div class="container">
+        <div class="d-flex justify-content-between mx-5 pt-3">
+            <p class="font_Coloered3 text-center my-3">Custom Plan</p>
+        </div>  
+        <div class="outerBorder shadow_5">
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Select Plan</mat-label>
+                        <mat-select [(value)]="PlanId" (selectionChange)="getPlanIdValue($event.value)">
+                        <mat-option *ngFor="let Plan of AllPlans" (click)="getAnnual(Plan.annualMaxLimit)" value="{{Plan.id}}">{{Plan.planName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <hr>
+            <div id="CustomFields" style="display: none;">
+                <div class="row mt-5">
+                    <div class="col-md-5 offset-md-1">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Plan Name</mat-label>
+                            <input [(ngModel)]="PlanName" type="text" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-5">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label><span class="text-danger mx-1">*</span>Annual Max Limit</mat-label>
+                            <input [(ngModel)]="AnnualMaxLimit" type="number" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="outerItem">
+                        <div class="row">
+                            <div *ngFor="let item of BenefitsOfPlan;let index=index" class="col-md-3 offset-md-1">
+                                <mat-checkbox (change)="detectChanges($event,item,item.id)" id="{{item.id}}" name="{{item.name}}" [checked]="this.arr.includes(item.id)" class="example-margin" color="primary">{{item.name}}</mat-checkbox>
+                                <form [formGroup]="formTest">
+                                    <input formControlName="coverage" (keyup)="getCoverageTest($event,index)" class="form-control" type="number">
+                                    <input type="text" value="{{item.maximumLimit}}">
+                                </form>
+                            </div>
+                        </div>
+                        <div id="loading" *ngIf="loading">
+                            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                <div class="d-flex justify-content-end" >
+                    <button (click)="submitCustomPlan()" [disabled]="PlanName==''||AnnualMaxLimit==''||this.arr.length<1" class="mx-5 mt-4" mat-raised-button color="primary">Save</button>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>

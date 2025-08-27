@@ -1,0 +1,320 @@
+<div id="Add_Category">
+    <div class="container-fluid">
+        <!-- <div class="d-flex justify-content-between mx-5">
+            <div class="d-flex align-items-center">
+                <p class="font_Coloered3 text-center my-4 mx-3">Add Risk</p>
+                <button data-bs-toggle="modal" data-bs-target="#Add" (click)="WhenModalOpen()" mat-raised-button color="primary">{{'Shared.AddNew'|translate}}</button>
+            </div>
+            <input class="form-control w-25 ml-auto mt-3" style="height: 3rem;"  placeholder="{{'Shared.SearchHere'|translate}}" />
+        </div> -->
+        <div class="row">
+          <div class="col-md-3" id="filters" style="display: none;">
+              <mat-form-field appearance="outline" class="w-100 foe" style="margin-bottom: -1.1em;">
+                  <mat-label>{{'Shared.SearchHere'|translate}}</mat-label>
+                  <input class="ssss" [(ngModel)]='term' type="text" matInput>
+              </mat-form-field>
+          </div>
+      </div>
+
+        <div class="outerBorder outerItem  table-responsive" style="margin:0px 0px !important;">
+          <table class="table text-center" *ngIf="AllItems.length > 0">
+            <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+              <th class="py-2">English Name </th>
+                <th class="py-2">Arabic Name </th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of AllItems|search:term|paginate:{
+                    itemsPerPage:tableSize,
+                    currentPage:page,
+                    totalItems:count}; let i=index">
+                    <td class="align-middle">{{item.englishName}}</td>
+                    <td class="align-middle">{{item.arabicName}}</td>
+                    <!-- <td>
+                        <i (click)="openEditModal(item)" data-bs-toggle="modal" data-bs-target="#EditForm" class="fa-solid fa-pencil fs-5 px-3 py-2 mx-1" style="color:#3F51B5;"></i>
+                        <i (click)="deleteRisk(item.id)" class="fa-regular fa-trash-can fs-5 px-3 py-2" style="color:#FF4081"></i>
+                    </td> -->
+                    <td class="align-middle" (mouseenter)="hoverRow = item.id" (mouseleave)="hoverRow = null" style="vertical-align: middle; width: 30px;">
+                      <div class="dropdown">
+                        <!-- Ellipsis icon always visible -->
+                        <i class="fa-solid fa-ellipsis-v fs-5 px-3 py-2 text-secondary"></i>
+                        
+                        <!-- Dropdown menu, visible only when the row is hovered -->
+                        <div class="dropdown-menu text-center" [ngClass]="{'show': hoverRow === item.id}">
+                          <a class="dropdown-item" (click)="Editgovenmante(item)">
+                              <i class="fa-solid fa-pencil fs-5 px-1 py-1" style="color:#01BACB;"></i>
+                          </a>
+                          <a class="dropdown-item" (click)="AddNewAccType(item.id)">
+                              <i class="fa-regular fa-trash-can fs-5 px-1 py-1" style="color:#01BACB;"></i>
+                          </a>
+                        </div>
+                        
+                      </div>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+          <div *ngIf="AllItems?.length === 0 && !loading" class="text-center d-flex align-items-center justify-content-center">
+            <div class="alert alert-warning  w-50 mt-5" role="alert">
+              <span>No Risk found</span>
+            </div>
+          </div>
+          <!-- <div *ngIf="AllItems?.length === 0 && loading" class="d-flex justify-content-center align-items-center" style="height: 200px;">
+            <div  role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div> -->
+        <div class="d-flex justify-content-end mt-4">
+            <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
+            <select (change)="onTableSizeChange($event)" class="tableSize rounded-pill px-1">
+              <option *ngFor=" let size of tableSizes">{{size}}</option>
+            </select>
+        </div>
+        <div id="loading" *ngIf="loading">
+            <app-spinner class="d-flex justify-content-center m-auto"></app-spinner>
+        </div>
+        </div>
+
+    </div>
+</div>
+<!--------------------------------------- Add Risk --------------------------->
+<!-- <div class="modal fade" id="Add" tabindex="-1" aria-labelledby="Add" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="edit">Add Risk </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+       <div class="container_custom">
+          <form [formGroup]="Form" class="my-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="w-100" style="margin-bottom: -1em;">
+                    <mat-label>Risk Name EN</mat-label>
+                    <input formControlName="englishName" type="text" matInput>
+                </mat-form-field>
+                <div *ngIf="englishText?.invalid && (englishText?.dirty || englishText?.touched)">
+                  <div *ngIf="englishText?.errors" style="color: red;">
+                    Please enter only English text.
+                  </div>
+                </div>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="w-100" style="margin-bottom: -1em;">
+                      <mat-label>Risk Name AR</mat-label>
+                      <input formControlName="arabicName" type="text" matInput>
+                    </mat-form-field>
+                    <div *ngIf="arabicText?.invalid && (arabicText?.dirty || arabicText?.touched)">
+                      <div *ngIf="arabicText?.errors?.arabicText" style="color: red;">
+                        Please enter only Arabic text.
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="text-center">
+                <button (click)="view()" [disabled]="this.Form.status=='INVALID'" mat-raised-button class="btn tabeeb_Btn w-25 mt-4">Add</button>
+              </div>
+
+          </form>
+          <div class="wrapper mt-5" *ngIf="this.arrCate.length>0">
+            <table class="custom_table text-center bordered">
+                <thead>
+                    <th></th>
+                    <th>English Name</th>
+                    <th>Arabic Name </th>
+                    <th ></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of arrCate;let index = index" style="vertical-align: middle;">
+                        <td>{{index+1}}</td>
+                        <td>{{item.englishName}}</td>
+                        <td>{{item.arabicName}}</td>
+                        <td><button color="warn" (click)="remove(index)" mat-raised-button><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                </tbody>
+
+            </table>
+          </div>
+       </div>
+       <div class="modal-footer">
+        <button id="clodeEditModal" type="button" mat-raised-button data-bs-dismiss="modal">{{'Shared.Close'|translate}}</button>
+        <button [disabled]="this.isClicked||this.arrCate.length==0" type="button" mat-raised-button (click)="AddRisk()" class="btn tabeeb_Btn">
+          <span *ngIf="!this.isClicked">{{'Shared.Save'|translate}}</span>
+          <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+        </button>
+      </div>
+      </div>
+    </div>
+  </div> -->
+  <!--------------------------------- Edit Risk ------------------------- -->
+<!-- <div class="modal fade" id="EditForm" tabindex="-1" aria-labelledby="Add" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="edit">Edit Risk </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+       <div class="container_custom">
+        <form [formGroup]="Form" class="my-5">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="w-100" style="margin-bottom: -1em;">
+                <mat-label>Risk Name EN</mat-label>
+                <input formControlName="englishName" type="text" matInput>
+            </mat-form-field>
+            <div *ngIf="englishText?.invalid && (englishText?.dirty || englishText?.touched)">
+              <div *ngIf="englishText?.errors" style="color: red;">
+                Please enter only English text.
+              </div>
+            </div>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="w-100" style="margin-bottom: -1em;">
+                  <mat-label>Risk Name AR</mat-label>
+                  <input formControlName="arabicName" type="text" matInput>
+                </mat-form-field>
+                <div *ngIf="arabicText?.invalid && (arabicText?.dirty || arabicText?.touched)">
+                  <div *ngIf="arabicText?.errors?.arabicText" style="color: red;">
+                    Please enter only Arabic text.
+                  </div>
+                </div>
+            </div>
+            </div>
+      </form>
+       </div>
+       <div class="modal-footer">
+        <button id="EditForm" type="button" mat-raised-button data-bs-dismiss="modal">{{'Shared.Close'|translate}}</button>
+        <button [disabled]="this.isClicked" type="button" mat-raised-button color="primary"(click)="saveRiskEdit()">
+          <span *ngIf="!this.isClicked">{{'Shared.Save'|translate}}</span>
+          <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-5 fa-spin"></i></span>
+        </button>
+      </div>
+      </div>
+    </div>
+  </div> -->
+
+
+   <!-- Add new modal Risk  -->
+   <div class="overlayAdd" (click)="closeAddrisk()">
+    <div class="Addgovernmant" (click)="$event.stopPropagation()">
+        <div class="d-flex justify-content-between delet-details">
+            <h2>Add risk ?</h2>
+            <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeAddrisk()" style="cursor: pointer;"></i></div>
+        </div>
+       <hr class="custom-hr w-100">
+       <div class="container">
+        <form [formGroup]="Form" class="mt-5">
+          <mat-form-field class="w-100 feo" appearance="outline" style="margin-bottom: -1em;">
+            <mat-label>Risk Name EN</mat-label>
+            <input formControlName="englishName" type="text" matInput>
+          </mat-form-field>
+          <div *ngIf="englishText?.invalid && (englishText?.dirty || englishText?.touched)">
+            <div *ngIf="englishText?.errors" style="color: red;">
+              Please enter only English text.
+            </div>
+          </div>
+          <mat-form-field class="w-100 feo mt-2" appearance="outline" style="margin-bottom: -1em;">
+            <mat-label>Risk Name AR</mat-label>
+            <input formControlName="arabicName" type="text" matInput>
+          </mat-form-field>
+          <div *ngIf="arabicText?.invalid && (arabicText?.dirty || arabicText?.touched)">
+            <div *ngIf="arabicText?.errors?.arabicText" style="color: red;">
+              Please enter only Arabic text.
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button (click)="view()" [disabled]="this.Form.status=='INVALID'" mat-raised-button  class="btn tabeeb_Btn w-25 mt-4">Add</button>
+          </div>
+        </form>
+          <div class="wrapper mt-5" *ngIf="this.arrCate.length>0">
+            <table class="table text-center ">
+              <thead class="tableHead" style="background-color: #F2F2F2 !important;">
+                    <th>English Name</th>
+                    <th>Arabic Name </th>
+                    <th ></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of arrCate;let index = index" style="vertical-align: middle;">
+                        <td>{{item.englishName}}</td>
+                        <td>{{item.arabicName}}</td>
+                        <td><i class="fa-regular fa-trash-can fs-5 px-1 py-1" (click)="remove(index)" style="color: red !important;"></i></td>
+                        <!-- <td><button color="warn" (click)="remove(index)" mat-raised-button><i class="fa-solid fa-trash"></i></button></td> -->
+                    </tr>
+                </tbody>
+
+            </table>
+          </div>
+          <div *ngIf="this.arrCate.length>0" class="d-flex justify-content-between align-items-center" style="padding: 8rem 3px 0 3px;">
+            <button [disabled]="this.arrCate.length<=0||this.isClicked" class="btn _cancel w-50 mx-1" (click)="AddRisk()">
+              <span *ngIf="!this.isClicked">Save</span>
+              <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+            </button>
+            <button class="btn _delete w-50 mx-1" (click)="closeAddrisk()">Cancel</button>
+           </div>
+       </div>       
+      </div>
+  </div>
+  <!-- Edit new modal Risk -->
+    <div class="overlayEdit" (click)="closeEditgovenmantee()">
+      <div class="Editgovernmant" (click)="$event.stopPropagation()">
+          <div class="d-flex justify-content-between delet-details">
+              <h2>Edit risk ?</h2>
+              <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeEditgovenmantee()" style="cursor: pointer;"></i></div>
+          </div>
+         <hr class="custom-hr w-100">
+         <div class="container">
+          <form [formGroup]="Form" class="mt-5">
+            <mat-form-field class="w-100" appearance="outline" style="margin-bottom: -1em;">
+              <mat-label>Risk Name EN</mat-label>
+              <input formControlName="englishName" type="text" matInput>
+            </mat-form-field>
+            <div *ngIf="englishText?.invalid && (englishText?.dirty || englishText?.touched)">
+              <div *ngIf="englishText?.errors" style="color: red;">
+                Please enter only English text.
+              </div>
+            </div>
+            <mat-form-field class="w-100 mt-3" appearance="outline" style="margin-bottom: -1em;">
+              <mat-label>Risk Name AR</mat-label>
+              <input formControlName="arabicName" type="text" matInput>
+            </mat-form-field>
+            <div *ngIf="arabicText?.invalid && (arabicText?.dirty || arabicText?.touched)">
+              <div *ngIf="arabicText?.errors?.arabicText" style="color: red;">
+                Please enter only Arabic text.
+              </div>
+            </div>
+              <div class="d-flex justify-content-between align-items-center" style="padding: 20rem 3px 0 3px;">
+                <button [disabled]="this.Form.status=='INVALID'||this.isClicked" class="btn _cancel w-50 mx-1" (click)="saveRiskEdit()">
+                  <span *ngIf="!this.isClicked">Save</span>
+                  <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+                </button>
+                <button class="btn _delete w-50 mx-1" (click)="closeEditgovenmantee()">Cancel</button>
+               </div>
+          </form>
+         </div>    
+        </div>
+    </div>
+              <!-- Delete risk department -->
+<div class="overlay" (click)="closeNewAccType()">
+  <div class="delet" (click)="$event.stopPropagation()">
+      <div class="d-flex justify-content-between delet-details">
+          <h2>Delete risk ?</h2>
+          <div class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-xmark text-danger text-center" (click)="closeNewAccType()" style="cursor: pointer;"></i></div>
+      </div>
+     <hr class="custom-hr w-100">
+     <div class="py-5 text-center USER">
+      <h3>Are you sure you want to delete <br>this risk ?</h3>
+      <p>Deleting this risk will remove the data <br> permanently from the database</p>
+     </div>
+     <div class="d-flex justify-content-between align-items-center" style="padding: 0 3px 0 3px;">
+      <button class="btn _cancel w-50 mx-1" (click)="closeNewAccType()">Cancel</button>
+      <button class="btn _delete w-50 mx-1" (click)="deleteRisk()">
+          <span *ngIf="!this.isClicked">Delete</span>
+          <span *ngIf="this.isClicked"><i class="fa-solid fa-fan fa-spin"></i></span>
+      </button>
+     </div>
+  </div>
+</div>

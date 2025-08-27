@@ -1,0 +1,121 @@
+<div id="Reports">
+    <div class="container-fluid">
+        <div class="outerBorder outerItem shadow_5 py-3" style="height: 110vh;">
+            <div class="d-flex justify-content-between pt-3">
+                <p class="font_Coloered3 text-center my-2">{{'Reports.Reports'|translate}}</p>
+            </div>
+            <div class="row" style="position: relative;">
+                <!-- issuance Reports -->
+                <div class="col-md-12 my-3">
+                        <div class="dropdown w-100" (mouseenter)="showDropdown('issuanceReports')" (mouseleave)="hideDropdown()">
+                            <button (click)="toggleDropdown('issuanceReports')" class="w-100">
+                                {{'Reports.issuanceReports'|translate}}<i style="color: #000000; position: absolute;right: 2rem;" class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="dropdown-menu" [ngClass]="{'show': activeDropdown == 'issuanceReports'}">
+                                <a *ngIf="this.permissions.includes('Permissions.Reports.SourceRecord')" class="dropdown-item" routerLink="/SourceRecord" target="_blank">سجل المصدر</a>                                
+                                <a *ngIf="this.permissions.includes('Permissions.Reports.ClaimDetails')" class="dropdown-item" routerLink="/ClaimDetailsReport" target="_blank">بيانات التعويضات</a>                            
+                            </div>
+                        </div>
+                
+                        <!-- <button mat-stroked-button color="primary" class="w_85 py-5 cust_Btn" data-bs-toggle="dropdown" aria-expanded="false">{{'Reports.issuanceReports'|translate}}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li *ngIf="this.permissions.includes('Permissions.Reports.SourceRecord')"><a class="dropdown-item" routerLink="/SourceRecord" target="_blank">سجل المصدر</a></li>
+                            <hr>
+                            <li *ngIf="this.permissions.includes('Permissions.Reports.ClaimDetails')"><a class="dropdown-item" routerLink="/ClaimDetailsReport" target="_blank">بيانات التعويضات</a></li>
+                        </ul> -->
+                </div>
+                  <!-- Claims Reports -->
+                  <div class="col-md-12 my-3 d-flex justify-content-center">
+                    <div class="dropdown w-100" (mouseenter)="showDropdown('Claims Reports')" (mouseleave)="hideDropdown()">
+                        <button (click)="toggleDropdown('Claims Reports')" class="w-100">
+                            Claims Reports<i style="color: #000000; position: absolute;right: 2rem;" class="fa-solid fa-chevron-down mx-2"></i>
+                        </button>
+                        <div class="dropdown-menu" [ngClass]="{'show': activeDropdown == 'Claims Reports'}">
+                           <a class="dropdown-item" routerLink="/ClaimDetailsReport" target="_blank"> المُبلغ  </a>
+                            <a class="dropdown-item" routerLink="/PaidClaim" target="_blank">سجل المسدد</a>
+                            <a class="dropdown-item" routerLink="/UnpaidClaim" target="_blank">سجل الاحتياطي</a>
+                            <a class="dropdown-item" routerLink="/ClaimsExchangePermits" target="_blank">اذونات صرف التعويضات </a>
+                            <a class="dropdown-item" routerLink="/ClaimsCollection-report" target="_blank">Claims Collection report</a>
+                            <a class="dropdown-item" routerLink="/LossRatioReport" target="_blank">Loss Ratio Report</a>
+                            <a class="dropdown-item" routerLink="/supcompanyLossRatioReport" target="_blank">sup company LossRatioReport</a>
+                        </div>
+                    </div>
+                    <!-- <button mat-stroked-button color="primary" class="w_85 py-5" data-bs-toggle="dropdown" aria-expanded="false">Claims Reports </button>
+                    <ul class="dropdown-menu">
+                        <li ><a class="dropdown-item" routerLink="/ClaimsExchangePermits" target="_blank">اذونات صرف التعويضات </a></li>
+                        <hr>
+                        <li ><a class="dropdown-item" routerLink="/ClaimsCollection-report" target="_blank">Claims Collection report</a></li>
+                        <hr>
+                        <li ><a class="dropdown-item" routerLink="/LossRatioReport" target="_blank">Loss Ratio Report</a></li>
+                        <hr>
+                        <li ><a class="dropdown-item" routerLink="/supcompanyLossRatioReport" target="_blank">sup company LossRatioReport</a></li>
+
+                    </ul> -->
+                </div>
+               
+                <!-- <div class="col-md-6 my-3 d-flex justify-content-center">
+                    <button mat-stroked-button color="primary" class="w_85 py-5" data-bs-toggle="dropdown" aria-expanded="false">{{'Reports.CollectionReports'|translate}}</button>
+                    <ul class="dropdown-menu">
+                        
+                        <li *ngIf="this.permissions.includes('Permissions.Reports.Treasury')"><a class="dropdown-item" routerLink="/TreasuryReport" target="_blank">تقرير الخزينه  </a></li>
+                        <hr>
+                        <li *ngIf="this.permissions.includes('Permissions.Reports.PaidAndCollector')"><a class="dropdown-item" routerLink="/PaidCollectorPremium" target="_blank">سجل المسدد (المحصل)  </a></li>
+                        <hr>
+                        <li *ngIf="this.permissions.includes('Permissions.Reports.UnderCollector')"><a class="dropdown-item" routerLink="/UnderCollectorPremium" target="_blank">سجل اقساط تحت التحصيل</a></li>
+                        <hr>
+                        <li *ngIf="this.permissions.includes('Permissions.Reports.GetInsured')"><a class="dropdown-item" routerLink="/PendingInsured" target="_blank">جـاري مـؤمن له</a></li>
+                        <hr>
+                        <li *ngIf="this.permissions.includes('Permissions.Reports.CurrentAgent')"><a class="dropdown-item" routerLink="/NegativeBrokerages" target="_blank">جاري وكلاء ومنتجون</a></li>
+                        <hr>
+                        <li *ngIf="this.permissions.includes('Permissions.Reports.SecretariatRecord')"><a class="dropdown-item" routerLink="/SecretariatsRecords" target="_blank">سجل الامانات</a></li>
+                        <hr>
+                        <li *ngIf="this.permissions.includes('Permissions.Reports.DueCommissions')"><a class="dropdown-item" routerLink="/DueCommissionForCollector" target="_blank">عمولات مستحقة لاقساط تحت التحصيل</a></li>
+                        <hr>
+                        <li *ngIf="this.permissions.includes('Permissions.Reports.paidCommissions')"><a class="dropdown-item" routerLink="/PaidCommissions" target="_blank">عمولات منصرفة</a></li>
+                        
+                        <li  *ngIf="this.permissions.includes('Permissions.Reports.CollectionDaily')"><a class="dropdown-item" routerLink="/DailyCollection" target="_blank">طباعه يوميه التحصيل </a></li>
+                    </ul>
+                </div> -->
+                <!-- AdminReports -->
+                <div class="col-md-12 my-3 d-flex justify-content-center">
+                    <button  class="w-100">{{'Reports.AdminReports'|translate}}</button>
+                </div>
+                <!-- FinanceReports -->
+                <div class="col-md-12 my-3 d-flex justify-content-center">
+                    <div class="dropdown w-100" (mouseenter)="showDropdown('FinanceReports')" (mouseleave)="hideDropdown()">
+                        <button (click)="toggleDropdown('FinanceReports')" class="w-100">
+                            {{'Reports.FinanceReports'|translate}}<i style="color: #000000; position: absolute;right: 2rem;" class="fa-solid fa-chevron-down mx-2"></i>
+                        </button>
+                        <div class="dropdown-menu" [ngClass]="{'show': activeDropdown == 'FinanceReports'}">
+                            <a class="dropdown-item" routerLink="/FinanceClaimsReport" target="_blank">Finance Claims</a>
+                            <a class="dropdown-item" routerLink="/FinanceCommissionReport" target="_blank">Finance Commission</a>
+                            <a class="dropdown-item" routerLink="/TpaCommissionReport" target="_blank">Tpa Commission</a>
+                        </div>
+                    </div>
+                    <!-- <button  class="w-100">{{'Reports.FinanceReports'|translate}}</button> -->
+                </div>
+                
+                 <!-- CollectionReports -->
+                 <div class="col-md-12 my-3 d-flex justify-content-center">
+                    <div class="dropdown w-100" (mouseenter)="showDropdown('collectionReports')" (mouseleave)="hideDropdown()">
+                        <button (click)="toggleDropdown('collectionReports')" class="w-100">
+                            {{'Reports.CollectionReports'|translate}}<i style="color: #000000; position: absolute;right: 2rem;" class="fa-solid fa-chevron-down mx-2"></i>
+                        </button>
+                        <div class="dropdown-menu" [ngClass]="{'show': activeDropdown == 'collectionReports'}">
+                            <a class="dropdown-item" routerLink="/TreasuryReport" target="_blank">تقرير الخزينه  </a>
+                            <a class="dropdown-item" routerLink="/PaidCollectorPremium" target="_blank">سجل المسدد (المحصل)  </a>
+                            <a class="dropdown-item" routerLink="/UnderCollectorPremium" target="_blank">سجل اقساط تحت التحصيل</a>
+                            <a class="dropdown-item" routerLink="/PendingInsured" target="_blank">جـاري مـؤمن له</a>
+                            <a class="dropdown-item" routerLink="/NegativeBrokerages" target="_blank">جاري وكلاء ومنتجون</a>
+                            <a class="dropdown-item" routerLink="/SecretariatsRecords" target="_blank">سجل الامانات</a>
+                            <a class="dropdown-item" routerLink="/DueCommissionForCollector" target="_blank">عمولات مستحقة لاقساط تحت التحصيل</a>
+                            <a class="dropdown-item" routerLink="/PaidCommissions" target="_blank">عمولات منصرفة</a>
+                            <a class="dropdown-item" routerLink="/DailyCollection" target="_blank">طباعه يوميه التحصيل </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

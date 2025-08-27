@@ -1,0 +1,164 @@
+// .mdc-form-field > label {
+//   font-size: .9rem;
+//   font-family: "Noto Sans", sans-serif;
+// }
+.modal{
+    --bs-modal-width: 80%;
+  }
+.container_custom{
+  width: 80%;
+  margin: auto;
+}
+table thead {
+  --bs-table-bg: #F2F2F2; 
+  --bs-table-hover-bg: #e0e0e0; 
+}
+th, td {
+  height: 60px;
+  min-height: 60px; 
+  vertical-align: middle;
+} 
+th{
+  color: #01BACB;
+}
+.container-fluid{
+  --bs-gutter-x:0rem
+}
+// dropdown
+.dropdown {
+  max-width: 25px; /* Restricts the width of the ellipsis container */
+}
+.dropdown-item:hover{
+  background-color: #01BACB !important;
+  color: white !important;
+  cursor: pointer;
+}
+.dropdown-item:hover .fa-pencil {
+  color: white !important;
+}
+.dropdown-item:hover .fa-lock  {
+  color: white !important;
+}
+.dropdown-item:hover .fa-list  {
+  color: white !important;
+}
+.dropdown-item:hover .fa-trash-can  {
+  color: white !important;
+}
+
+.dropdown.show{
+  display: block;
+  position: absolute;
+  z-index: 1000001;
+}
+.dropdown-menu{
+  min-width: 50px;
+}
+
+.fa-ellipsis-v {
+  cursor: pointer;
+}
+.fa-ellipsis-v:hover{
+padding: 0;
+margin: 0;
+overflow-y: hidden;
+}
+
+.dropdown:hover .fa-ellipsis-v {
+  visibility: visible;
+}
+// ::ng-deep .ssss {
+//   border-color: #01BACB !important; /* Change border color on focus */
+// }
+
+// ::ng-deep .mat-form-field:hover .mat-form-field-outline {
+//   border-color: #01BACB !important; /* Change border color on hover */
+// }
+
+// ::ng-deep .mat-form-field .mat-form-field-outline {
+//   transition: border-color 0.2s ease; /* Optional: smooth transition */
+// }
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: #01BACB !important;
+}
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__trailing {
+  border-color: #01BACB !important;
+}
+.save-edit-user{
+  background-color: #01909D;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-size: 16PX;
+  font-weight: 500;
+  line-height: 19.36px;
+  border: none;
+}
+.overlay ,.overlayAccountType,.overlayAccountDetails,.overlayTypeDetails,.overlayEditAccountType, .overlayView {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+    z-index: 1000; /* Ensure it is on top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
+.AddNew ,.AddNewAccountType,.AddNewAccountDetails,.showtypeDetails,.EditAccountType, .Viewgovernmant{
+    position: absolute;
+    z-index: 999;
+    width: 60%;
+    height: 100%;
+    background-color: white;
+    border-top-left-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+    top: 0;
+    right: -40%;
+    padding: 0rem 1rem;
+    overflow-y: auto;
+
+
+}
+
+.AddNewInvoce {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f4f5f8;
+    z-index: 999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    // bottom: 100%;
+    // overflow: auto!important;
+}
+.newInvoiceBody{
+    min-height: 100vh;
+    overflow: auto!important;
+
+}
+#AddNewfooter{
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    background-color: #393a3d;
+    border-top: 1px solid #d4d7dc;
+}
+.custom-toast-success {
+  background-color: #4CAF50 !important; /* Custom Green */
+  color: #fff !important;
+}
